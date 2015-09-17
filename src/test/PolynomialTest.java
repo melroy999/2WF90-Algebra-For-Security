@@ -16,33 +16,33 @@ public class PolynomialTest {
     TreeMap<Integer, Integer> expected;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         tree = new TreeMap<Integer, Integer>();
         expected = new TreeMap<Integer, Integer>();
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
 
     }
 
     @Test
-    public void testGetCoefficient() throws Exception {
+    public void testGetCoefficient() {
 
     }
 
     @Test
-    public void testAddTerm() throws Exception {
+    public void testAddTerm() {
 
     }
 
     @Test
-    public void testIterator() throws Exception {
+    public void testIterator() {
 
     }
 
     @Test
-    public void testInverseIterator() throws Exception {
+    public void testInverseIterator() {
 
     }
 
@@ -53,28 +53,28 @@ public class PolynomialTest {
     }
 
     @Test
-    public void testMultiplyDegreeZeroPos() throws Exception {
+    public void testMultiplyDegreeZeroPos() {
         tree.put(0, 1);
         expected.put(0, 3);
         checkTestMultiply(tree, 3, expected);
     }
 
     @Test
-    public void testMultiplyDegreeZeroNeg1() throws Exception {
+    public void testMultiplyDegreeZeroNeg1() {
         tree.put(0, -1);
         expected.put(0, -3);
         checkTestMultiply(tree, 3, expected);
     }
 
     @Test
-    public void testMultiplyDegreeZeroNegMult() throws Exception {
+    public void testMultiplyDegreeZeroNegMult() {
         tree.put(0, 1);
         expected.put(0, -3);
         checkTestMultiply(tree, -3, expected);
     }
 
     @Test
-    public void testMultiplyMultipleTermsNegMult() throws Exception {
+    public void testMultiplyMultipleTermsNegMult() {
         tree.put(0, 1);
         tree.put(4, -12);
         tree.put(2, 3);
@@ -85,7 +85,7 @@ public class PolynomialTest {
     }
 
     @Test
-    public void testMultiplyMultipleTermsPosMult() throws Exception {
+    public void testMultiplyMultipleTermsPosMult() {
         tree.put(0, 1);
         tree.put(4, -12);
         tree.put(2, 3);
@@ -169,7 +169,7 @@ public class PolynomialTest {
     }
 
     @Test
-    public void testGetLC() throws Exception {
+    public void testGetLC() {
 
     }
 }
