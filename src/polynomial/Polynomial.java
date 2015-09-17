@@ -8,26 +8,59 @@ import java.util.TreeMap;
  */
 public class Polynomial {
     /**
-     * Calculations with +,-,*,/ return a new polynomial. The original polynomials are not edited.
+     * TreeMap representation of the polynomial.
      */
-
-    //use TreeMap to store the polynomial
     private TreeMap<Integer, Integer> polynomial = new TreeMap<Integer, Integer>();
 
-    private Polynomial() {
+    /**
+     *
+     * #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+     *                                  Constructors
+     * #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+     *
+     */
+
+    /**
+     * Creates a Polynomial given the TreeMap. This creates a copy of the polynomial.
+     *
+     * @param polynomial: A TreeMap representing the polynomial.
+     */
+    public Polynomial(TreeMap<Integer, Integer> polynomial) {
+        this.polynomial = new TreeMap<Integer, Integer>(polynomial);
     }
 
+    /**
+     * Creates a Polynomial given a string representation of this Polynomial.
+     *
+     * @param polynomial: String representation of the Polynomial.
+     */
     public Polynomial(String polynomial) {
         toPolynomial(polynomial);
     }
 
-    private Polynomial(TreeMap<Integer, Integer> polynomial) {
-        this.polynomial = polynomial;
+    /**
+     * Empty Polynomial.
+     */
+    private Polynomial() {
+
     }
 
+    /**
+     *
+     * #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+     *                              Class support methods
+     * #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+     *
+     */
+
+    /**
+     * Returns a string representation of the polynomial.
+     *
+     * @return   The polynomial in string format.
+     */
     public String toString() {
         String standardForm = "";
-        Iterator<Integer> iterator = polynomial.descendingKeySet().iterator();
+        Iterator<Integer> iterator = inverseIterator();
         while (iterator.hasNext()) {
             int degree = iterator.next();
             int coefficient = polynomial.get(degree);
@@ -40,10 +73,12 @@ public class Polynomial {
         return standardForm;
     }
 
-    public int getDegree() {
-        return polynomial.lastKey();
-    }
-
+    /**
+     * Returns the coefficient of the term with the given degree.
+     *
+     * @param degree: Degree of the term in the polynomial.
+     * @return   0 if not present, the coefficient connected to the degree if present.
+     */
     public int getCoefficient(int degree) {
         int coefficient = 0;
         if (polynomial.containsKey(degree)) {
@@ -52,22 +87,33 @@ public class Polynomial {
         return coefficient;
     }
 
-    protected void add(int coefficient, int degree) {
+    /**
+     * Adds a term to this coefficient, in the form coefficient * X^degree.
+     * If the coefficient becomes 0, it removes the term from the TreeMap.
+     *
+     * @param coefficient: The coefficient of this term.
+     * @param degree: The degree of this term.
+     */
+    public void addTerm(int coefficient, int degree) {
         if (polynomial.containsKey(degree)) {
             coefficient += polynomial.get(degree);
         }
 
         if(coefficient == 0){
-            polynomial.remove(degree);
+            if(polynomial.containsKey(degree)) {
+                polynomial.remove(degree);
+            }
         } else {
             polynomial.put(degree, coefficient);
         }
     }
 
+    /**
+     * Converts a given string to a polynomial object.
+     *
+     * @param polynomial: String representation of the polynomial.
+     */
     private void toPolynomial(String polynomial) {
-        /**
-         * Could be improved / made more robust.
-         */
         polynomial = polynomial.replace(" ", "");
         polynomial = polynomial.replaceAll("[^0-9\\^\\+\\-]", "x");
         polynomial = polynomial.replace("-", "+-");
@@ -78,121 +124,95 @@ public class Polynomial {
         }
         String[] terms = polynomial.split("\\+");
         for (String term : terms) {
-            int exp;
+            if(term.equals("")){
+                continue;
+            }
+            int degree;
             int coefficient;
             if (term.contains("^")) {
                 term = term.replace("x", "");
                 String[] components = term.split("\\^");
                 coefficient = Integer.parseInt(components[0]);
-                exp = Integer.parseInt(components[1]);
+                degree = Integer.parseInt(components[1]);
             } else {
                 if (term.contains("x")) {
                     term = term.replace("x", "");
-                    exp = 1;
+                    degree = 1;
                 } else {
-                    exp = 0;
+                    degree = 0;
                 }
                 coefficient = Integer.parseInt(term);
             }
-            add(coefficient, exp);
+            addTerm(coefficient, degree);
         }
-    }
-
-    public TreeMap<Integer, Integer> getTreeMap() {
-        return new TreeMap<Integer, Integer>(polynomial);
-    }
-
-    public int size() {
-        return polynomial.size();
-    }
-
-    public Polynomial add(Polynomial polynomial2) {
-        TreeMap<Integer, Integer> result;
-        TreeMap<Integer, Integer> addition;
-        if (polynomial2.size() < polynomial2.size()) {
-            result = this.getTreeMap();
-            addition = polynomial2.getTreeMap();
-        } else {
-            result = new TreeMap<Integer, Integer>(polynomial2.getTreeMap());
-            addition = this.getTreeMap();
-        }
-
-        Iterator<Integer> iterator = addition.keySet().iterator();
-        while (iterator.hasNext()) {
-            int exponent = iterator.next();
-            int coefficient = polynomial.get(exponent);
-            add(coefficient, exponent);
-        }
-
-        return new Polynomial(result);
-    }
-
-    public Polynomial subtract(Polynomial polynomial2) {
-        TreeMap<Integer, Integer> result = this.getTreeMap();
-        Iterator<Integer> iterator = polynomial2.getTreeMap().keySet().iterator();
-        while (iterator.hasNext()) {
-            int exponent = iterator.next();
-            if(!result.containsKey(exponent)){
-                //as items can be removed...
-                continue;
-            }
-            int base = result.get(exponent);
-            add(-base, exponent);
-            /*if (result.containsKey(exponent)) {
-                result.put(exponent, base - result.get(exponent));
-            } else {
-                result.put(exponent, -base);
-            }*/
-        }
-
-        return new Polynomial(result);
     }
 
     /**
-     * !Make this use a more efficient algorithm
+     * Returns an iterator for the terms of the polynomial.
+     *
+     * @return  iterator of the keyset of the TreeMap.
      */
-    public Polynomial multiply(Polynomial polynomial2) {
-        Polynomial result = new Polynomial();
-        TreeMap<Integer, Integer> multiply = polynomial2.getTreeMap();
-        for (int exp1 : polynomial.keySet()) {
-            for (int exp2 : polynomial2.getTreeMap().keySet()) {
-                int base1 = polynomial.get(exp1);
-                int base2 = multiply.get(exp2);
-                result.add(base1 * base2, exp1 + exp2);
-            }
+    public Iterator<Integer> iterator(){
+        return polynomial.keySet().iterator();
+    }
+
+    /**
+     * Returns an iterator for the terms of the polynomial, from largest to smallest terms.
+     *
+     * @return  iterator of the descendingKeySet of the TreeMap.
+     */
+    public Iterator<Integer> inverseIterator(){
+        return polynomial.descendingKeySet().iterator();
+    }
+
+    /**
+     *
+     * #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+     *                              Calculation methods
+     * #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+     *
+     */
+
+    /*
+    TODO
+    - Addition
+    - Subtraction
+    - Long Division
+    - GCD
+    - Factorization
+     */
+
+    /**
+     * Multiplies the polynomial by a constant value.
+     *
+     * @param multiplier: An integer;
+     * @return  this polynomial, to allow chaining.
+     */
+    public Polynomial multiply(int multiplier){
+        Iterator<Integer> iterator = iterator();
+        while(iterator.hasNext()){
+            int degree = iterator.next();
+            int coefficient = polynomial.get(degree);
+            polynomial.put(degree, coefficient * multiplier);
         }
-        return result;
+        return this;
     }
 
-    public Pair division(Polynomial polynomial2) {
-        Polynomial q = new Polynomial();
-        Polynomial r = new Polynomial(new TreeMap<Integer, Integer>(polynomial));
-        while(r.getDegree() >= polynomial2.getDegree()){
-            q.add(r.getLeadingCoefficient() / polynomial2.getLeadingCoefficient(), r.getDegree() - polynomial2.getDegree());
-
-            Polynomial temp = new Polynomial();
-            temp.add(r.getLeadingCoefficient() / polynomial2.getLeadingCoefficient(), r.getDegree() - polynomial2.getDegree());
-            temp.multiply(polynomial2);
-            r.subtract(temp);
-        }
-        return new Pair(q, r);
+    /**
+     * Gives the degree of the polynomial.
+     *
+     * @return   The largest degree that is paired with a coefficient that is not zero.
+     */
+    public int getDegree() {
+        return polynomial.lastKey();
     }
 
-    public int getLeadingCoefficient(){
-        return getCoefficient(getDegree());
-    }
-
-    public class Pair {
-        public Polynomial quotient;
-        public Polynomial remainder;
-
-        public Pair(Polynomial quotient, Polynomial remainder) {
-            this.quotient = quotient;
-            this.remainder = remainder;
-        }
-    }
-
-    public Pair gcd(Polynomial polynomial2) {
-        return null;
+    /**
+     * Finds the leading coefficient of the polynomial.
+     *
+     * @return   The coefficient of the term with the highest degree, that is not zero.
+     */
+    public int getLC(){
+        return getCoefficient(this.getDegree());
     }
 }
