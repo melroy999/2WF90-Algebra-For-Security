@@ -169,6 +169,18 @@ public class Polynomial {
     }
 
     /**
+     * Returns the amount of terms in p.
+     * @return  p.size();
+     */
+    public int size(){
+        return p.size();
+    }
+
+    public Polynomial clone(){
+        return new Polynomial(this.p);
+    }
+
+    /**
      *
      * #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
      *                              Calculation methods
@@ -220,11 +232,29 @@ public class Polynomial {
     }
 
     public Polynomial add(Polynomial q){
-        return null;
+        Polynomial n;
+        Polynomial m;
+        if(p.size() > q.size()){
+            n = this.clone();
+            m = q.clone();
+        } else {
+            n = q.clone();
+            m = this.clone();
+        }
+
+        Iterator<Integer> iterator = m.iterator();
+        while(iterator.hasNext()){
+            int degree = iterator.next();
+            int coefficient = m.getCoefficient(degree);
+            n.addTerm(coefficient, degree);
+        }
+
+        return n;
     }
 
     public Polynomial subtract(Polynomial q){
-        return null;
+        Polynomial m = q.clone().multiply(-1);
+        return this.add(m);
     }
 
     public Polynomial multiply(Polynomial q){
