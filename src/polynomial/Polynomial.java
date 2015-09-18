@@ -8,9 +8,9 @@ import java.util.TreeMap;
  */
 public class Polynomial {
     /**
-     * TreeMap representation of the polynomial.
+     * TreeMap representation of the p.
      */
-    private TreeMap<Integer, Integer> polynomial = new TreeMap<Integer, Integer>();
+    private TreeMap<Integer, Integer> p = new TreeMap<Integer, Integer>();
 
     /**
      *
@@ -21,21 +21,21 @@ public class Polynomial {
      */
 
     /**
-     * Creates a Polynomial given the TreeMap. This creates a copy of the polynomial.
+     * Creates a Polynomial given the TreeMap. This creates a copy of the p.
      *
-     * @param polynomial: A TreeMap representing the polynomial.
+     * @param p: A TreeMap representing the p.
      */
-    public Polynomial(TreeMap<Integer, Integer> polynomial) {
-        this.polynomial = new TreeMap<Integer, Integer>(polynomial);
+    public Polynomial(TreeMap<Integer, Integer> p) {
+        this.p = new TreeMap<Integer, Integer>(p);
     }
 
     /**
      * Creates a Polynomial given a string representation of this Polynomial.
      *
-     * @param polynomial: String representation of the Polynomial.
+     * @param p: String representation of the Polynomial.
      */
-    public Polynomial(String polynomial) {
-        toPolynomial(polynomial);
+    public Polynomial(String p) {
+        toPolynomial(p);
     }
 
     /**
@@ -54,35 +54,35 @@ public class Polynomial {
      */
 
     /**
-     * Returns a string representation of the polynomial.
+     * Returns a string representation of the p.
      *
-     * @return   The polynomial in string format.
+     * @return   The p in string format.
      */
     public String toString() {
         String standardForm = "";
         Iterator<Integer> iterator = inverseIterator();
         while (iterator.hasNext()) {
             int degree = iterator.next();
-            int coefficient = polynomial.get(degree);
+            int coefficient = p.get(degree);
             standardForm += (coefficient == 1 && degree != 0 ? "" : coefficient);
             standardForm += (degree == 0 ? "" : "X");
             standardForm += (degree > 1 ? "^" + degree : "");
             standardForm += (iterator.hasNext() ? " + " : "");
         }
-        standardForm = standardForm.replace("+ -", "-");
+        standardForm = standardForm.replace("+ -", "- ");
         return standardForm;
     }
 
     /**
      * Returns the coefficient of the term with the given degree.
      *
-     * @param degree: Degree of the term in the polynomial.
+     * @param degree: Degree of the term in the p.
      * @return   0 if not present, the coefficient connected to the degree if present.
      */
     public int getCoefficient(int degree) {
         int coefficient = 0;
-        if (polynomial.containsKey(degree)) {
-            coefficient = polynomial.get(degree);
+        if (p.containsKey(degree)) {
+            coefficient = p.get(degree);
         }
         return coefficient;
     }
@@ -95,23 +95,26 @@ public class Polynomial {
      * @param degree: The degree of this term.
      */
     public void addTerm(int coefficient, int degree) {
-        if (polynomial.containsKey(degree)) {
-            coefficient += polynomial.get(degree);
+        if (p.containsKey(degree)) {
+            coefficient += p.get(degree);
         }
 
-        if(coefficient == 0){
-            if(polynomial.containsKey(degree)) {
-                polynomial.remove(degree);
+        if(coefficient == 0 && degree != 0){
+            if(p.containsKey(degree)) {
+                p.remove(degree);
+                if(p.isEmpty()){
+                    p.put(0, 0);
+                }
             }
         } else {
-            polynomial.put(degree, coefficient);
+            p.put(degree, coefficient);
         }
     }
 
     /**
-     * Converts a given string to a polynomial object.
+     * Converts a given string to a p object.
      *
-     * @param polynomial: String representation of the polynomial.
+     * @param polynomial: String representation of the p.
      */
     private void toPolynomial(String polynomial) {
         polynomial = polynomial.replace(" ", "");
@@ -148,21 +151,21 @@ public class Polynomial {
     }
 
     /**
-     * Returns an iterator for the terms of the polynomial.
+     * Returns an iterator for the terms of the p.
      *
      * @return  iterator of the keyset of the TreeMap.
      */
     public Iterator<Integer> iterator(){
-        return polynomial.keySet().iterator();
+        return p.keySet().iterator();
     }
 
     /**
-     * Returns an iterator for the terms of the polynomial, from largest to smallest terms.
+     * Returns an iterator for the terms of the p, from largest to smallest terms.
      *
      * @return  iterator of the descendingKeySet of the TreeMap.
      */
     public Iterator<Integer> inverseIterator(){
-        return polynomial.descendingKeySet().iterator();
+        return p.descendingKeySet().iterator();
     }
 
     /**
@@ -183,36 +186,52 @@ public class Polynomial {
      */
 
     /**
-     * Multiplies the polynomial by a constant value.
+     * Multiplies the p by a constant value.
      *
      * @param multiplier: An integer;
-     * @return  this polynomial, to allow chaining.
+     * @return  this p, to allow chaining.
      */
     public Polynomial multiply(int multiplier){
         Iterator<Integer> iterator = iterator();
         while(iterator.hasNext()){
             int degree = iterator.next();
-            int coefficient = polynomial.get(degree);
-            polynomial.put(degree, coefficient * multiplier);
+            int coefficient = p.get(degree);
+            p.put(degree, coefficient * multiplier);
         }
         return this;
     }
 
     /**
-     * Gives the degree of the polynomial.
+     * Gives the degree of the p.
      *
      * @return   The largest degree that is paired with a coefficient that is not zero.
      */
     public int getDegree() {
-        return polynomial.lastKey();
+        return p.lastKey();
     }
 
     /**
-     * Finds the leading coefficient of the polynomial.
+     * Finds the leading coefficient of the p.
      *
      * @return   The coefficient of the term with the highest degree, that is not zero.
      */
     public int getLC(){
         return getCoefficient(this.getDegree());
+    }
+
+    public Polynomial add(Polynomial q){
+        return null;
+    }
+
+    public Polynomial subtract(Polynomial q){
+        return null;
+    }
+
+    public Polynomial multiply(Polynomial q){
+        return null;
+    }
+
+    public Polynomial divide(Polynomial q){
+        return null;
     }
 }

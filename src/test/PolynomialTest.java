@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import polynomial.Polynomial;
 
-import java.util.Random;
 import java.util.TreeMap;
 
 import static org.junit.Assert.*;
@@ -26,6 +25,83 @@ public class PolynomialTest {
 
     }
 
+    private void checkMakePoly(String input, String expected){
+        Polynomial p = new Polynomial(input);
+        assertEquals("The string representation is not what we expected.", p.toString(), expected);
+    }
+
+    /**
+     * most simple polynomial.
+     */
+    @Test
+    public void testMakePoly1(){
+        checkMakePoly("0", "0");
+    }
+
+    /**
+     * inserted negative zero, should be zero.
+     */
+    @Test
+    public void testMakePoly2(){
+        checkMakePoly("-0", "0");
+    }
+
+    /**
+     * adding two of the same terms but with different signs should yield zero.
+     */
+    @Test
+    public void testMakePoly3(){
+        checkMakePoly("-X^2+X^2", "0");
+    }
+
+    /**
+     * adding two of the same terms should add them.
+     */
+    @Test
+    public void testMakePoly4(){
+        checkMakePoly("X^2 + X^2", "2X^2");
+    }
+
+    /**
+     * polynomial with unsorted terms.
+     */
+    @Test
+    public void testMakePoly5(){
+        checkMakePoly("-10 + 23X^123 - 232X^18", "23X^123 - 232X^18 - 10");
+    }
+
+    /**
+     * check if first term negative has no space.
+     */
+    @Test
+    public void testMakePoly6(){
+        checkMakePoly("-10 - 23X^123 - 232X^18", "-23X^123 - 232X^18 - 10");
+    }
+
+    /**
+     * check if we can also handle different symbols.
+     */
+    @Test
+    public void testMakePoly7(){
+        checkMakePoly("-10 - 23x^123 - 232x^18", "-23X^123 - 232X^18 - 10");
+    }
+
+    /**
+     * check if we can also handle different symbols.
+     */
+    @Test
+    public void testMakePoly8(){
+        checkMakePoly("-10 - 23a^123 - 232a^18", "-23X^123 - 232X^18 - 10");
+    }
+
+    /**
+     * check if we can also handle different symbols.
+     */
+    @Test
+    public void testMakePoly9(){
+        checkMakePoly("-10 - 23a^123 - 232b^18", "-23X^123 - 232X^18 - 10");
+    }
+
     @Test
     public void testGetCoefficient() {
 
@@ -43,7 +119,7 @@ public class PolynomialTest {
 
     @Test
     public void testInverseIterator() {
-
+        
     }
 
     private void checkTestMultiply(TreeMap<Integer, Integer> input, int multiplier, TreeMap<Integer, Integer> expected){
@@ -168,8 +244,76 @@ public class PolynomialTest {
         checkGetDegree(tree, Integer.MAX_VALUE);
     }
 
-    @Test
-    public void testGetLC() {
-
+    public void checkGetLC(TreeMap<Integer, Integer> tree, int expected) {
+        Polynomial p = new Polynomial(tree);
+        assertEquals("The lc is not equal to the expected lc.", p.getLC(), expected);
     }
+    
+    /**
+     * Degree 0, positive coefficient
+     */
+    @Test
+    public void testLCZeroPos() {
+        tree.put(0, 1);
+        checkGetLC(tree, 1);
+    }
+
+    /**
+     * Degree 0, negative coefficient
+     */
+    @Test
+    public void testLCZeroNeg() {
+        tree.put(0, -1);
+        checkGetLC(tree, -1);
+    }
+
+    /**
+     * Degree 1, one element
+     */
+    @Test
+    public void testLCOne1() {
+        tree.put(1, 1);
+        checkGetLC(tree, 1);
+    }
+
+    /**
+     * Degree 1, includes zero element, Positive coefficient
+     */
+    @Test
+    public void testLCOnePos2() {
+        tree.put(1, 3);
+        tree.put(0, 1);
+        checkGetLC(tree, 3);
+    }
+
+    /**
+     * Degree 1, includes zero element, negative coefficient
+     */
+    @Test
+    public void testLCOneNeg2() {
+        tree.put(1, -1);
+        tree.put(0, 1);
+        checkGetLC(tree, -1);
+    }
+
+    /**
+     * Degree is max integer.
+     */
+    @Test
+    public void testLCLarge1() {
+        tree.put(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        checkGetLC(tree, Integer.MAX_VALUE);
+    }
+
+    /**
+     * Degree is max integer, multiple terms.
+     */
+    @Test
+    public void testLCLarge2() {
+        tree.put(Integer.MAX_VALUE, 125);
+        tree.put(10, -15);
+        tree.put(3, 2);
+        tree.put(524, 213);
+        checkGetLC(tree, 125);
+    }   
 }
