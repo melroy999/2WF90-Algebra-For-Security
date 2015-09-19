@@ -1,6 +1,7 @@
 package polynomial;
 
 import java.util.Iterator;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -64,7 +65,7 @@ public class Polynomial {
         while (iterator.hasNext()) {
             int degree = iterator.next();
             int coefficient = p.get(degree);
-            standardForm += (coefficient == 1 && degree != 0 ? "" : coefficient);
+            standardForm += (coefficient > 0 ? (coefficient == 1 && degree != 0 ? "" : coefficient) : (coefficient == -1 && degree != 0 ? "-" : coefficient));
             standardForm += (degree == 0 ? "" : "X");
             standardForm += (degree > 1 ? "^" + degree : "");
             standardForm += (iterator.hasNext() ? " + " : "");
@@ -88,13 +89,24 @@ public class Polynomial {
     }
 
     /**
+     * Returns the coefficient of the term with the given degree.
+     *
+     * @param degree: Degree of the term in the p.
+     * @return   0 if not present, the coefficient connected to the degree if present.
+     */
+    protected int get(int degree) {
+        return getCoefficient(degree);
+    }
+
+    /**
      * Adds a term to this coefficient, in the form coefficient * X^degree.
      * If the coefficient becomes 0, it removes the term from the TreeMap.
      *
      * @param coefficient: The coefficient of this term.
      * @param degree: The degree of this term.
+     * @return  this p, to allow chaining.
      */
-    public void addTerm(int coefficient, int degree) {
+    public Polynomial addTerm(int coefficient, int degree) {
         if (p.containsKey(degree)) {
             coefficient += p.get(degree);
         }
@@ -109,6 +121,8 @@ public class Polynomial {
         } else {
             p.put(degree, coefficient);
         }
+
+        return this;
     }
 
     /**
@@ -170,16 +184,25 @@ public class Polynomial {
 
     /**
      * Returns the amount of terms in p.
+     *
      * @return  p.size();
      */
     public int size(){
         return p.size();
     }
 
+    /**
+     * Clones the polynomial.
+     *
+     * @return new Polynomial(this.p);
+     */
     public Polynomial clone(){
         return new Polynomial(this.p);
     }
 
+    public Set<Integer> keySet(){
+        return p.keySet();
+    }
     /**
      *
      * #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
@@ -190,8 +213,6 @@ public class Polynomial {
 
     /*
     TODO
-    - Addition
-    - Subtraction
     - Long Division
     - GCD
     - Factorization
@@ -231,6 +252,12 @@ public class Polynomial {
         return getCoefficient(this.getDegree());
     }
 
+    /**
+     * Adds q to this.
+     *
+     * @param q: Polynomial that should be added to this one.
+     * @return  A new polynomial that is the addition p and q.
+     */
     public Polynomial add(Polynomial q){
         Polynomial n;
         Polynomial m;
@@ -252,16 +279,46 @@ public class Polynomial {
         return n;
     }
 
+    /**
+     * Subtracts q from this.
+     *
+     * @param q: Polynomial that should subtract this one.
+     * @return  A new polynomial that is the subtraction of p by q.
+     */
     public Polynomial subtract(Polynomial q){
-        Polynomial m = q.clone().multiply(-1);
-        return this.add(m);
+        q = q.multiply(-1);
+        return this.add(q);
     }
 
     public Polynomial multiply(Polynomial q){
-        return null;
+        Polynomial result = new Polynomial();
+        for(int degree_x : p.keySet()){
+            int coefficient_x = p.get(degree_x);
+            for(int degree_y : q.keySet()){
+                int coefficient_y = q.getCoefficient(degree_y);
+                result.addTerm(coefficient_x * coefficient_y, degree_x + degree_y);
+            }
+        }
+        return result;
     }
 
-    public Polynomial divide(Polynomial q){
-        return null;
+    /**
+     * Performs long division of p by q.
+     *
+     * @param q: Polynomial to divide by.
+     * @return  A LCD pair containing the quotient and remainder.
+     */
+    public LCD divide(Polynomial q){
+        Polynomial quotient = new Polynomial("0");
+        Polynomial remainder = this.clone();
+
+        while(remainder.getDegree() >= q.getDegree()){
+            int coefficient = remainder.getLC() / q.getLC();
+            int degree = remainder.getDegree() - q.getDegree();
+            quotient.addTerm(coefficient, degree);
+            Polynomial b = new Polynomial().addTerm(coefficient, degree).multiply(q);
+            remainder = remainder.subtract(b);
+        }
+        return new LCD(quotient, remainder);
     }
 }
