@@ -3,8 +3,7 @@ package test;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.Timeout;
-import polynomial.LCD;
+import polynomial.GCD;
 import polynomial.Polynomial;
 
 import java.util.TreeMap;
@@ -525,8 +524,15 @@ public class PolynomialTest {
         checkSubtract(p, q, "-X^4 + X^3 - X^2 - 11");
     }
 
+    @Test
+    public void testSubtract15(){
+        Polynomial p = new Polynomial("0");
+        Polynomial q = new Polynomial("X^4 + 8X^3 + 9");
+        checkSubtract(p, q, "-X^4 - 8X^3 - 9");
+    }
+
     public void checkDivide(Polynomial p, Polynomial q, String expected_quotient, String expected_remainder){
-        LCD r = p.divide(q);
+        GCD r = p.divide(q);
         assertEquals("The quotient is not as expected. ", expected_quotient, r.quotient.toString());
         assertEquals("The remainder is not as expected. ", expected_remainder, r.remainder.toString());
     }

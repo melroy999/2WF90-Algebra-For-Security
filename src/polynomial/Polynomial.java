@@ -305,10 +305,10 @@ public class Polynomial {
     /**
      * Performs long division of p by q.
      *
-     * @param q: Polynomial to divide by.
+     * @param q : Polynomial to divide by.
      * @return  A LCD pair containing the quotient and remainder.
      */
-    public LCD divide(Polynomial q){
+    public GCD divide(Polynomial q){
         Polynomial quotient = new Polynomial("0");
         Polynomial remainder = this.clone();
 
@@ -319,6 +319,50 @@ public class Polynomial {
             Polynomial b = new Polynomial().addTerm(coefficient, degree).multiply(q);
             remainder = remainder.subtract(b);
         }
-        return new LCD(quotient, remainder);
+        return new GCD(quotient, remainder);
+    }
+
+    public Polynomial euclidean(Polynomial q){
+        Polynomial a = this.clone();
+        Polynomial b = q.clone();
+
+        while(!b.toString().equals("0")){
+            Polynomial r = a.divide(b).remainder;
+            a = b;
+            b = r;
+            System.out.println(a + ", " + b);
+        }
+        return a;
+    }
+
+    public EEA extendedEuclidean(Polynomial t){
+        Polynomial a = this.clone();
+        Polynomial b = t.clone();
+        Polynomial x = new Polynomial("1");
+        Polynomial v = new Polynomial("1");
+        Polynomial y = new Polynomial("0");
+        Polynomial u = new Polynomial("0");
+        Polynomial q = new Polynomial();
+        Polynomial x_ = new Polynomial();
+        Polynomial y_ = new Polynomial();
+
+        while(!(b.toString().equals("0"))){
+            GCD lcd = a.divide(b);
+            q = lcd.quotient;
+            a = b;
+            b = lcd.remainder;
+            x_ = x;
+            y_ = y;
+            x = u;
+            y = v;
+            u = x_.subtract(q.multiply(u));
+            v = y_.subtract(q.multiply(v));
+            if (v.toString().equals("1") || u.toString().equals("1")) {
+                x = u;
+                y = v;
+                break;
+            }
+        }
+        return new EEA(x, y);
     }
 }
