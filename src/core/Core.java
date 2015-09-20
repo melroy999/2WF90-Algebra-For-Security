@@ -1,7 +1,5 @@
 package core;
 
-import polynomial.Polynomial;
-
 /**
  * Created by Melroy van Nijnatten - 0849740.
  */
