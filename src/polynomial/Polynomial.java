@@ -1,10 +1,6 @@
 package polynomial;
 
 import polynomial.support.Numeric;
-import polynomial.support.implementation.ModNumeric;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import java.util.TreeMap;
 
 /**
@@ -12,7 +8,7 @@ import java.util.TreeMap;
  */
 public class Polynomial<T extends Number> {
     private final Numeric<T> calc;
-    private final TreeMap<Integer, T> polynomial;
+    private final TreeMap<Integer, T> terms;
 
     /**
      *
@@ -24,7 +20,7 @@ public class Polynomial<T extends Number> {
 
     public Polynomial(Numeric<T> calc, String rep) {
         this.calc = calc;
-        polynomial = null;
+        terms = null;
     }
 
     /**
@@ -41,7 +37,7 @@ public class Polynomial<T extends Number> {
      * @return
      */
     public T getCoefficient(int degree) {
-        return polynomial.get(degree);
+        return terms.get(degree);
     }
 
     /**
@@ -58,6 +54,6 @@ public class Polynomial<T extends Number> {
      * @return
      */
     public int getDegree(){
-        return polynomial.lastKey();
+        return terms.lastKey();
     }
 }
