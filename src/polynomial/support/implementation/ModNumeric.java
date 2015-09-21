@@ -51,4 +51,9 @@ public class ModNumeric extends IntegerNumeric {
 
         return new int[] { d, a, b };
     }
+
+    @Override
+    public Integer format(Integer T1) {
+        return T1 % modulus;
+    }
 }

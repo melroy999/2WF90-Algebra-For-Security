@@ -11,10 +11,9 @@ import polynomial.support.implementation.ModNumeric;
  */
 public class Core {
     public Core() {
-        new Polynomial<Integer>(new IntegerNumeric(), "");
-        new Polynomial<Integer>(new ModNumeric(11), "");
-        new Polynomial<Double>(new DoubleNumeric(), "");
-        new Polynomial<Float>(new FloatNumeric(), "");
+        Polynomial<Integer> p = new Polynomial<Integer>(new ModNumeric(2), "3X^2");
+        System.out.println(p.toString());
+        System.out.println(p.add(p));
     }
 
     public static void main(String[] args){

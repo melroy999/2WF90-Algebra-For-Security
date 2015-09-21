@@ -1,6 +1,8 @@
 package polynomial;
 
 import polynomial.support.Numeric;
+
+import java.util.Iterator;
 import java.util.TreeMap;
 
 /**
@@ -8,7 +10,7 @@ import java.util.TreeMap;
  */
 public class Polynomial<T extends Number> {
     private final Numeric<T> calc;
-    private final TreeMap<Integer, T> terms;
+    private TreeMap<Integer, T> terms = new TreeMap<Integer, T>();
 
     /**
      *
@@ -20,7 +22,18 @@ public class Polynomial<T extends Number> {
 
     public Polynomial(Numeric<T> calc, String rep) {
         this.calc = calc;
-        terms = null;
+        toPolynomial(rep);
+    }
+
+    public Polynomial(Numeric<T> calc) {
+        this.calc = calc;
+    }
+
+    public void addTerm(T coefficient, int degree){
+        if(terms.containsKey(degree)){
+            coefficient = calc.add(coefficient, terms.get(degree));
+        }
+        terms.put(degree, calc.format(coefficient));
     }
 
     /**
@@ -55,5 +68,110 @@ public class Polynomial<T extends Number> {
      */
     public int getDegree(){
         return terms.lastKey();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Iterator<Integer> iterator(){
+        return terms.keySet().iterator();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Iterator<Integer> inverseIterator(){
+        return terms.descendingKeySet().iterator();
+    }
+
+    /**
+     * Converts a given string to a p object.
+     *
+     * @param polynomial: String representation of the p.
+     */
+    private void toPolynomial(String polynomial) {
+        polynomial = polynomial.replace(" ", "");
+        polynomial = polynomial.replaceAll("[^0-9\\^\\+\\-\\.]", "x");
+        polynomial = polynomial.replace("-", "+-");
+        polynomial = polynomial.replace("-x", "-1x");
+        polynomial = polynomial.replace("+x", "+1x");
+        if(polynomial.charAt(0) == 'x'){
+            polynomial = "1" + polynomial;
+        }
+        String[] terms = polynomial.split("\\+");
+        for (String term : terms) {
+            if(term.equals("")){
+                continue;
+            }
+            int degree;
+            T coefficient;
+            if (term.contains("^")) {
+                term = term.replace("x", "");
+                String[] components = term.split("\\^");
+                coefficient = calc.parse(components[0]);
+                degree = Integer.parseInt(components[1]);
+            } else {
+                if (term.contains("x")) {
+                    term = term.replace("x", "");
+                    degree = 1;
+                } else {
+                    degree = 0;
+                }
+                coefficient = calc.parse(term);
+            }
+            addTerm(coefficient, degree);
+        }
+    }
+
+    /**
+     *
+     * #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+     *                                     Getters
+     * #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+     *
+     */
+
+    /**
+     * Returns a string representation of the p.
+     *
+     * @return   The p in string format.
+     */
+    public String toString() {
+        String standardForm = "";
+        Iterator<Integer> iterator = inverseIterator();
+        while (iterator.hasNext()) {
+            int degree = iterator.next();
+            T coefficient = terms.get(degree);
+            standardForm += (calc.isPositive(coefficient) ? (calc.isOne(coefficient) && degree != 0 ? "" : coefficient) : calc.isMinusOne(coefficient) && degree != 0 ? "-" : coefficient);
+            standardForm += (degree == 0 ? "" : "X");
+            standardForm += (degree > 1 ? "^" + degree : "");
+            standardForm += (iterator.hasNext() ? " + " : "");
+        }
+        standardForm = standardForm.replace("+ -", "- ");
+        return standardForm;
+    }
+
+    public Polynomial<T> add(Polynomial<T> q){
+        Polynomial<T> result = (this.getDegree() < q.getDegree() ? q : this);
+        Polynomial<T> add = (this.getDegree() < q.getDegree() ? this : q);
+
+        Iterator<Integer> iterator = add.iterator();
+        while(iterator.hasNext()){
+            int degree = iterator.next();
+            result.addTerm(add.getCoefficient(degree), degree);
+        }
+        return result;
+    }
+
+    public Polynomial<T> subtract(Polynomial<T> q){
+        Polynomial<T> result = new Polynomial<T>(calc);
+        Iterator<Integer> iterator = q.iterator();
+        while(iterator.hasNext()){
+            int degree = iterator.next();
+            result.addTerm(calc.negate(q.getCoefficient(degree)), degree);
+        }
+        return this.add(q);
     }
 }
