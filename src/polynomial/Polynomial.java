@@ -1,15 +1,17 @@
 package polynomial;
 
 import polynomial.support.Numeric;
+import sun.reflect.generics.tree.Tree;
 
 import java.util.Iterator;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
  * Created by Melroy van Nijnatten - 0849740.
  */
 public class Polynomial<T extends Number> {
-    private final Numeric<T> calc;
+    private Numeric<T> calc;
     private TreeMap<Integer, T> terms = new TreeMap<Integer, T>();
 
     /**
@@ -25,15 +27,34 @@ public class Polynomial<T extends Number> {
         toPolynomial(rep);
     }
 
+    public Polynomial(Numeric<T> calc, TreeMap<Integer, T> terms) {
+        this.calc = calc;
+        this.terms = terms;
+    }
+
     public Polynomial(Numeric<T> calc) {
         this.calc = calc;
     }
 
     public void addTerm(T coefficient, int degree){
-        if(terms.containsKey(degree)){
+        if(this.terms.containsKey(degree)){
             coefficient = calc.add(coefficient, terms.get(degree));
+            System.out.println(coefficient);
+        }
+        if(calc.isZero(coefficient) && degree != 0){
+            terms.remove(degree);
+            if(terms.isEmpty()){
+                terms.put(0, coefficient);
+            }
+            return;
         }
         terms.put(degree, calc.format(coefficient));
+    }
+
+    public void printTree(){
+        for(int degree : terms.keySet()){
+            System.out.println(terms.get(degree) + "X^" + degree);
+        }
     }
 
     /**
@@ -93,7 +114,7 @@ public class Polynomial<T extends Number> {
      */
     private void toPolynomial(String polynomial) {
         polynomial = polynomial.replace(" ", "");
-        polynomial = polynomial.replaceAll("[^0-9\\^\\+\\-\\.]", "x");
+        polynomial = polynomial.replaceAll("[^0-9\\^\\+\\-\\.,]", "x");
         polynomial = polynomial.replace("-", "+-");
         polynomial = polynomial.replace("-x", "-1x");
         polynomial = polynomial.replace("+x", "+1x");
@@ -125,6 +146,10 @@ public class Polynomial<T extends Number> {
         }
     }
 
+    protected Polynomial<T> clone(){
+        return new Polynomial<T>(calc, terms);
+    }
+
     /**
      *
      * #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
@@ -132,6 +157,15 @@ public class Polynomial<T extends Number> {
      * #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
      *
      */
+
+    protected Set<Integer> getTerms(){
+        return terms.keySet();
+    }
+
+    public boolean isEmpty(){
+        return terms.isEmpty();
+    }
+
 
     /**
      * Returns a string representation of the p.
@@ -153,15 +187,34 @@ public class Polynomial<T extends Number> {
         return standardForm;
     }
 
-    public Polynomial<T> add(Polynomial<T> q){
-        Polynomial<T> result = (this.getDegree() < q.getDegree() ? q : this);
-        Polynomial<T> add = (this.getDegree() < q.getDegree() ? this : q);
+    public Polynomial<T> add(final Polynomial<T> q){
+        final Polynomial<T> p = this;
+        Polynomial<T> result = (this.getDegree() < q.getDegree() ? q.clone() : p.clone());
+        Polynomial<T> add = (this.getDegree() < q.getDegree() ? p.clone() : q.clone());
 
-        Iterator<Integer> iterator = add.iterator();
-        while(iterator.hasNext()){
-            int degree = iterator.next();
+        System.out.println("result: ");
+        result.printTree();
+        System.out.println("add: ");
+        add.printTree();
+        System.out.println("p: ");
+        p.printTree();
+        System.out.println("q: ");
+        q.printTree();
+        System.out.println();
+
+        for(int degree : add.getTerms()){
             result.addTerm(add.getCoefficient(degree), degree);
         }
+
+        System.out.println("result: ");
+        result.printTree();
+        System.out.println("add: ");
+        add.printTree();
+        System.out.println("p: ");
+        p.printTree();
+        System.out.println("q: ");
+        q.printTree();
+
         return result;
     }
 
@@ -174,4 +227,17 @@ public class Polynomial<T extends Number> {
         }
         return this.add(q);
     }
+
+    public Polynomial<T> multiply(Polynomial<T> q){
+        Polynomial<T> result = new Polynomial<T>(calc);
+        for(int degree_p: getTerms()){
+            T coefficient_p = getCoefficient(degree_p);
+            for(int degree_q: q.getTerms()){
+                T coefficient_q = q.getCoefficient(degree_q);
+                result.addTerm(calc.add(coefficient_p, coefficient_q), degree_p + degree_q);
+            }
+        }
+        return result;
+    }
+
 }

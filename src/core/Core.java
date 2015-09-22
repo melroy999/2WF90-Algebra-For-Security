@@ -12,8 +12,8 @@ import polynomial.support.implementation.ModNumeric;
 public class Core {
     public Core() {
         Polynomial<Integer> p = new Polynomial<Integer>(new ModNumeric(2), "3X^2");
-        System.out.println(p.toString());
-        System.out.println(p.add(p));
+        Polynomial<Integer> q = new Polynomial<Integer>(new ModNumeric(2), "3X^2");
+        System.out.println(p.add(q));
     }
 
     public static void main(String[] args){
