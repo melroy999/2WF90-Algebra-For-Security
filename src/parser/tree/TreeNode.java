@@ -24,21 +24,24 @@ public class TreeNode {
         return child[1];
     }
 
-    public void setLeftNode(TreeNode node) {
+    public TreeNode setLeftNode(TreeNode node) {
         this.child[0] = node;
         node.setParent(this);
+        return this;
     }
 
-    public void setRightNode(TreeNode node) {
+    public TreeNode setRightNode(TreeNode node) {
         this.child[1] = node;
         node.setParent(this);
+        return this;
     }
 
     public TreeNode getParent(){
         return parent;
     }
 
-    public void setParent(TreeNode node) {
+    public TreeNode setParent(TreeNode node) {
         this.parent = node;
+        return this;
     }
 }
