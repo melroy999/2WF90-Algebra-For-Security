@@ -36,6 +36,23 @@ public class Parser {
             toParse = toParse + aSplit;
         }
 
+        split = toParse.split("\\-");
+        for(int i = 1; i < split.length; i++){
+
+            if(!split[i-1].equals("")){
+                split[i] = "-" + split[i];
+                char c = split[i-1].charAt(split[i-1].length()-1);
+                if(c == ')' || Character.isDigit(c)){
+                    split[i - 1] = split[i - 1] + "+";
+                }
+            }
+        }
+
+        toParse = "";
+        for (String aSplit : split) {
+            toParse = toParse + aSplit;
+        }
+
         //use regular expressions to give it the correct format
         //eg aa+b*c+ -> aaaaabccc, aabbbbbc etc
         //http://regexone.com/lesson/
