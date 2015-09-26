@@ -1,5 +1,6 @@
 package core;
 
+import gui.GUICore;
 import parser.Parser;
 import polynomial.Polynomial;
 
@@ -8,6 +9,9 @@ import polynomial.Polynomial;
  */
 public class Core {
     public Core() {
+        //start gui
+        GUICore.main(new String[]{});
+
         Parser.parse("4*X^2 + 2X");
         Parser.parse("4*Z^2 + 2Y");
         Parser.parse("4*X^2 + 2");
@@ -22,6 +26,10 @@ public class Core {
 
         new Polynomial(10, "4*X^2 + 2X");
         new Polynomial(10, "9(X^2 + X - 1)-(X - X^5 + 4X^2)");
+        new Polynomial(10, "10(X^2 + X - 1)-(X - X^5 + 4X^2)");
+        new Polynomial(10, "0");
+
+        new GUICore();
     }
 
     public static void main(String[] args){

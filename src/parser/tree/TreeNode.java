@@ -4,9 +4,9 @@ package parser.tree;
  * Created by Melroy van Nijnatten - 0849740.
  */
 public class TreeNode {
+    protected final String value;
     protected TreeNode parent = null;
     protected TreeNode[] child = new TreeNode[2];
-    protected final String value;
 
     public TreeNode(String value) {
         this.value = value;
@@ -20,28 +20,28 @@ public class TreeNode {
         return child[0];
     }
 
-    public TreeNode getRightNode(){
-        return child[1];
-    }
-
-    public boolean hasChildren(){
-        return child[0] != null || child[1] != null;
-    }
-
-    public boolean hasParent(){
-        return parent != null;
-    }
-
     public TreeNode setLeftNode(TreeNode node) {
         this.child[0] = node;
         node.setParent(this);
         return this;
     }
 
+    public TreeNode getRightNode(){
+        return child[1];
+    }
+
     public TreeNode setRightNode(TreeNode node) {
         this.child[1] = node;
         node.setParent(this);
         return this;
+    }
+
+    public boolean hasChildren() {
+        return child[0] != null || child[1] != null;
+    }
+
+    public boolean hasParent() {
+        return parent != null;
     }
 
     public TreeNode getParent(){
@@ -82,7 +82,7 @@ public class TreeNode {
     public String toString() {
         String s = "";
         if(getLeftNode() != null | getRightNode() != null){
-            s = value + ">[";
+            s = value + "[";
             if(getLeftNode() != null){
                 s = s + getLeftNode().toString();
             }

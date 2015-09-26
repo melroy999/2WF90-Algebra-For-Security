@@ -3,7 +3,6 @@ package polynomial;
 import parser.Parser;
 import parser.tree.TreeNode;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
@@ -21,7 +20,7 @@ public class Polynomial {
 
     public Polynomial(int modulus, String s) {
         this.modulus = modulus;
-        this.terms = nodesToPoly(Parser.parse(s)).terms;
+        this.terms = (TreeMap<Integer, Integer>) nodesToPoly(Parser.parse(s)).terms.clone();
         System.out.println(this);
     }
 
@@ -57,6 +56,9 @@ public class Polynomial {
             standardForm += (degree > 1 ? "^" + degree : "");
             standardForm += (iterator.hasNext() ? " + " : "");
         }
+        if (standardForm.equals("")) {
+            standardForm = "0";
+        }
         standardForm = standardForm.replace("+ -", "- ");
         return standardForm;
     }
@@ -85,20 +87,22 @@ public class Polynomial {
             rightChildP = nodesToPoly(current.getRightNode());
         }
 
+        Polynomial result;
+
         if(current.getValue().equals("-")){
             assert leftChildP != null;
-            return leftChildP.scalar(-1);
+            result = leftChildP.scalar(-1);
         } else if(current.getValue().equals("+")){
             assert leftChildP != null;
             assert rightChildP != null;
-            return leftChildP.add(rightChildP);
+            result = leftChildP.add(rightChildP);
         } else if(current.getValue().equals("*")) {
             assert leftChildP != null;
             assert rightChildP != null;
-            return leftChildP.multiply(rightChildP);
+            result = leftChildP.multiply(rightChildP);
         } else {//no children! so must be term
             int d = 0;
-            int c = 0;
+            int c;
             if(value.contains("^")){
                 String[] split = value.split("\\^");
                 d = Integer.parseInt(split[1]);
@@ -106,25 +110,30 @@ public class Polynomial {
             } else {
                 c = Integer.parseInt(value);
             }
-            return new Polynomial(modulus).addTerm(c, d);
+            result = new Polynomial(modulus).addTerm(c, d);
         }
+        return result;
     }
 
     public Polynomial addTerm(int c, int d) {
-        if(terms.containsKey(d)){
-            c += terms.get(d);
+        c += this.getCoefficient(d) % modulus;
+        if (c == 0) {
+            terms.remove(d);
+            return this;
         }
-        terms.put(d, c);
+        if (c < 0) {
+            c += modulus;
+        }
+        terms.put(d, c % modulus);
         return this;
     }
 
-    public Polynomial scalar(int scalar){
+    public Polynomial scalar(int scalar) {
         Polynomial result = new Polynomial(modulus);
-        for(int i : terms.keySet()) {
+        for (int i : terms.keySet()) {
             result.addTerm(scalar * terms.get(i), i);
         }
-        System.out.println(result);
-        return this;
+        return result;
     }
 
     public Polynomial add(Polynomial q){
