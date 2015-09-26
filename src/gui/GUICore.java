@@ -48,7 +48,7 @@ public class GUICore extends JFrame {
                 polynomial1.setText("");
                 polynomial2.setText("");
                 modulus.setText("");
-                resultPane.setText("");
+                clearResultPane();
                 operation.setSelectedIndex(0);
             }
         });
@@ -61,6 +61,7 @@ public class GUICore extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                clearResultPane();
                 String p1s = polynomial1.getText();
                 String p2s = polynomial2.getText();
                 String mod = modulus.getText();
@@ -73,8 +74,14 @@ public class GUICore extends JFrame {
                     resultPane.setText("Please insert modulus value.");
                     return;
                 }
+
+                addResultText("Simplified given polynomials:");
                 Polynomial p1 = new Polynomial(Integer.parseInt(mod), p1s);
+                addResultText(p1s + " \u2261 " + p1.toString() + " (mod " + mod + ")");
                 Polynomial p2 = new Polynomial(Integer.parseInt(mod), p2s);
+                addResultText(p2s + " \u2261 " + p2.toString() + " (mod " + mod + ")");
+                addResultText("");
+
                 Polynomial result;
 
                 String operator;
@@ -90,7 +97,8 @@ public class GUICore extends JFrame {
                     operator = ") * (";
                 }
 
-                resultPane.setText("(" + p1.toString() + operator + p2.toString() + ") \u2261 " + result.toString() + " (mod " + mod + ")");
+                addResultText("Result:");
+                addResultText("(" + p1.toString() + operator + p2.toString() + ") \u2261 " + result.toString() + " (mod " + mod + ")");
             }
         });
     }
@@ -109,6 +117,14 @@ public class GUICore extends JFrame {
 
     public static void init() {
 
+    }
+
+    public void addResultText(String message) {
+        resultPane.setText(resultPane.getText() + message + "\n");
+    }
+
+    public void clearResultPane() {
+        resultPane.setText("");
     }
 
     private void createUIComponents() {

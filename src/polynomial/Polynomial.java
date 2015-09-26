@@ -51,10 +51,12 @@ public class Polynomial {
         while (iterator.hasNext()) {
             int degree = iterator.next();
             int coefficient = terms.get(degree);
-            standardForm += (coefficient > 0 ? (coefficient == 1 && degree != 0 ? "" : coefficient) : coefficient == -1 && degree != 0 ? "-" : coefficient);
-            standardForm += (degree == 0 ? "" : "X");
-            standardForm += (degree > 1 ? "^" + degree : "");
-            standardForm += (iterator.hasNext() ? " + " : "");
+            if (coefficient != 0) {
+                standardForm += (coefficient > 0 ? (coefficient == 1 && degree != 0 ? "" : coefficient) : coefficient == -1 && degree != 0 ? "-" : coefficient);
+                standardForm += (degree == 0 ? "" : "X");
+                standardForm += (degree > 1 ? "^" + degree : "");
+                standardForm += (iterator.hasNext() ? " + " : "");
+            }
         }
         if (standardForm.equals("")) {
             standardForm = "0";
