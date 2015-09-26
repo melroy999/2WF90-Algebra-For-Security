@@ -136,6 +136,11 @@ public class Polynomial {
         return result;
     }
 
+    public Polynomial subtract(Polynomial q) {
+        Polynomial sub = q.scalar(-1);
+        return this.add(sub);
+    }
+
     public Polynomial add(Polynomial q){
         Polynomial result = new Polynomial(modulus);
         for(Integer i : this.keySet()){
