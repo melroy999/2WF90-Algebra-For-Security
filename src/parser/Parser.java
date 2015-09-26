@@ -17,7 +17,7 @@ public class Parser {
         toParse = toParse.trim();
         toParse = toParse.toUpperCase().replaceAll("[A-Z]", "X");
         toParse = toParse.replaceAll("((?<=[0-9])\\*X)", "X");
-        toParse = toParse.replaceAll("X([^\\^]|\\Z)", "X^1");
+        toParse = toParse.replaceAll("X(?!\\^)", "X^1");
         toParse = toParse.replaceAll("[^0-9\\+\\-*()^]", "");
         toParse = toParse.replace("+^", "+1^");
         toParse = toParse.replace("-^", "-1^");
@@ -72,6 +72,7 @@ public class Parser {
     }
 
     public static TreeNode makeTree(final String s){
+        System.out.println(s);
         //holds the current term, as we might have numbers not fitting in 0-9
         String currentTerm = "";
         //we process everything as characters.
@@ -99,6 +100,7 @@ public class Parser {
 
         //process everything else, including brackets.
         TreeNode parent = process(nodes);
+        System.out.println(parent);
 
         return parent;
     }

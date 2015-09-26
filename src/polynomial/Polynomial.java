@@ -21,7 +21,7 @@ public class Polynomial {
     public Polynomial(int modulus, String s) {
         this.modulus = modulus;
         this.terms = (TreeMap<Integer, Integer>) nodesToPoly(Parser.parse(s)).terms.clone();
-        System.out.println(this);
+        System.out.println("polynomial:" + this);
     }
 
     public int size(){
@@ -120,9 +120,6 @@ public class Polynomial {
         if (c == 0) {
             terms.remove(d);
             return this;
-        }
-        if (c < 0) {
-            c += modulus;
         }
         terms.put(d, c % modulus);
         return this;

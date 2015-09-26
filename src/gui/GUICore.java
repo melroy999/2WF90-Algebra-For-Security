@@ -74,18 +74,23 @@ public class GUICore extends JFrame {
                     return;
                 }
                 Polynomial p1 = new Polynomial(Integer.parseInt(mod), p1s);
-                Polynomial p2 = new Polynomial(Integer.parseInt(mod), p1s);
+                Polynomial p2 = new Polynomial(Integer.parseInt(mod), p2s);
                 Polynomial result;
+
+                String operator;
 
                 if (op.equals("Addition")) {
                     result = p1.add(p2);
+                    operator = ") + (";
                 } else if (op.equals("Subtraction")) {
                     result = p1.subtract(p2);
+                    operator = ") - (";
                 } else {
                     result = p1.multiply(p2);
+                    operator = ") * (";
                 }
 
-                resultPane.setText(result.toString());
+                resultPane.setText("(" + p1.toString() + operator + p2.toString() + ") \u2261 " + result.toString() + " (mod " + mod + ")");
             }
         });
     }
