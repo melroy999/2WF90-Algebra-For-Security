@@ -3,46 +3,19 @@ package parser.tree;
 /**
  * Created by Melroy van Nijnatten - 0849740.
  */
-public class TreeNode {
-    protected TreeNode parent = null;
-    protected TreeNode[] child = new TreeNode[2];
-    protected final String value;
-
-    public TreeNode(String value) {
-        this.value = value;
+public class MinusNode extends OperatorNode {
+    public MinusNode(String value) {
+        super(value);
     }
 
-    public String getValue() {
-        return value;
+    @Override
+    public TreeNode getRightNode() {
+        return super.getLeftNode();
     }
 
-    public TreeNode getLeftNode(){
-        return child[0];
-    }
-
-    public TreeNode getRightNode(){
-        return child[1];
-    }
-
-    public TreeNode setLeftNode(TreeNode node) {
-        this.child[0] = node;
-        node.setParent(this);
-        return this;
-    }
-
+    @Override
     public TreeNode setRightNode(TreeNode node) {
-        this.child[1] = node;
-        node.setParent(this);
-        return this;
-    }
-
-    public TreeNode getParent(){
-        return parent;
-    }
-
-    public TreeNode setParent(TreeNode node) {
-        this.parent = node;
-        return this;
+        return super.setLeftNode(node);
     }
 
     /**
@@ -68,17 +41,9 @@ public class TreeNode {
      */
     @Override
     public String toString() {
-        String s = "";
-        if(getLeftNode() != null | getRightNode() != null){
-            s = value + ">[";
-            if(getLeftNode() != null){
-                s = s + getLeftNode().toString();
-            }
-            s = s + ",";
-            if(getRightNode() != null){
-                s = s + getRightNode().toString();
-            }
-            s = s + "]";
+        String s;
+        if(getLeftNode() != null){
+            s = value + ">[" + getLeftNode().toString() + "]";
         } else {
             s=value;
         }
