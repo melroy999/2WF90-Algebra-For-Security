@@ -24,6 +24,14 @@ public class TreeNode {
         return child[1];
     }
 
+    public boolean hasChildren(){
+        return child[0] != null || child[1] != null;
+    }
+
+    public boolean hasParent(){
+        return parent != null;
+    }
+
     public TreeNode setLeftNode(TreeNode node) {
         this.child[0] = node;
         node.setParent(this);
@@ -43,6 +51,10 @@ public class TreeNode {
     public TreeNode setParent(TreeNode node) {
         this.parent = node;
         return this;
+    }
+
+    public TreeNode[] getChildren(){
+        return child;
     }
 
     /**
