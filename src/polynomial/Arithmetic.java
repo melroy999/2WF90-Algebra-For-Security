@@ -1,5 +1,7 @@
 package polynomial;
 
+import java.util.List;
+
 /**
  * Created by Melroy van Nijnatten - 0849740.
  */
@@ -30,6 +32,14 @@ public class Arithmetic {
         Polynomial result = new Polynomial(p1.getModulus());
         for (int i : p1.keySet()) {
             result.addTerm(scalar * p1.getCoefficient(i), i);
+        }
+        return result;
+    }
+
+    public static Polynomial scalarDivision(Polynomial p1, int scalar) {
+        Polynomial result = new Polynomial(p1.getModulus());
+        for (int i : p1.keySet()) {
+            result.addTerm(p1.getCoefficient(i) / scalar, i);
         }
         return result;
     }
@@ -84,25 +94,18 @@ public class Arithmetic {
             u = Arithmetic.difference(x0, Arithmetic.product(q, u));
             v = Arithmetic.difference(y0, Arithmetic.product(q, v));
         }
-        return new Polynomial[]{x, y, Arithmetic.sum(Arithmetic.product(x, p1), Arithmetic.product(y, p2))};
-        /*Input: polynomials a and b
-        Output: polynomials x, y with gcd(a; b) = xa + yb
-        Step 1: x   1, v   1, y   0, u   0
-        Step 2: while b 6= 0 do
-        q   quot(a; b),
-        a   b,
-        b   rem(a; b),
-        x0   x,
-        y0   y,
-        x   u,
-        y   v,
-        u   x0 - qu,
-        v   y0 - qv
-        Step 3: output x, y*/
+        Polynomial result = Arithmetic.sum(Arithmetic.product(x, p1), Arithmetic.product(y, p2));
+        int divide = Arithmetic.gcd_list(result.getAllCoefficients());
+        if (divide != 1) {
+            result = Arithmetic.scalarDivision(result, divide);
+        }
+        return new Polynomial[]{x, y, result, new Polynomial(Integer.MAX_VALUE, "" + divide)};
     }
 
     public static Object[] equalModuloPolynomial(Polynomial p1, Polynomial p2, Polynomial p3) {
-        return new Object[]{};
+        Polynomial p1mod = longDivision(p1, p3)[1];
+        Polynomial p2mod = longDivision(p2, p3)[1];
+        return new Object[]{p1mod, p2mod, p1mod.isEqual(p2mod)};
     }
 
     private static int modularDivision(int p, int q, int modulus) {
@@ -111,6 +114,23 @@ public class Arithmetic {
         return p * inverse;
     }
 
+    private static int gcd_list(List<Integer> y) {
+        if (y.size() == 1) {
+            return y.get(0);
+        }
+        if (y.size() == 2) {
+            return gcd(y.get(0), y.get(1));
+        }
+        int h = y.size() / 2;
+        return gcd(gcd_list(y.subList(0, h - 1)), gcd_list(y.subList(h, y.size() - 1)));
+    }
+
+    public static int gcd(int a, int b) {
+        if (b == 0) return a;
+        return gcd(b, a % b);
+    }
+
+    //extended euclidean for integers
     private static int[] gcd(int p, int q, int modulus) {
         if (q == 0) {
             return new int[]{p, 1, 0};

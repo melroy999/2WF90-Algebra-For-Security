@@ -3,6 +3,7 @@ package polynomial;
 import parser.Parser;
 import parser.tree.TreeNode;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
@@ -165,6 +166,14 @@ public class Polynomial {
         return Arithmetic.scalar(this, scalar);
     }
 
+    public ArrayList<Integer> getAllCoefficients() {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        for (int degree : terms.keySet()) {
+            result.add(getCoefficient(degree));
+        }
+        return result;
+    }
+
     public Polynomial difference(Polynomial q) {
         return Arithmetic.difference(this, q);
     }
@@ -191,6 +200,28 @@ public class Polynomial {
 
     public boolean isEmpty() {
         return terms.isEmpty();
+    }
+
+    public boolean isEqual(Polynomial q) {
+        ArrayList<Integer> p_coeff_pos = new ArrayList<Integer>();
+        for (int i : this.getAllCoefficients()) {
+            if (i < 0) {
+                i += modulus;
+            }
+            p_coeff_pos.add(i);
+        }
+
+        ArrayList<Integer> q_coeff_pos = new ArrayList<Integer>();
+        for (int i : q.getAllCoefficients()) {
+            if (i < 0) {
+                i += modulus;
+            }
+            q_coeff_pos.add(i);
+        }
+
+        System.out.println(p_coeff_pos.equals(q_coeff_pos));
+        System.out.println(q.keySet().equals(this.keySet()));
+        return p_coeff_pos.equals(q_coeff_pos) && q.keySet().equals(this.keySet());
     }
 
     /*

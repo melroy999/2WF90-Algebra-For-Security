@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
  * Created by Melroy van Nijnatten - 0849740.
  */
 public class GUICore extends JFrame {
-    private JPanel mainPane;
+    public JPanel mainPane;
     private JTextField polynomial1;
     private JTextField polynomial2;
     private JTextPane resultPane;
@@ -170,6 +170,7 @@ public class GUICore extends JFrame {
 
     public void solveSum(String p1s, String p2s, String mod) {
         addResultText("To Solve:");
+
         addResultText("(" + p1s + ") + (" + p2s + ") ≡ ? (mod " + mod + ")");
         addResultText("");
 
@@ -182,7 +183,7 @@ public class GUICore extends JFrame {
         addResultText("");
 
         Polynomial result = Arithmetic.sum(p1, p2);
-        addResultText("Solution: ");
+        addResultText("Solution:");
         addResultText("(" + p1.toString() + ") + (" + p2.toString() + ") ≡ " + result.toString() + " (mod " + modulus + ")");
     }
 
@@ -200,7 +201,8 @@ public class GUICore extends JFrame {
         addResultText("");
 
         Polynomial result = Arithmetic.difference(p1, p2);
-        addResultText("Solution: ");
+        addResultText("Solution:");
+
         addResultText("(" + p1.toString() + ") - (" + p2.toString() + ") ≡ " + result.toString() + " (mod " + modulus + ")");
     }
 
@@ -218,7 +220,7 @@ public class GUICore extends JFrame {
         addResultText("");
 
         Polynomial result = Arithmetic.product(p1, p2);
-        addResultText("Solution: ");
+        addResultText("Solution:");
         addResultText("(" + p1.toString() + ") * (" + p2.toString() + ") ≡ " + result.toString() + " (mod " + modulus + ")");
     }
 
@@ -235,7 +237,7 @@ public class GUICore extends JFrame {
         addResultText("");
 
         Polynomial result = Arithmetic.scalar(p1, scalar);
-        addResultText("Solution: ");
+        addResultText("Solution:");
         addResultText(scalar + " * (" + p1.toString() + ") ≡ " + result.toString() + " (mod " + modulus + ")");
     }
 
@@ -253,7 +255,7 @@ public class GUICore extends JFrame {
         addResultText("");
 
         Polynomial[] result = Arithmetic.longDivision(p1, p2);
-        addResultText("Solution: ");
+        addResultText("Solution:");
         assert result != null;
         assert result.length > 1;
         addResultText("(" + p1.toString() + ") / (" + p2.toString() + ") ≡ (" + result[0].toString() + ") * (" + p2.toString() + ") + " + result[1].toString() + " (mod " + modulus + ")");
@@ -275,12 +277,15 @@ public class GUICore extends JFrame {
         addResultText("");
 
         Polynomial[] result = Arithmetic.extendedEuclideanAlgorithm(p1, p2);
-        addResultText("Solution: ");
+        addResultText("Solution:");
         assert result != null;
-        assert result.length > 2;
+        assert result.length > 3;
         addResultText("gcd(" + p1.toString() + "," + p2.toString() + ") ≡ ((" + p1.toString() + ") * (" + result[0].toString() + ") + (" + p2.toString() + ") * (" + result[1].toString() + ")) (mod " + mod + ")");
         addResultText("x = " + result[0].toString());
         addResultText("y = " + result[1].toString());
+        if (!result[3].toString().equals("1")) {
+            addResultText("The above gcd does not have leading coefficient 1. All terms have to be divided by " + result[3].toString() + ".");
+        }
         addResultText("gcd(" + p1.toString() + "," + p2.toString() + ") = " + result[2].toString());
     }
 
@@ -305,7 +310,7 @@ public class GUICore extends JFrame {
         Polynomial resultP1 = (Polynomial) result[0];
         Polynomial resultP2 = (Polynomial) result[1];
         boolean isEqual = (Boolean) result[2];
-        addResultText("Solution: ");
+        addResultText("Solution:");
         addResultText("((" + p1.toString() + ") (mod " + mod + ")) ≡ ((" + p2.toString() + ") (mod " + mod + ")) (mod " + p3.toString() + ")");
         addResultText(resultP1.toString() + " ≡ " + resultP2.toString() + " (mod " + p3.toString() + ")");
         addResultText(isEqual ? "Does hold." : "Does not hold.");
