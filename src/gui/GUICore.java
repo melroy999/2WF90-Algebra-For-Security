@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
  * Created by Melroy van Nijnatten - 0849740.
  */
 public class GUICore extends JFrame {
-    private static GUICore core;
     private JPanel mainPane;
     private JTextField polynomial1;
     private JTextField polynomial2;
@@ -21,6 +20,7 @@ public class GUICore extends JFrame {
     private JPanel parameters;
     private JButton swapButton;
     private JButton eraseButton;
+    private JTabbedPane tabbedPane1;
 
     public GUICore() {
         swapButton.addActionListener(new ActionListener() {
@@ -52,7 +52,6 @@ public class GUICore extends JFrame {
                 operation.setSelectedIndex(0);
             }
         });
-        resultPane.setText("Solution should appear here... I hope...");
         solve.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -104,7 +103,6 @@ public class GUICore extends JFrame {
     }
 
     public static void main(String[] args) {
-        core = new GUICore();
         JFrame frame = new JFrame("Assignment 2WF90 - October 2015 - Stefan Habets & Melroy van Nijnatten");
         init();
         frame.setContentPane(new GUICore().mainPane);
@@ -129,7 +127,5 @@ public class GUICore extends JFrame {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
-        String[] options = new String[]{"", "Addition", "Subtraction", "Multiplication"};
-        core.operation = new JComboBox(options);
     }
 }
