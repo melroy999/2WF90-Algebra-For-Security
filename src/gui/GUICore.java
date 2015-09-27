@@ -74,6 +74,11 @@ public class GUICore extends JFrame {
                 String p3s = polynomial3.getText();
                 String mod = modulus.getText();
 
+                if (!Arithmetic.isPrime(Integer.parseInt(mod))) {
+                    addResultText("Please add a modulus that is a prime number.");
+                    return;
+                }
+
                 if (operation.equals("Sum")) {
                     solveSum(p1s, p2s, mod);
                 } else if (operation.equals("Difference")) {

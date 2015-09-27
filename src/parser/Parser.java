@@ -98,7 +98,6 @@ public class Parser {
 
         //process everything else, including brackets.
         TreeNode parent = process(nodes);
-        System.out.println(parent);
 
         return parent;
     }

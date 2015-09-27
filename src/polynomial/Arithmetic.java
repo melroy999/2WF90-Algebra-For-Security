@@ -71,17 +71,18 @@ public class Arithmetic {
         Polynomial v = new Polynomial(p1.getModulus(), "1");
         Polynomial y = new Polynomial(p1.getModulus(), "0");
         Polynomial u = new Polynomial(p1.getModulus(), "0");
-        while (!b.isEmpty()) {
+        while (!b.toString().equals("0")) {
+            System.out.println(a + ", " + b + ", " + x + ", " + y + ", " + v + ", " + u);
             Polynomial[] temp = longDivision(a, b);
-            Polynomial q = temp[0];
-            a = b;
-            b = temp[1];
-            Polynomial x0 = x;
-            Polynomial y0 = y;
-            x = u;
-            y = v;
+            Polynomial q = temp[0].clone();
+            a = b.clone();
+            b = temp[1].clone();
+            Polynomial x0 = x.clone();
+            Polynomial y0 = y.clone();
+            x = u.clone();
+            y = v.clone();
             u = Arithmetic.difference(x0, Arithmetic.product(q, u));
-            b = Arithmetic.difference(y0, Arithmetic.product(q, b));
+            v = Arithmetic.difference(y0, Arithmetic.product(q, v));
         }
         return new Polynomial[]{x, y, Arithmetic.sum(Arithmetic.product(x, p1), Arithmetic.product(y, p2))};
         /*Input: polynomials a and b
@@ -125,5 +126,17 @@ public class Arithmetic {
         }
 
         return new int[]{d, a, b};
+    }
+
+    //http://stackoverflow.com/questions/14650360/very-simple-prime-number-test-i-think-im-not-understanding-the-for-loop
+    public static boolean isPrime(long n) {
+        // fast even test.
+        if (n > 2 && (n & 1) == 0)
+            return false;
+        // only odd factors need to be tested up to n^0.5
+        for (int i = 3; i * i <= n; i += 2)
+            if (n % i == 0)
+                return false;
+        return true;
     }
 }
