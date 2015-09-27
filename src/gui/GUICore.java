@@ -3,6 +3,7 @@ package gui;
 import polynomial.Polynomial;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -85,7 +86,7 @@ public class GUICore extends JFrame {
                 addResultText(p2s + " \u2261 " + p2.toString() + " (mod " + mod + ")");
                 addResultText("");
 
-                Polynomial result = null;
+                Polynomial result;
 
                 String operator;
 
@@ -96,11 +97,8 @@ public class GUICore extends JFrame {
                     result = p1.difference(p2);
                     operator = ") - (";
                 } else if (operation.equals("Product")) {
-                    result = p1.difference(p2);
+                    result = p1.product(p2);
                     operator = ") * (";
-                } else if (operation.equals("Difference")) {
-                    result = p1.difference(p2);
-                    operator = ") - (";
                 } else if (operation.equals("Scalar Multiple")) {
                     result = p1.scalarMultiplication(p2.getCoefficient(0));
                     operator = "*  (";
@@ -176,6 +174,9 @@ public class GUICore extends JFrame {
 
         polynomial3.setVisible(false);
         polynomial3label.setVisible(false);
+
+        Font f = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
+        resultPane.setFont(f);
     }
 
     public static void main(String[] args) {
