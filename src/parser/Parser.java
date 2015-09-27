@@ -98,6 +98,7 @@ public class Parser {
 
         //process everything else, including brackets.
         TreeNode parent = process(nodes);
+        System.out.println(parent);
 
         return parent;
     }
@@ -211,6 +212,7 @@ public class Parser {
                 nodes.remove(next);
 
                 //go back one step, as we might miss the next multiplication.
+                i--;
             }
         }
 
