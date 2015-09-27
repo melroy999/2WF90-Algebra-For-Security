@@ -20,8 +20,22 @@ public class Polynomial {
 
     public Polynomial(int modulus, String s) {
         this.modulus = modulus;
-        this.terms = (TreeMap<Integer, Integer>) nodesToPoly(Parser.parse(s)).terms.clone();
+        this.terms = nodesToPoly(Parser.parse(s)).getTerms();
         System.out.println("polynomial:" + this);
+    }
+
+    public static String superscript(String str) {
+        str = str.replaceAll("0", "⁰");
+        str = str.replaceAll("1", "¹");
+        str = str.replaceAll("2", "²");
+        str = str.replaceAll("3", "³");
+        str = str.replaceAll("4", "⁴");
+        str = str.replaceAll("5", "⁵");
+        str = str.replaceAll("6", "⁶");
+        str = str.replaceAll("7", "⁷");
+        str = str.replaceAll("8", "⁸");
+        str = str.replaceAll("9", "⁹");
+        return str;
     }
 
     public int size(){
@@ -37,7 +51,7 @@ public class Polynomial {
     }
 
     public TreeMap<Integer, Integer> getTerms() {
-        return terms;
+        return (TreeMap<Integer, Integer>) terms.clone();
     }
 
     /**
@@ -54,7 +68,7 @@ public class Polynomial {
             if (coefficient != 0) {
                 standardForm += (coefficient > 0 ? (coefficient == 1 && degree != 0 ? "" : coefficient) : coefficient == -1 && degree != 0 ? "-" : coefficient);
                 standardForm += (degree == 0 ? "" : "X");
-                standardForm += (degree > 1 ? "^" + degree : "");
+                standardForm += (degree > 1 ? superscript(String.valueOf(degree)) : "");
                 standardForm += (iterator.hasNext() ? " + " : "");
             }
         }
