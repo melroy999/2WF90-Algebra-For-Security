@@ -55,9 +55,8 @@ public class Arithmetic {
         Polynomial q = new Polynomial(p1.getModulus(), "0");
         Polynomial r = p1.clone();
         while (r.degree() >= p2.degree()) {
-            System.out.println(r.degree() + ", " + p2.degree());
             Polynomial toAdd = new Polynomial(p1.getModulus());
-            toAdd.addTerm(modularDivision(r.getLeadingCoefficient(), p2.getLeadingCoefficient(), p1.getModulus()), r.degree() - q.degree());
+            toAdd.addTerm(modularDivision(r.getLeadingCoefficient(), p2.getLeadingCoefficient(), p1.getModulus()), r.degree() - p2.degree());
 
             q = q.sum(toAdd);
             r = r.difference(toAdd.product(p2));
