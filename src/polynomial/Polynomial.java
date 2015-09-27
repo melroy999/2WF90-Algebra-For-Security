@@ -93,15 +93,15 @@ public class Polynomial {
 
         if(current.getValue().equals("-")){
             assert leftChildP != null;
-            result = leftChildP.scalar(-1);
+            result = leftChildP.scalarMultiplication(-1);
         } else if(current.getValue().equals("+")){
             assert leftChildP != null;
             assert rightChildP != null;
-            result = leftChildP.add(rightChildP);
+            result = leftChildP.sum(rightChildP);
         } else if(current.getValue().equals("*")) {
             assert leftChildP != null;
             assert rightChildP != null;
-            result = leftChildP.multiply(rightChildP);
+            result = leftChildP.product(rightChildP);
         } else {//no children! so must be term
             int d = 0;
             int c;
@@ -117,7 +117,7 @@ public class Polynomial {
         return result;
     }
 
-    public Polynomial addTerm(int c, int d) {
+    protected Polynomial addTerm(int c, int d) {
         c += this.getCoefficient(d) % modulus;
         if (c == 0) {
             terms.remove(d);
@@ -127,7 +127,7 @@ public class Polynomial {
         return this;
     }
 
-    public Polynomial scalar(int scalar) {
+    public Polynomial scalarMultiplication(int scalar) {
         Polynomial result = new Polynomial(modulus);
         for (int i : terms.keySet()) {
             result.addTerm(scalar * terms.get(i), i);
@@ -135,12 +135,12 @@ public class Polynomial {
         return result;
     }
 
-    public Polynomial subtract(Polynomial q) {
-        Polynomial sub = q.scalar(-1);
-        return this.add(sub);
+    public Polynomial difference(Polynomial q) {
+        Polynomial sub = q.scalarMultiplication(-1);
+        return this.sum(sub);
     }
 
-    public Polynomial add(Polynomial q){
+    public Polynomial sum(Polynomial q) {
         Polynomial result = new Polynomial(modulus);
         for(Integer i : this.keySet()){
             result.addTerm(this.getCoefficient(i), i);
@@ -151,7 +151,7 @@ public class Polynomial {
         return result;
     }
 
-    public Polynomial multiply(Polynomial q){
+    public Polynomial product(Polynomial q) {
         Polynomial result = new Polynomial(modulus);
 
         for(int p_d : this.keySet()){
@@ -162,4 +162,15 @@ public class Polynomial {
 
         return result;
     }
+
+    /*
+    TODO:
+    - sum p1 + p2
+    - scalar multiple of p1
+    - difference of p1 and p2
+    - product of p1 and p2
+    - quotient and remainder (long division) upon input of p1 and p2
+    - (extended) euclidean algorithm for p1 and p2
+    - decide whether p1 and p2 mod p are equal modulo p3.
+     */
 }
