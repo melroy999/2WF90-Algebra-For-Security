@@ -1,5 +1,6 @@
 package gui;
 
+import polynomial.Arithmetic;
 import polynomial.Polynomial;
 
 import javax.swing.*;
@@ -66,55 +67,28 @@ public class GUICore extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clearResultPane();
+
+                String operation = arithmetic.getSelectedItem().toString();
                 String p1s = polynomial1.getText();
                 String p2s = polynomial2.getText();
+                String p3s = polynomial3.getText();
                 String mod = modulus.getText();
-                String operation = arithmetic.getSelectedItem().toString();
-                if (p1s.equals("") || p2s.equals("")) {
-                    resultPane.setText("Please insert two polynomials.");
-                    return;
-                }
-                if (mod.equals("")) {
-                    resultPane.setText("Please insert modulus value.");
-                    return;
-                }
-
-                addResultText("Simplified given polynomials:");
-                Polynomial p1 = new Polynomial(Integer.parseInt(mod), p1s);
-                addResultText(p1s + " \u2261 " + p1.toString() + " (mod " + mod + ")");
-                Polynomial p2 = new Polynomial(Integer.parseInt(mod), p2s);
-                addResultText(p2s + " \u2261 " + p2.toString() + " (mod " + mod + ")");
-                addResultText("");
-
-                Polynomial result;
-
-                String operator;
 
                 if (operation.equals("Sum")) {
-                    result = p1.sum(p2);
-                    operator = ") + (";
+                    solveSum(p1s, p2s, mod);
                 } else if (operation.equals("Difference")) {
-                    result = p1.difference(p2);
-                    operator = ") - (";
+                    solveDifference(p1s, p2s, mod);
                 } else if (operation.equals("Product")) {
-                    result = p1.product(p2);
-                    operator = ") * (";
+                    solveproduct(p1s, p2s, mod);
                 } else if (operation.equals("Scalar Multiple")) {
-                    result = p1.scalarMultiplication(p2.getCoefficient(0));
-                    operator = "*  (";
+                    solveScalarMultiple(p1s, p2s, mod);
                 } else if (operation.equals("Long Division")) {
-                    result = p1.scalarMultiplication(p2.getCoefficient(0));
-                    operator = ") / (";
+                    solveLongDivision(p1s, p2s, mod);
                 } else if (operation.equals("Extended Euclidean Algorithm")) {
-                    result = p1.scalarMultiplication(p2.getCoefficient(0));
-                    operator = ") - (";
+                    solveExtendedEuclideanAlgorithm(p1s, p2s, mod);
                 } else {
-                    result = p1;
-                    operator = ") * (";
+                    solveEqualModuloPolynomial(p1s, p2s, p3s, mod);
                 }
-
-                addResultText("Result:");
-                addResultText("(" + p1.toString() + operator + p2.toString() + ") \u2261 " + result.toString() + " (mod " + mod + ")");
             }
         });
         arithmetic.addActionListener(new ActionListener() {
@@ -126,48 +100,12 @@ public class GUICore extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String operation = arithmetic.getSelectedItem().toString();
-                if (operation.equals("Sum")) {
-                    polynomial1.setVisible(true);
-                    polynomial2.setVisible(true);
-                    polynomial3.setVisible(false);
-                    polynomial2label.setText("Polynomial 2:");
-                    polynomial3label.setVisible(false);
-                } else if (operation.equals("Difference")) {
-                    polynomial1.setVisible(true);
-                    polynomial2.setVisible(true);
-                    polynomial3.setVisible(false);
-                    polynomial2label.setText("Polynomial 2:");
-                    polynomial3label.setVisible(false);
-                } else if (operation.equals("Product")) {
-                    polynomial1.setVisible(true);
-                    polynomial2.setVisible(true);
-                    polynomial3.setVisible(false);
-                    polynomial2label.setText("Polynomial 2:");
-                    polynomial3label.setVisible(false);
-                } else if (operation.equals("Scalar Multiple")) {
-                    polynomial1.setVisible(true);
-                    polynomial2.setVisible(true);
-                    polynomial3.setVisible(false);
-                    polynomial2label.setText("Scalar:");
-                    polynomial3label.setVisible(false);
-                } else if (operation.equals("Long Division")) {
-                    polynomial1.setVisible(true);
-                    polynomial2.setVisible(true);
-                    polynomial3.setVisible(false);
-                    polynomial2label.setText("Polynomial 2:");
-                    polynomial3label.setVisible(false);
-                } else if (operation.equals("Extended Euclidean Algorithm")) {
-                    polynomial1.setVisible(true);
-                    polynomial2.setVisible(true);
-                    polynomial3.setVisible(false);
-                    polynomial2label.setText("Polynomial 2:");
-                    polynomial3label.setVisible(false);
+                if (operation.equals("Scalar Multiple")) {
+                    showScalar();
+                } else if (operation.equals("Equal mod p3")) {
+                    showThreePolynomials();
                 } else {
-                    polynomial1.setVisible(true);
-                    polynomial2.setVisible(true);
-                    polynomial3.setVisible(true);
-                    polynomial2label.setText("Polynomial 2:");
-                    polynomial3label.setVisible(true);
+                    showTwoPolynomials();
                 }
             }
         });
@@ -181,7 +119,6 @@ public class GUICore extends JFrame {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Assignment 2WF90 - October 2015 - Stefan Habets & Melroy van Nijnatten");
-        init();
         frame.setContentPane(new GUICore().mainPane);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -190,8 +127,28 @@ public class GUICore extends JFrame {
         frame.setVisible(true);
     }
 
-    public static void init() {
+    private void showThreePolynomials() {
+        polynomial1.setVisible(true);
+        polynomial2.setVisible(true);
+        polynomial3.setVisible(true);
+        polynomial2label.setText("Polynomial 2:");
+        polynomial3label.setVisible(true);
+    }
 
+    private void showScalar() {
+        polynomial1.setVisible(true);
+        polynomial2.setVisible(true);
+        polynomial3.setVisible(false);
+        polynomial2label.setText("Scalar:");
+        polynomial3label.setVisible(false);
+    }
+
+    private void showTwoPolynomials() {
+        polynomial1.setVisible(true);
+        polynomial2.setVisible(true);
+        polynomial3.setVisible(false);
+        polynomial2label.setText("Polynomial 2:");
+        polynomial3label.setVisible(false);
     }
 
     public void addResultText(String message) {
@@ -204,5 +161,148 @@ public class GUICore extends JFrame {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
+    }
+
+    public void solveSum(String p1s, String p2s, String mod) {
+        addResultText("To Solve:");
+        addResultText("(" + p1s + ") + (" + p2s + ") ≡ ? (mod " + mod + ")");
+        addResultText("");
+
+        int modulus = Integer.parseInt(mod);
+        Polynomial p1 = new Polynomial(modulus, p1s);
+        Polynomial p2 = new Polynomial(modulus, p2s);
+        addResultText("Parsed Polynomials:");
+        addResultText(p1s + " ≡ " + p1.toString() + " (mod " + modulus + ")");
+        addResultText(p2s + " ≡ " + p2.toString() + " (mod " + modulus + ")");
+        addResultText("");
+
+        Polynomial result = Arithmetic.sum(p1, p2);
+        addResultText("Solution: ");
+        addResultText("(" + p1.toString() + ") + (" + p2.toString() + ") ≡ " + result.toString() + " (mod " + modulus + ")");
+    }
+
+    public void solveDifference(String p1s, String p2s, String mod) {
+        addResultText("To Solve:");
+        addResultText("(" + p1s + ") - (" + p2s + ") ≡ ? (mod " + mod + ")");
+        addResultText("");
+
+        int modulus = Integer.parseInt(mod);
+        Polynomial p1 = new Polynomial(modulus, p1s);
+        Polynomial p2 = new Polynomial(modulus, p2s);
+        addResultText("Parsed Polynomials:");
+        addResultText(p1s + " ≡ " + p1.toString() + " (mod " + modulus + ")");
+        addResultText(p2s + " ≡ " + p2.toString() + " (mod " + modulus + ")");
+        addResultText("");
+
+        Polynomial result = Arithmetic.difference(p1, p2);
+        addResultText("Solution: ");
+        addResultText("(" + p1.toString() + ") - (" + p2.toString() + ") ≡ " + result.toString() + " (mod " + modulus + ")");
+    }
+
+    public void solveproduct(String p1s, String p2s, String mod) {
+        addResultText("To Solve:");
+        addResultText("(" + p1s + ") * (" + p2s + ") ≡ ? (mod " + mod + ")");
+        addResultText("");
+
+        int modulus = Integer.parseInt(mod);
+        Polynomial p1 = new Polynomial(modulus, p1s);
+        Polynomial p2 = new Polynomial(modulus, p2s);
+        addResultText("Parsed Polynomials:");
+        addResultText(p1s + " ≡ " + p1.toString() + " (mod " + modulus + ")");
+        addResultText(p2s + " ≡ " + p2.toString() + " (mod " + modulus + ")");
+        addResultText("");
+
+        Polynomial result = Arithmetic.product(p1, p2);
+        addResultText("Solution: ");
+        addResultText("(" + p1.toString() + ") * (" + p2.toString() + ") ≡ " + result.toString() + " (mod " + modulus + ")");
+    }
+
+    public void solveScalarMultiple(String p1s, String scalars, String mod) {
+        addResultText("To Solve:");
+        addResultText(scalars + " * (" + p1s + ") ≡ ? (mod " + mod + ")");
+        addResultText("");
+
+        int modulus = Integer.parseInt(mod);
+        Polynomial p1 = new Polynomial(modulus, p1s);
+        int scalar = Integer.parseInt(scalars);
+        addResultText("Parsed Polynomials:");
+        addResultText(p1s + " ≡ " + p1.toString() + " (mod " + modulus + ")");
+        addResultText("");
+
+        Polynomial result = Arithmetic.scalar(p1, scalar);
+        addResultText("Solution: ");
+        addResultText(scalar + " * (" + p1.toString() + ") ≡ " + result.toString() + " (mod " + modulus + ")");
+    }
+
+    public void solveLongDivision(String p1s, String p2s, String mod) {
+        addResultText("To Solve:");
+        addResultText("((" + p1s + ") / (" + p2s + ")) (mod " + mod + ") ≡ (q * (" + p2s + ") + r) (mod " + mod + "),     q = ?, r = ?");
+        addResultText("");
+
+        int modulus = Integer.parseInt(mod);
+        Polynomial p1 = new Polynomial(modulus, p1s);
+        Polynomial p2 = new Polynomial(modulus, p2s);
+        addResultText("Parsed Polynomials:");
+        addResultText(p1s + " ≡ " + p1.toString() + " (mod " + modulus + ")");
+        addResultText(p2s + " ≡ " + p2.toString() + " (mod " + modulus + ")");
+        addResultText("");
+
+        Polynomial[] result = Arithmetic.longDivision(p1, p2);
+        addResultText("Solution: ");
+        assert result != null;
+        assert result.length > 1;
+        addResultText("(" + p1.toString() + ") / (" + p2.toString() + ") ≡ (" + result[0].toString() + ") * (" + p2.toString() + ") + " + result[1].toString() + " (mod " + modulus + ")");
+        addResultText("q = " + result[0].toString());
+        addResultText("r = " + result[1].toString());
+    }
+
+    public void solveExtendedEuclideanAlgorithm(String p1s, String p2s, String mod) {
+        addResultText("To Solve:");
+        addResultText("gcd(" + p1s + "," + p2s + ") ≡ ((" + p1s + ") * x + (" + p2s + ") * y) (mod " + mod + "),     x = ?, y = ?");
+        addResultText("");
+
+        int modulus = Integer.parseInt(mod);
+        Polynomial p1 = new Polynomial(modulus, p1s);
+        Polynomial p2 = new Polynomial(modulus, p2s);
+        addResultText("Parsed Polynomials:");
+        addResultText(p1s + " ≡ " + p1.toString() + " (mod " + modulus + ")");
+        addResultText(p2s + " ≡ " + p2.toString() + " (mod " + modulus + ")");
+        addResultText("");
+
+        Polynomial[] result = Arithmetic.extendedEuclideanAlgorithm(p1, p2);
+        addResultText("Solution: ");
+        assert result != null;
+        assert result.length > 2;
+        addResultText("gcd(" + p1.toString() + "," + p2.toString() + ") ≡ ((" + p1.toString() + ") * (" + result[0].toString() + ") + (" + p2.toString() + ") * (" + result[1].toString() + ")) (mod " + mod + ")");
+        addResultText("x = " + result[0].toString());
+        addResultText("y = " + result[1].toString());
+        addResultText("gcd(" + p1.toString() + "," + p2.toString() + ") = " + result[2].toString());
+    }
+
+    public void solveEqualModuloPolynomial(String p1s, String p2s, String p3s, String mod) {
+        addResultText("To Solve:");
+        addResultText("((" + p1s + ") (mod " + mod + ")) (mod " + p3s + ") == ((" + p2s + ") (mod " + mod + ")) (mod " + p3s + ")");
+        addResultText("");
+
+        int modulus = Integer.parseInt(mod);
+        Polynomial p1 = new Polynomial(modulus, p1s);
+        Polynomial p2 = new Polynomial(modulus, p2s);
+        Polynomial p3 = new Polynomial(Integer.MAX_VALUE, p3s);
+        addResultText("Parsed Polynomials:");
+        addResultText(p1s + " ≡ " + p1.toString() + " (mod " + modulus + ")");
+        addResultText(p2s + " ≡ " + p2.toString() + " (mod " + modulus + ")");
+        addResultText(p3s + " = " + p3.toString());
+        addResultText("");
+
+        Object[] result = Arithmetic.equalModuloPolynomial(p1, p2, p3);
+        assert result != null;
+        assert result.length > 2;
+        Polynomial resultP1 = (Polynomial) result[0];
+        Polynomial resultP2 = (Polynomial) result[1];
+        boolean isEqual = (Boolean) result[2];
+        addResultText("Solution: ");
+        addResultText("((" + p1.toString() + ") (mod " + mod + ")) (mod " + p3.toString() + ") == ((" + p2.toString() + ") (mod " + mod + ")) (mod " + p3.toString() + ")");
+        addResultText(resultP1.toString() + " ≡ " + resultP2.toString() + " (mod " + p3.toString() + ")");
+        addResultText(isEqual ? "Does hold." : "Does not hold.");
     }
 }

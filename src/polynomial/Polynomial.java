@@ -38,6 +38,10 @@ public class Polynomial {
         return str;
     }
 
+    public int getModulus() {
+        return modulus;
+    }
+
     public int size(){
         return terms.size();
     }
@@ -107,7 +111,7 @@ public class Polynomial {
 
         if(current.getValue().equals("-")){
             assert leftChildP != null;
-            result = leftChildP.scalarMultiplication(-1);
+            result = leftChildP.scalar(-1);
         } else if(current.getValue().equals("+")){
             assert leftChildP != null;
             assert rightChildP != null;
@@ -141,40 +145,32 @@ public class Polynomial {
         return this;
     }
 
-    public Polynomial scalarMultiplication(int scalar) {
-        Polynomial result = new Polynomial(modulus);
-        for (int i : terms.keySet()) {
-            result.addTerm(scalar * terms.get(i), i);
-        }
-        return result;
+    public Polynomial scalar(int scalar) {
+        return Arithmetic.scalar(this, scalar);
     }
 
     public Polynomial difference(Polynomial q) {
-        Polynomial sub = q.scalarMultiplication(-1);
-        return this.sum(sub);
+        return Arithmetic.difference(this, q);
     }
 
     public Polynomial sum(Polynomial q) {
-        Polynomial result = new Polynomial(modulus);
-        for(Integer i : this.keySet()){
-            result.addTerm(this.getCoefficient(i), i);
-        }
-        for(Integer i : q.keySet()){
-            result.addTerm(q.getCoefficient(i), i);
-        }
-        return result;
+        return Arithmetic.sum(this, q);
     }
 
     public Polynomial product(Polynomial q) {
-        Polynomial result = new Polynomial(modulus);
+        return Arithmetic.product(this, q);
+    }
 
-        for(int p_d : this.keySet()){
-            for (int q_d : q.keySet()) {
-                result.addTerm(this.getCoefficient(p_d) * q.getCoefficient(q_d), p_d + q_d);
-            }
-        }
+    public Polynomial[] longDivision(Polynomial q) {
+        return null;
+    }
 
-        return result;
+    public void extendedEuclideanAlgorithm(Polynomial q) {
+
+    }
+
+    public void equalityModPolynomial(Polynomial q, Polynomial r) {
+
     }
 
     /*
