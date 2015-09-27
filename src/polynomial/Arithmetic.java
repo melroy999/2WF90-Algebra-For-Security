@@ -58,14 +58,46 @@ public class Arithmetic {
             Polynomial toAdd = new Polynomial(p1.getModulus());
             toAdd.addTerm(modularDivision(r.getLeadingCoefficient(), p2.getLeadingCoefficient(), p1.getModulus()), r.degree() - p2.degree());
 
-            q = q.sum(toAdd);
-            r = r.difference(toAdd.product(p2));
+            q = Arithmetic.sum(q, toAdd);
+            r = Arithmetic.difference(r, Arithmetic.product(toAdd, p2));
         }
         return new Polynomial[]{q, r};
     }
 
     public static Polynomial[] extendedEuclideanAlgorithm(Polynomial p1, Polynomial p2) {
-        return null;
+        Polynomial a = p1.clone();
+        Polynomial b = p2.clone();
+        Polynomial x = new Polynomial(p1.getModulus(), "1");
+        Polynomial v = new Polynomial(p1.getModulus(), "1");
+        Polynomial y = new Polynomial(p1.getModulus(), "0");
+        Polynomial u = new Polynomial(p1.getModulus(), "0");
+        while (!b.isEmpty()) {
+            Polynomial[] temp = longDivision(a, b);
+            Polynomial q = temp[0];
+            a = b;
+            b = temp[1];
+            Polynomial x0 = x;
+            Polynomial y0 = y;
+            x = u;
+            y = v;
+            u = Arithmetic.difference(x0, Arithmetic.product(q, u));
+            b = Arithmetic.difference(y0, Arithmetic.product(q, b));
+        }
+        return new Polynomial[]{x, y, Arithmetic.sum(Arithmetic.product(x, p1), Arithmetic.product(y, p2))};
+        /*Input: polynomials a and b
+        Output: polynomials x, y with gcd(a; b) = xa + yb
+        Step 1: x   1, v   1, y   0, u   0
+        Step 2: while b 6= 0 do
+        q   quot(a; b),
+        a   b,
+        b   rem(a; b),
+        x0   x,
+        y0   y,
+        x   u,
+        y   v,
+        u   x0 - qu,
+        v   y0 - qv
+        Step 3: output x, y*/
     }
 
     public static Object[] equalModuloPolynomial(Polynomial p1, Polynomial p2, Polynomial p3) {

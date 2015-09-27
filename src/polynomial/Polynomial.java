@@ -189,6 +189,10 @@ public class Polynomial {
 
     }
 
+    public boolean isEmpty() {
+        return terms.isEmpty();
+    }
+
     /*
     TODO:
     - sum p1 + p2
