@@ -12,7 +12,7 @@ import java.util.TreeMap;
  */
 public class Polynomial {
     private final int modulus;
-    private TreeMap<Integer, Integer> terms = new TreeMap<Integer, Integer>();
+    protected TreeMap<Integer, Integer> terms = new TreeMap<Integer, Integer>();
 
     public Polynomial(int modulus) {
         this.modulus = modulus;
@@ -21,7 +21,6 @@ public class Polynomial {
     public Polynomial(int modulus, String s) {
         this.modulus = modulus;
         this.terms = nodesToPoly(Parser.parse(s)).getTerms();
-        System.out.println("polynomial:" + this);
     }
 
     public static String superscript(String str) {
@@ -36,6 +35,23 @@ public class Polynomial {
         str = str.replaceAll("8", "⁸");
         str = str.replaceAll("9", "⁹");
         return str;
+    }
+
+    public int degree() {
+        if (!terms.isEmpty()) {
+            return terms.lastKey();
+        }
+        return 0;
+    }
+
+    public int getLeadingCoefficient() {
+        return getCoefficient(degree());
+    }
+
+    public Polynomial clone() {
+        Polynomial result = new Polynomial(modulus);
+        result.terms = this.getTerms();
+        return result;
     }
 
     public int getModulus() {

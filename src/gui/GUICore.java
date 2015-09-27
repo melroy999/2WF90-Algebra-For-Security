@@ -281,7 +281,7 @@ public class GUICore extends JFrame {
 
     public void solveEqualModuloPolynomial(String p1s, String p2s, String p3s, String mod) {
         addResultText("To Solve:");
-        addResultText("((" + p1s + ") (mod " + mod + ")) (mod " + p3s + ") == ((" + p2s + ") (mod " + mod + ")) (mod " + p3s + ")");
+        addResultText("((" + p1s + ") (mod " + mod + ")) (mod " + p3s + ") ≡ ((" + p2s + ") (mod " + mod + ")) (mod " + p3s + ")");
         addResultText("");
 
         int modulus = Integer.parseInt(mod);
@@ -301,7 +301,7 @@ public class GUICore extends JFrame {
         Polynomial resultP2 = (Polynomial) result[1];
         boolean isEqual = (Boolean) result[2];
         addResultText("Solution: ");
-        addResultText("((" + p1.toString() + ") (mod " + mod + ")) (mod " + p3.toString() + ") == ((" + p2.toString() + ") (mod " + mod + ")) (mod " + p3.toString() + ")");
+        addResultText("((" + p1.toString() + ") (mod " + mod + ")) ≡ ((" + p2.toString() + ") (mod " + mod + ")) (mod " + p3.toString() + ")");
         addResultText(resultP1.toString() + " ≡ " + resultP2.toString() + " (mod " + p3.toString() + ")");
         addResultText(isEqual ? "Does hold." : "Does not hold.");
     }

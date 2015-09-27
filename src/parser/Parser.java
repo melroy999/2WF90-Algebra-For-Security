@@ -11,7 +11,6 @@ import java.util.Stack;
  */
 public class Parser {
     public static TreeNode parse(String toParse){
-        System.out.println(toParse);
 
         //clean up the inserted string.
         toParse = toParse.trim();
@@ -72,7 +71,6 @@ public class Parser {
     }
 
     public static TreeNode makeTree(final String s){
-        System.out.println(s);
         //holds the current term, as we might have numbers not fitting in 0-9
         String currentTerm = "";
         //we process everything as characters.
@@ -100,7 +98,6 @@ public class Parser {
 
         //process everything else, including brackets.
         TreeNode parent = process(nodes);
-        System.out.println(parent);
 
         return parent;
     }

@@ -52,7 +52,17 @@ public class Arithmetic {
     }
 
     public static Polynomial[] longDivision(Polynomial p1, Polynomial p2) {
-        return null;
+        Polynomial q = new Polynomial(p1.getModulus(), "0");
+        Polynomial r = p1.clone();
+        while (r.degree() >= p2.degree()) {
+            System.out.println(r.degree() + ", " + p2.degree());
+            Polynomial toAdd = new Polynomial(p1.getModulus());
+            toAdd.addTerm(modularDivision(r.getLeadingCoefficient(), p2.getLeadingCoefficient(), p1.getModulus()), r.degree() - q.degree());
+
+            q = q.sum(toAdd);
+            r = r.difference(toAdd.product(p2));
+        }
+        return new Polynomial[]{q, r};
     }
 
     public static Polynomial[] extendedEuclideanAlgorithm(Polynomial p1, Polynomial p2) {
@@ -61,5 +71,28 @@ public class Arithmetic {
 
     public static Object[] equalModuloPolynomial(Polynomial p1, Polynomial p2, Polynomial p3) {
         return new Object[]{};
+    }
+
+    private static int modularDivision(int p, int q, int modulus) {
+        int[] gcd = gcd(q, modulus, modulus);
+        int inverse = gcd[1];
+        return p * inverse;
+    }
+
+    private static int[] gcd(int p, int q, int modulus) {
+        if (q == 0) {
+            return new int[]{p, 1, 0};
+        }
+
+        int[] results = gcd(q, p % q, modulus);
+        int d = results[0];
+        int a = results[2];
+        int b = results[1] - (p / q) * results[2];
+
+        if (a < 0) {
+            a += modulus;
+        }
+
+        return new int[]{d, a, b};
     }
 }
