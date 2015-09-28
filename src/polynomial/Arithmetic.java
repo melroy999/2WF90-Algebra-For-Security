@@ -144,24 +144,6 @@ public class Arithmetic {
     }
 
     //extended euclidean for integers
-    private static int[] gcdMagic(int p, int q, int modulus) {
-        if (q == 0) {
-            return new int[]{p, 1, 0};
-        }
-
-        int[] results = gcd(q, p % q, modulus);
-        int d = results[0];
-        int a = results[2];
-        int b = results[1] - (p / q) * results[2];
-
-        if (a < 0) {
-            a += modulus;
-        }
-
-        return new int[]{d, a, b};
-    }
-
-    //extended euclidean for integers
     private static int[] gcd(int p, int q, int modulus) {
         if (q == 0) {
             return new int[]{p, 1, 0};
@@ -172,9 +154,10 @@ public class Arithmetic {
         int a = results[2];
         int b = results[1] - (p / q) * results[2];
 
-        if (a < 0) {
+        //TODO check if this can be removed or not...
+        /*if (a < 0) {
             a += modulus;
-        }
+        }*/
 
         return new int[]{d, a, b};
     }
