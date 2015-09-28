@@ -218,6 +218,26 @@ public class Polynomial {
         return p_coeff_pos.equals(q_coeff_pos) && q.keySet().equals(this.keySet());
     }
 
+    public void makeCompletelyPositive() {
+        for (int degree : keySet()) {
+            int coefficient = getCoefficient(degree);
+            if (coefficient < 0) {
+                coefficient += modulus;
+                terms.put(degree, coefficient);
+            }
+        }
+    }
+
+    public void makeABSMinimal() {
+        makeCompletelyPositive();
+        for (int degree : keySet()) {
+            int coefficient = getCoefficient(degree);
+            if (coefficient > Math.abs(coefficient - modulus)) {
+                terms.put(degree, coefficient - modulus);
+            }
+        }
+    }
+
     /*
     TODO:
     - sum p1 + p2

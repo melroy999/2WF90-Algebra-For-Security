@@ -1,5 +1,6 @@
 package polynomial;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -68,8 +69,8 @@ public class Arithmetic {
         while (r.degree() >= p2.degree()) {
             System.out.println("q = " + q.toString() + ", r = " + r.toString());
             Polynomial toAdd = new Polynomial(p1.getModulus());
-            System.out.println(r.getLeadingCoefficient() + ", " + p2.getLeadingCoefficient() + ", " + modularDivision(r.getLeadingCoefficient(), p2.getLeadingCoefficient(), p1.getModulus()));
-            toAdd.addTerm(modularDivision(r.getLeadingCoefficient(), p2.getLeadingCoefficient(), p1.getModulus()), r.degree() - p2.degree());
+            //System.out.println(r.getLeadingCoefficient() + ", " + p2.getLeadingCoefficient() + ", " + modularDivision(r.getLeadingCoefficient(), p2.getLeadingCoefficient(), p1.getModulus()));
+            toAdd.addTerm(r.getLeadingCoefficient() * modularDivision(p2.getLeadingCoefficient(), p1.getModulus()), r.degree() - p2.degree());
 
             q = Arithmetic.sum(q, toAdd);
             r = Arithmetic.difference(r, Arithmetic.product(toAdd, p2));
@@ -107,11 +108,12 @@ public class Arithmetic {
             v = Arithmetic.difference(y0, Arithmetic.product(q, v));
         }
         Polynomial result = Arithmetic.sum(Arithmetic.product(x, p1), Arithmetic.product(y, p2));
-        /*int divide = Arithmetic.gcd_list(result.getAllCoefficients());
-        if (divide != 1) {
-            result = Arithmetic.scalarDivision(result, divide);
-        }*/
-        return new Polynomial[]{x, y, result, new Polynomial(Integer.MAX_VALUE, "" + 1)};
+        result.makeCompletelyPositive();
+
+        result = Arithmetic.scalar(result, modularDivision(result.getLeadingCoefficient(), p1.getModulus()));
+        result.makeABSMinimal();
+
+        return new Polynomial[]{x, y, result};
     }
 
     public static Object[] equalModuloPolynomial(Polynomial p1, Polynomial p2, Polynomial p3) {
@@ -120,10 +122,11 @@ public class Arithmetic {
         return new Object[]{p1mod, p2mod, p1mod.isEqual(p2mod)};
     }
 
-    private static int modularDivision(int p, final int q, int modulus) {
-        int[] gcd = gcd(q, modulus, modulus);
+    private static int modularDivision(final int q, int modulus) {
+        /*int[] gcd = gcd(q, modulus, modulus);
         int inverse = gcd[1];
-        return p * inverse;
+        return p * inverse;*/
+        return BigInteger.valueOf(q).modInverse(BigInteger.valueOf(modulus)).intValue();
     }
 
     private static int gcd_list(List<Integer> y) {

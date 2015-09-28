@@ -279,13 +279,10 @@ public class GUICore extends JFrame {
         Polynomial[] result = Arithmetic.extendedEuclideanAlgorithm(p1, p2);
         addResultText("Solution:");
         assert result != null;
-        assert result.length > 3;
+        assert result.length > 2;
         addResultText("gcd(" + p1.toString() + "," + p2.toString() + ") ≡ ((" + p1.toString() + ") * (" + result[0].toString() + ") + (" + p2.toString() + ") * (" + result[1].toString() + ")) (mod " + mod + ")");
         addResultText("x = " + result[0].toString());
         addResultText("y = " + result[1].toString());
-        if (!result[3].toString().equals("1")) {
-            addResultText("The above gcd does not have leading coefficient 1. All terms have to be divided by " + result[3].toString() + ".");
-        }
         addResultText("gcd(" + p1.toString() + "," + p2.toString() + ") = " + result[2].toString());
     }
 
