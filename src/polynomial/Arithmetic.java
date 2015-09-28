@@ -107,11 +107,11 @@ public class Arithmetic {
             v = Arithmetic.difference(y0, Arithmetic.product(q, v));
         }
         Polynomial result = Arithmetic.sum(Arithmetic.product(x, p1), Arithmetic.product(y, p2));
-        int divide = Arithmetic.gcd_list(result.getAllCoefficients());
+        /*int divide = Arithmetic.gcd_list(result.getAllCoefficients());
         if (divide != 1) {
             result = Arithmetic.scalarDivision(result, divide);
-        }
-        return new Polynomial[]{x, y, result, new Polynomial(Integer.MAX_VALUE, "" + divide)};
+        }*/
+        return new Polynomial[]{x, y, result, new Polynomial(Integer.MAX_VALUE, "" + 1)};
     }
 
     public static Object[] equalModuloPolynomial(Polynomial p1, Polynomial p2, Polynomial p3) {
@@ -121,17 +121,9 @@ public class Arithmetic {
     }
 
     private static int modularDivision(int p, final int q, int modulus) {
-        int[] gcd;
-        System.out.println(q);
-        if(q < 0){
-            gcd = gcd(q + modulus, modulus, modulus);
-        } else {
-            gcd = gcd(q, modulus, modulus);
-        }
+        int[] gcd = gcd(q, modulus, modulus);
         int inverse = gcd[1];
-        System.out.println(q);
-        int result = p * inverse;
-        return result;
+        return p * inverse;
     }
 
     private static int gcd_list(List<Integer> y) {
@@ -141,13 +133,32 @@ public class Arithmetic {
         if (y.size() == 2) {
             return gcd(y.get(0), y.get(1));
         }
+
         int h = y.size() / 2;
-        return gcd(gcd_list(y.subList(0, h - 1)), gcd_list(y.subList(h, y.size() - 1)));
+        return gcd(gcd_list(y.subList(0, h)), gcd_list(y.subList(h + 1, y.size())));
     }
 
     public static int gcd(int a, int b) {
         if (b == 0) return a;
         return gcd(b, a % b);
+    }
+
+    //extended euclidean for integers
+    private static int[] gcdMagic(int p, int q, int modulus) {
+        if (q == 0) {
+            return new int[]{p, 1, 0};
+        }
+
+        int[] results = gcd(q, p % q, modulus);
+        int d = results[0];
+        int a = results[2];
+        int b = results[1] - (p / q) * results[2];
+
+        if (a < 0) {
+            a += modulus;
+        }
+
+        return new int[]{d, a, b};
     }
 
     //extended euclidean for integers
