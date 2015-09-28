@@ -159,7 +159,7 @@ public class Polynomial {
             return this;
         }
         c %= modulus;
-        terms.put(d, c % modulus);
+        terms.put(d, c);
         return this;
     }
 

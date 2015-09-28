@@ -66,15 +66,18 @@ public class Arithmetic {
         Polynomial r = p1.clone();
         int i = 0;
         while (r.degree() >= p2.degree()) {
-            System.out.println(r.degree() + ", " + p2.degree());
-            System.out.println(r.toString() + ", " + p2.toString());
+            System.out.println("q = " + q.toString() + ", r = " + r.toString());
             Polynomial toAdd = new Polynomial(p1.getModulus());
+            System.out.println(r.getLeadingCoefficient() + ", " + p2.getLeadingCoefficient() + ", " + modularDivision(r.getLeadingCoefficient(), p2.getLeadingCoefficient(), p1.getModulus()));
             toAdd.addTerm(modularDivision(r.getLeadingCoefficient(), p2.getLeadingCoefficient(), p1.getModulus()), r.degree() - p2.degree());
-            System.out.println(toAdd.toString());
 
             q = Arithmetic.sum(q, toAdd);
             r = Arithmetic.difference(r, Arithmetic.product(toAdd, p2));
-            System.out.println(q.toString() + ", " + r.toString());
+
+            if(r.toString().equals("0")){
+                break;
+            }
+            //debug
             i++;
             if(i > 10){
                 throw new Error();
@@ -117,10 +120,18 @@ public class Arithmetic {
         return new Object[]{p1mod, p2mod, p1mod.isEqual(p2mod)};
     }
 
-    private static int modularDivision(int p, int q, int modulus) {
-        int[] gcd = gcd(q, modulus, modulus);
+    private static int modularDivision(int p, final int q, int modulus) {
+        int[] gcd;
+        System.out.println(q);
+        if(q < 0){
+            gcd = gcd(q + modulus, modulus, modulus);
+        } else {
+            gcd = gcd(q, modulus, modulus);
+        }
         int inverse = gcd[1];
-        return p * inverse;
+        System.out.println(q);
+        int result = p * inverse;
+        return result;
     }
 
     private static int gcd_list(List<Integer> y) {
