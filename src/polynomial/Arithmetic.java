@@ -64,12 +64,21 @@ public class Arithmetic {
     public static Polynomial[] longDivision(Polynomial p1, Polynomial p2) {
         Polynomial q = new Polynomial(p1.getModulus(), "0");
         Polynomial r = p1.clone();
+        int i = 0;
         while (r.degree() >= p2.degree()) {
+            System.out.println(r.degree() + ", " + p2.degree());
+            System.out.println(r.toString() + ", " + p2.toString());
             Polynomial toAdd = new Polynomial(p1.getModulus());
             toAdd.addTerm(modularDivision(r.getLeadingCoefficient(), p2.getLeadingCoefficient(), p1.getModulus()), r.degree() - p2.degree());
+            System.out.println(toAdd.toString());
 
             q = Arithmetic.sum(q, toAdd);
             r = Arithmetic.difference(r, Arithmetic.product(toAdd, p2));
+            System.out.println(q.toString() + ", " + r.toString());
+            i++;
+            if(i > 10){
+                throw new Error();
+            }
         }
         return new Polynomial[]{q, r};
     }

@@ -158,6 +158,7 @@ public class Polynomial {
             terms.remove(d);
             return this;
         }
+        c %= modulus;
         terms.put(d, c % modulus);
         return this;
     }
@@ -187,19 +188,15 @@ public class Polynomial {
     }
 
     public Polynomial[] longDivision(Polynomial q) {
-        return null;
+        return Arithmetic.longDivision(this, q);
     }
 
-    public void extendedEuclideanAlgorithm(Polynomial q) {
-
+    public Polynomial[] extendedEuclideanAlgorithm(Polynomial q) {
+        return Arithmetic.extendedEuclideanAlgorithm(this, q);
     }
 
-    public void equalityModPolynomial(Polynomial q, Polynomial r) {
-
-    }
-
-    public boolean isEmpty() {
-        return terms.isEmpty();
+    public Object[] equalityModPolynomial(Polynomial q, Polynomial r) {
+        return Arithmetic.equalModuloPolynomial(this, q, r);
     }
 
     public boolean isEqual(Polynomial q) {
@@ -218,9 +215,6 @@ public class Polynomial {
             }
             q_coeff_pos.add(i);
         }
-
-        System.out.println(p_coeff_pos.equals(q_coeff_pos));
-        System.out.println(q.keySet().equals(this.keySet()));
         return p_coeff_pos.equals(q_coeff_pos) && q.keySet().equals(this.keySet());
     }
 

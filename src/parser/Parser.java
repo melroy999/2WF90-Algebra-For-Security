@@ -50,9 +50,8 @@ public class Parser {
         //make sure subtraction has correct syntax.
         split = toParse.split("\\-");
         for(int i = 1; i < split.length; i++){
-
+            split[i] = "-" + split[i];
             if(!split[i-1].equals("")){
-                split[i] = "-" + split[i];
                 char c = split[i-1].charAt(split[i-1].length()-1);
                 if(c == ')' || Character.isDigit(c)){
                     split[i - 1] = split[i - 1] + "+";
@@ -98,7 +97,6 @@ public class Parser {
 
         //process everything else, including brackets.
         TreeNode parent = process(nodes);
-
         return parent;
     }
 
