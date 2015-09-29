@@ -12,16 +12,16 @@ import java.util.Stack;
 public class Parser {
     public static TreeNode parse(String toParse){
         //remove the fancy symbols.
-        toParse = toParse.replaceAll("⁰", "0");
-        toParse = toParse.replaceAll("¹", "1");
-        toParse = toParse.replaceAll("²", "2");
-        toParse = toParse.replaceAll("³", "3");
-        toParse = toParse.replaceAll("⁴", "4");
-        toParse = toParse.replaceAll("⁵", "5");
-        toParse = toParse.replaceAll("⁶", "6");
-        toParse = toParse.replaceAll("⁷", "7");
-        toParse = toParse.replaceAll("⁸", "8");
-        toParse = toParse.replaceAll("⁹", "9");
+        toParse = toParse.replaceAll("⁰", "^0");
+        toParse = toParse.replaceAll("¹", "^1");
+        toParse = toParse.replaceAll("²", "^2");
+        toParse = toParse.replaceAll("³", "^3");
+        toParse = toParse.replaceAll("⁴", "^4");
+        toParse = toParse.replaceAll("⁵", "^5");
+        toParse = toParse.replaceAll("⁶", "^6");
+        toParse = toParse.replaceAll("⁷", "^7");
+        toParse = toParse.replaceAll("⁸", "^8");
+        toParse = toParse.replaceAll("⁹", "^9");
 
         //clean up the inserted string.
         toParse = toParse.trim();
