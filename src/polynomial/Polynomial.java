@@ -200,52 +200,46 @@ public class Polynomial {
     }
 
     public boolean isEqual(Polynomial q) {
-        ArrayList<Integer> p_coeff_pos = new ArrayList<Integer>();
-        for (int i : this.getAllCoefficients()) {
-            if (i < 0) {
-                i += modulus;
-            }
-            p_coeff_pos.add(i);
-        }
-
-        ArrayList<Integer> q_coeff_pos = new ArrayList<Integer>();
-        for (int i : q.getAllCoefficients()) {
-            if (i < 0) {
-                i += modulus;
-            }
-            q_coeff_pos.add(i);
-        }
-        return p_coeff_pos.equals(q_coeff_pos) && q.keySet().equals(this.keySet());
+        this.makeABSMinimal();
+        q.makeABSMinimal();
+        return q.getAllCoefficients().equals(this.getAllCoefficients()) && q.keySet().equals(this.keySet());
     }
 
-    public void makeCompletelyPositive() {
+    public Polynomial makeCompletelyPositive() {
+        Polynomial result = new Polynomial(modulus);
         for (int degree : keySet()) {
             int coefficient = getCoefficient(degree);
             if (coefficient < 0) {
                 coefficient += modulus;
-                terms.put(degree, coefficient);
             }
+            result.terms.put(degree, coefficient);
         }
+        return result;
     }
 
-    public void makeABSMinimal() {
-        makeCompletelyPositive();
+    public Polynomial makeCompletelyNegative() {
+        Polynomial result = new Polynomial(modulus);
         for (int degree : keySet()) {
             int coefficient = getCoefficient(degree);
-            if (coefficient > Math.abs(coefficient - modulus)) {
-                terms.put(degree, coefficient - modulus);
+            if (coefficient > 0) {
+                coefficient -= modulus;
             }
+            result.terms.put(degree, coefficient);
         }
+        return result;
     }
 
-    /*
-    TODO:
-    - sum p1 + p2
-    - scalar multiple of p1
-    - difference of p1 and p2
-    - product of p1 and p2
-    - quotient and remainder (long division) upon input of p1 and p2
-    - (extended) euclidean algorithm for p1 and p2
-    - decide whether p1 and p2 mod p are equal modulo p3.
-     */
+    public Polynomial makeABSMinimal() {
+        Polynomial temp = makeCompletelyPositive();
+        Polynomial result = new Polynomial(modulus);
+        for (int degree : temp.keySet()) {
+            int coefficient = temp.getCoefficient(degree);
+            if (coefficient > Math.abs(coefficient - modulus)) {
+                result.terms.put(degree, coefficient - modulus);
+            } else {
+                result.terms.put(degree, coefficient);
+            }
+        }
+        return result;
+    }
 }

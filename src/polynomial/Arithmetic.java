@@ -67,7 +67,7 @@ public class Arithmetic {
         Polynomial r = p1.clone();
         int i = 0;
         while (r.degree() >= p2.degree()) {
-            System.out.println("q = " + q.toString() + ", r = " + r.toString());
+            //System.out.println("q = " + q.toString() + ", r = " + r.toString());
             Polynomial toAdd = new Polynomial(p1.getModulus());
             //System.out.println(r.getLeadingCoefficient() + ", " + p2.getLeadingCoefficient() + ", " + modularDivision(r.getLeadingCoefficient(), p2.getLeadingCoefficient(), p1.getModulus()));
             toAdd.addTerm(r.getLeadingCoefficient() * modularDivision(p2.getLeadingCoefficient(), p1.getModulus()), r.degree() - p2.degree());
@@ -95,7 +95,7 @@ public class Arithmetic {
         Polynomial y = new Polynomial(p1.getModulus(), "0");
         Polynomial u = new Polynomial(p1.getModulus(), "0");
         while (!b.toString().equals("0")) {
-            System.out.println(a + ", " + b + ", " + x + ", " + y + ", " + v + ", " + u);
+            //System.out.println(a + ", " + b + ", " + x + ", " + y + ", " + v + ", " + u);
             Polynomial[] temp = longDivision(a, b);
             Polynomial q = temp[0].clone();
             a = b.clone();
@@ -122,28 +122,14 @@ public class Arithmetic {
         return new Object[]{p1mod, p2mod, p1mod.isEqual(p2mod)};
     }
 
-    private static int modularDivision(final int q, int modulus) {
+    private static int modularDivision(int q, int modulus) {
         /*int[] gcd = gcd(q, modulus, modulus);
         int inverse = gcd[1];
         return p * inverse;*/
+        if(q == 0){
+            q += modulus;
+        }
         return BigInteger.valueOf(q).modInverse(BigInteger.valueOf(modulus)).intValue();
-    }
-
-    private static int gcd_list(List<Integer> y) {
-        if (y.size() == 1) {
-            return y.get(0);
-        }
-        if (y.size() == 2) {
-            return gcd(y.get(0), y.get(1));
-        }
-
-        int h = y.size() / 2;
-        return gcd(gcd_list(y.subList(0, h)), gcd_list(y.subList(h + 1, y.size())));
-    }
-
-    public static int gcd(int a, int b) {
-        if (b == 0) return a;
-        return gcd(b, a % b);
     }
 
     //extended euclidean for integers
