@@ -1,6 +1,7 @@
 package core;
 
 import gui.GUICore;
+import polynomial.Polynomial;
 
 import javax.swing.*;
 
@@ -18,6 +19,8 @@ public class Core {
 
         frame.pack();
         frame.setVisible(true);
+
+        System.out.println(new Polynomial(23, "17").getLeadingCoefficient());
 
         //start gui
         //GUICore.main(new String[]{});

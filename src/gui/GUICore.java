@@ -216,6 +216,7 @@ public class GUICore extends JFrame {
         } else {
             text = p.makeABSMinimal().toString();
         }
+        text = p.toString();
         return text;
     }
 

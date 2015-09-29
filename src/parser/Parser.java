@@ -11,12 +11,12 @@ import java.util.Stack;
  */
 public class Parser {
     public static TreeNode parse(String toParse){
-
+        System.out.println(toParse);
         //clean up the inserted string.
         toParse = toParse.trim();
         toParse = toParse.toUpperCase().replaceAll("[A-Z]", "X");
         toParse = toParse.replaceAll("((?<=[0-9])\\*X)", "X");
-        toParse = toParse.replaceAll("X(?!\\^)", "X^1");
+        //toParse = toParse.replaceAll("X(?!\\^)", "X^1");
         toParse = toParse.replaceAll("[^0-9\\+\\-*()^]", "");
         toParse = toParse.replace("+^", "+1^");
         toParse = toParse.replace("-^", "-1^");
@@ -66,6 +66,7 @@ public class Parser {
         }
 
         //return the string converted to a tree
+        System.out.println(toParse);
         return makeTree("" + toParse + "");
     }
 
@@ -97,6 +98,7 @@ public class Parser {
 
         //process everything else, including brackets.
         TreeNode parent = process(nodes);
+        System.out.println(parent);
         return parent;
     }
 

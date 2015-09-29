@@ -86,12 +86,12 @@ public class Polynomial {
         while (iterator.hasNext()) {
             int degree = iterator.next();
             int coefficient = terms.get(degree);
-            if (coefficient != 0) {
+            //if (coefficient != 0) {
                 standardForm += (coefficient > 0 ? (coefficient == 1 && degree != 0 ? "" : coefficient) : coefficient == -1 && degree != 0 ? "-" : coefficient);
                 standardForm += (degree == 0 ? "" : "X");
                 standardForm += (degree > 1 ? superscript(String.valueOf(degree)) : "");
                 standardForm += (iterator.hasNext() ? " + " : "");
-            }
+            //}
         }
         if (standardForm.equals("")) {
             standardForm = "0";
@@ -200,9 +200,9 @@ public class Polynomial {
     }
 
     public boolean isEqual(Polynomial q) {
-        this.makeABSMinimal();
-        q.makeABSMinimal();
-        return q.getAllCoefficients().equals(this.getAllCoefficients()) && q.keySet().equals(this.keySet());
+        Polynomial p1 = this.makeABSMinimal();
+        Polynomial p2 = q.makeABSMinimal();
+        return p1.getAllCoefficients().equals(p2.getAllCoefficients()) && p1.keySet().equals(p2.keySet());
     }
 
     public Polynomial makeCompletelyPositive() {

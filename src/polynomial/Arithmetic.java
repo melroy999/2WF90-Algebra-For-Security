@@ -107,8 +107,12 @@ public class Arithmetic {
             u = Arithmetic.difference(x0, Arithmetic.product(q, u));
             v = Arithmetic.difference(y0, Arithmetic.product(q, v));
         }
+        System.out.println(Arithmetic.product(x, p1));
+        System.out.println(Arithmetic.product(y, p2));
         Polynomial result = Arithmetic.sum(Arithmetic.product(x, p1), Arithmetic.product(y, p2));
-        result.makeCompletelyPositive();
+        System.out.println(result.toString());
+        result = result.makeCompletelyPositive();
+        System.out.println("HALLO?!" + result.toString() + " lc" + result.getLeadingCoefficient());
 
         result = Arithmetic.scalar(result, modularDivision(result.getLeadingCoefficient(), p1.getModulus()));
         result.makeABSMinimal();
