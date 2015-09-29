@@ -16,7 +16,7 @@ public class Parser {
         toParse = toParse.trim();
         toParse = toParse.toUpperCase().replaceAll("[A-Z]", "X");
         toParse = toParse.replaceAll("((?<=[0-9])\\*X)", "X");
-        //toParse = toParse.replaceAll("X(?!\\^)", "X^1");
+        toParse = toParse.replaceAll("X(?!\\^)", "X^1");
         toParse = toParse.replaceAll("[^0-9\\+\\-*()^]", "");
         toParse = toParse.replace("+^", "+1^");
         toParse = toParse.replace("-^", "-1^");
