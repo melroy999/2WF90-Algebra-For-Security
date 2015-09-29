@@ -216,7 +216,7 @@ public class GUICore extends JFrame {
         } else {
             text = p.makeABSMinimal().toString();
         }
-        text = p.toString();
+        //text = p.toString();
         return text;
     }
 
@@ -332,10 +332,10 @@ public class GUICore extends JFrame {
         addResultText("Solution:");
         assert result != null;
         assert result.length > 2;
-        addResultText("gcd(" + getPolynomialText(p1) + "," + getPolynomialText(p2) + ") ≡ ((" + getPolynomialText(p1) + ") * (" + getPolynomialText(result[0]) + ") + (" + getPolynomialText(p2) + ") * (" + getPolynomialText(result[1]) + ")) (mod " + mod + ")");
+        addResultText("gcd(" + getPolynomialText(p1) + ", " + getPolynomialText(p2) + ") ≡ ((" + getPolynomialText(p1) + ") * (" + getPolynomialText(result[0]) + ") + (" + getPolynomialText(p2) + ") * (" + getPolynomialText(result[1]) + ")) (mod " + mod + ")");
         addResultText("x = " + result[0].toString());
         addResultText("y = " + result[1].toString());
-        addResultText("gcd(" + getPolynomialText(p1) + "," + getPolynomialText(p2) + ") = " + getPolynomialText(result[2]));
+        addResultText("gcd(" + getPolynomialText(p1) + ", " + getPolynomialText(p2) + ") = " + getPolynomialText(result[2]));
     }
 
     public void solveEqualModuloPolynomial(String p1s, String p2s, String p3s, String mod) {

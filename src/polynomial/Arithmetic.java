@@ -95,7 +95,6 @@ public class Arithmetic {
         Polynomial y = new Polynomial(p1.getModulus(), "0");
         Polynomial u = new Polynomial(p1.getModulus(), "0");
         while (!b.toString().equals("0")) {
-            //System.out.println(a + ", " + b + ", " + x + ", " + y + ", " + v + ", " + u);
             Polynomial[] temp = longDivision(a, b);
             Polynomial q = temp[0].clone();
             a = b.clone();
@@ -112,10 +111,9 @@ public class Arithmetic {
         Polynomial result = Arithmetic.sum(Arithmetic.product(x, p1), Arithmetic.product(y, p2));
         System.out.println(result.toString());
         result = result.makeCompletelyPositive();
-        System.out.println("HALLO?!" + result.toString() + " lc" + result.getLeadingCoefficient());
 
         result = Arithmetic.scalar(result, modularDivision(result.getLeadingCoefficient(), p1.getModulus()));
-        result.makeABSMinimal();
+        result = result.makeABSMinimal();
 
         return new Polynomial[]{x, y, result};
     }

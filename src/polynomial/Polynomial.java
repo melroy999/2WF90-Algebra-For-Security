@@ -154,11 +154,11 @@ public class Polynomial {
 
     protected Polynomial addTerm(int c, int d) {
         c += this.getCoefficient(d) % modulus;
+        c %= modulus;
         if (c == 0) {
             terms.remove(d);
             return this;
         }
-        c %= modulus;
         terms.put(d, c);
         return this;
     }
