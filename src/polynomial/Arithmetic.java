@@ -1,8 +1,5 @@
 package polynomial;
 
-import java.math.BigInteger;
-import java.util.List;
-
 /**
  * Created by Melroy van Nijnatten - 0849740.
  */
@@ -124,33 +121,44 @@ public class Arithmetic {
         return new Object[]{p1mod, p2mod, p1mod.isEqual(p2mod)};
     }
 
-    private static int modularDivision(int q, int modulus) {
-        /*int[] gcd = gcd(q, modulus, modulus);
-        int inverse = gcd[1];
-        return p * inverse;*/
-        if(q == 0){
-            q += modulus;
+    private static int modularDivision(final int a, final int modulus) {
+        if (a == 0) {
+            throw new IllegalArgumentException("The divisor may not be 0!");
         }
-        return BigInteger.valueOf(q).modInverse(BigInteger.valueOf(modulus)).intValue();
+        return getInverse(a, modulus);
     }
 
-    //extended euclidean for integers
-    private static int[] gcd(int p, int q, int modulus) {
-        if (q == 0) {
-            return new int[]{p, 1, 0};
+    //Lecture notes
+    private static int getInverse(int a, int b) {
+        int x_1 = 1;
+        int y_2 = 1;
+        int x_2 = 0;
+        int y_1 = 0;
+
+        while (b > 0) {
+            int q = a / b;
+
+            int temp = a - q * b;
+            a = b;
+            b = temp;
+
+            temp = x_1 - q * x_2;
+            x_1 = x_2;
+            x_2 = temp;
+
+            temp = y_1 - q * y_2;
+            y_1 = y_2;
+            y_2 = temp;
         }
 
-        int[] results = gcd(q, p % q, modulus);
-        int d = results[0];
-        int a = results[2];
-        int b = results[1] - (p / q) * results[2];
+        int x;
+        if (a >= 0) {
+            x = x_1;
+        } else {
+            x = -x_1;
+        }
 
-        //TODO check if this can be removed or not...
-        /*if (a < 0) {
-            a += modulus;
-        }*/
-
-        return new int[]{d, a, b};
+        return x;
     }
 
     //http://stackoverflow.com/questions/14650360/very-simple-prime-number-test-i-think-im-not-understanding-the-for-loop
