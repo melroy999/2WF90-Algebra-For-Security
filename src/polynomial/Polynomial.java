@@ -153,7 +153,7 @@ public class Polynomial {
     }
 
     protected Polynomial addTerm(int c, int d) {
-        c += this.getCoefficient(d) % modulus;
+        c += this.getCoefficient(d);
         c %= modulus;
         if (c == 0) {
             terms.remove(d);
