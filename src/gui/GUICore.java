@@ -71,7 +71,6 @@ public class GUICore extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clearResultPane();
-
                 String operation = arithmetic.getSelectedItem().toString();
 
                 String p1s = polynomial1.getText();
@@ -216,7 +215,6 @@ public class GUICore extends JFrame {
         } else {
             text = p.makeABSMinimal().toString();
         }
-        //text = p.toString();
         return text;
     }
 

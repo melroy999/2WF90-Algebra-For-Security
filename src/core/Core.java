@@ -1,5 +1,6 @@
 package core;
 
+import finiteField.FiniteField;
 import gui.GUICore;
 import polynomial.Polynomial;
 
@@ -20,8 +21,15 @@ public class Core {
         frame.pack();
         frame.setVisible(true);
 
-        System.out.println(new Polynomial(23, "17").getLeadingCoefficient());
+        System.out.println(Polynomial.getAllDegreePolynomials(2, 2));
+        System.out.println(Polynomial.getAllDegreePolynomials(2, 3));
+        System.out.println(Polynomial.getAllDegreePolynomials(3, 2));
+        System.out.println(Polynomial.getAllDegreePolynomials(3, 3));
+        System.out.println(Polynomial.getAllDegreePolynomials(4, 3));
 
+        System.out.println(FiniteField.getEquivalenceClasses(new Polynomial(2, "X^2+X+1")));
+        System.out.println(FiniteField.getEquivalenceClasses(new Polynomial(3, "X^2+X+1")));
+        System.out.println(FiniteField.getEquivalenceClasses(new Polynomial(2, "X^4-X^2")));
         //start gui
         //GUICore.main(new String[]{});
         //new GUICore();
