@@ -4,6 +4,7 @@ import polynomial.Arithmetic;
 import polynomial.Polynomial;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,13 +22,22 @@ public class FiniteField {
      * 6. produce irreducible polynomials of a prescribed degree (4.1.6)
      */
 
-    public static Set<Polynomial> getEquivalenceClasses(Polynomial q){
-        Set<Polynomial> polynomials = new HashSet<Polynomial>();
+    public static Polynomial[] getEquivalenceClasses(Polynomial q){
+        HashMap<Integer, Polynomial> polynomials = new HashMap<Integer, Polynomial>();
         ArrayList<Polynomial> candidates = Polynomial.getAllDegreePolynomials(q.degree(), q.getModulus());
         for(Polynomial p : candidates){
-            polynomials.add(Arithmetic.longDivision(p, q)[1]);
+            Polynomial candidate = Arithmetic.longDivision(p, q)[1];
+            polynomials.put(candidate.getRanking(), candidate);
         }
-        return polynomials;
+
+        Polynomial[] resultList = new Polynomial[polynomials.size()];
+        int counter = 0;
+        for(int i : polynomials.keySet()){
+            Polynomial p = polynomials.get(i);
+            resultList[counter] = p;
+            counter ++;
+        }
+        return resultList;
     }
 
     public static void drawMultiplicationTable(){

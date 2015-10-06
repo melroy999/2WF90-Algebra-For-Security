@@ -268,4 +268,13 @@ public class Polynomial {
         while(quotient != 0);
         return baseModulo;
     }
+
+    public int getRanking(){
+        Polynomial toRank = this.makeCompletelyPositive();
+        int rank = 0;
+        for(int i : toRank.keySet()){
+            rank += toRank.getCoefficient(i) * Math.pow(modulus, i);
+        }
+        return rank;
+    }
 }

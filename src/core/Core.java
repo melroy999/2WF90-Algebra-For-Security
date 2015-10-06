@@ -5,6 +5,7 @@ import gui.GUICore;
 import polynomial.Polynomial;
 
 import javax.swing.*;
+import java.util.Arrays;
 
 /**
  * Created by Melroy van Nijnatten - 0849740.
@@ -27,9 +28,12 @@ public class Core {
         System.out.println(Polynomial.getAllDegreePolynomials(3, 3));
         System.out.println(Polynomial.getAllDegreePolynomials(4, 3));
 
-        System.out.println(FiniteField.getEquivalenceClasses(new Polynomial(2, "X^2+X+1")));
-        System.out.println(FiniteField.getEquivalenceClasses(new Polynomial(3, "X^2+X+1")));
-        System.out.println(FiniteField.getEquivalenceClasses(new Polynomial(2, "X^4-X^2")));
+        System.out.println(Arrays.toString(FiniteField.getEquivalenceClasses(new Polynomial(2, "X^2+X+1"))));
+        System.out.println(Arrays.toString(FiniteField.getEquivalenceClasses(new Polynomial(3, "X^2+X+1"))));
+        System.out.println(Arrays.toString(FiniteField.getEquivalenceClasses(new Polynomial(3, "X^4+X^2"))));
+        System.out.println(Arrays.toString(FiniteField.getEquivalenceClasses(new Polynomial(3, "X^2+1"))));
+
+        //TODO add history of operations.
         //start gui
         //GUICore.main(new String[]{});
         //new GUICore();

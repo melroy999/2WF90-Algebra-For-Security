@@ -30,6 +30,7 @@ public class GUICore extends JFrame {
     private JRadioButton positiveAnswer;
     private JRadioButton smallestAnswer;
     private JRadioButton negativeAnswer;
+    private JTextPane textPane1;
 
     public GUICore() {
         swapButton.addActionListener(new ActionListener() {
