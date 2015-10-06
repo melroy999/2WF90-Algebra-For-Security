@@ -13,9 +13,10 @@ import java.awt.event.ActionListener;
  */
 public class GUICore extends JFrame {
     public JPanel mainPane;
+    protected JTextPane resultPane;
+    protected JTextPane logPane;
     private JTextField polynomial1;
     private JTextField polynomial2;
-    private JTextPane resultPane;
     private JComboBox arithmetic;
     private JButton solve;
     private JTextField modulus;
@@ -30,7 +31,7 @@ public class GUICore extends JFrame {
     private JRadioButton positiveAnswer;
     private JRadioButton smallestAnswer;
     private JRadioButton negativeAnswer;
-    private JTextPane textPane1;
+    private PrintHandler printHandler;
 
     public GUICore() {
         swapButton.addActionListener(new ActionListener() {
@@ -159,6 +160,9 @@ public class GUICore extends JFrame {
 
         Font f = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
         resultPane.setFont(f);
+
+        printHandler = new PrintHandler(this);
+        Thread.setDefaultUncaughtExceptionHandler(printHandler);
     }
 
     public static void main(String[] args) {
@@ -196,7 +200,7 @@ public class GUICore extends JFrame {
     }
 
     public void addResultText(String message) {
-        resultPane.setText(resultPane.getText() + message + "\n");
+        printHandler.appendResult(message);
     }
 
     public void clearResultPane() {

@@ -33,6 +33,7 @@ public class Core {
         System.out.println(Arrays.toString(FiniteField.getEquivalenceClasses(new Polynomial(3, "X^4+X^2"))));
         System.out.println(Arrays.toString(FiniteField.getEquivalenceClasses(new Polynomial(3, "X^2+1"))));
 
+        int i = 1 / 0;
         //TODO add history of operations.
         //start gui
         //GUICore.main(new String[]{});
