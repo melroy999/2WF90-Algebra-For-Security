@@ -44,137 +44,30 @@ public class GUICore extends JFrame {
 
     public GUICore() {
         swapButtonP.addActionListener(new ActionListener() {
-            /**
-             * Invoked when an action occurs.
-             *
-             * @param e
-             */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String s = polynomialPP.getText();
-                polynomialPP.setText(polynomialPQ.getText());
-                polynomialPQ.setText(s);
+                swapP();
             }
         });
 
         eraseButtonP.addActionListener(new ActionListener() {
-            /**
-             * Invoked when an action occurs.
-             *
-             * @param e
-             */
             @Override
             public void actionPerformed(ActionEvent e) {
-                polynomialPP.setText("");
-                polynomialPQ.setText("");
-                modulusP.setText("");
-                operationP.setSelectedIndex(0);
-                Core.printHandler.clearResultPane();
+                eraseP();
             }
         });
 
         solveP.addActionListener(new ActionListener() {
-            /**
-             * Invoked when an action occurs.
-             *
-             * @param e
-             */
             @Override
             public void actionPerformed(ActionEvent e) {
-                Core.printHandler.clearResultPane();
-
-                String operation = operationP.getSelectedItem().toString();
-                String input = "INPUT:&#9;" + primeLabelP.getText() + "\"" + modulusP.getText() + "\" ," + polynomialPLabelP.getText() + "\"" + polynomialPP.getText() + "\" ," + polynomialQLabelP.getText() + "\"" + polynomialPQ.getText() + "\"";
-                if (operation.equals("Equal mod p3")) {
-                    input = input + " ," + polynomialRLabelP.getText() + "\"" + polynomialPR.getText() + "\"";
-                }
-                Core.printHandler.appendLog(input);
-
-                String p1s = polynomialPP.getText();
-                if (p1s.equals("")) {
-                    Core.printHandler.appendResult("Please enter polynomial 1.");
-                    Core.printHandler.appendLog(polynomialPLabelP.getText() + "\"" + p1s + "\" is invalid.", true);
-                    return;
-                }
-                String p2s = polynomialPQ.getText();
-                if (p2s.equals("")) {
-                    Core.printHandler.appendLog(polynomialQLabelP.getText() + "\"" + p2s + "\" is invalid.", true);
-                    if (operation.equals("Scalar Multiple")) {
-                        Core.printHandler.appendResult("Please enter a scalar.");
-                        return;
-                    }
-                    Core.printHandler.appendResult("Please enter polynomial 2.");
-                    return;
-                } else {
-                    if (operation.equals("Scalar Multiple")) {
-                        Polynomial p = new Polynomial(Integer.MAX_VALUE, p2s);
-                        if (p.keySet().size() != 1 || !p.keySet().contains(0)) {
-                            Core.printHandler.appendResult("Please enter a valid scalar.");
-                            Core.printHandler.appendLog(polynomialQLabelP.getText() + "\"" + p2s + "\" is not a constant.", true);
-                            return;
-                        }
-                    }
-                }
-                String mod = modulusP.getText();
-                Polynomial p_mod = new Polynomial(Integer.MAX_VALUE, mod);
-                mod = p_mod.toString();
-                if (mod.equals("")) {
-                    Core.printHandler.appendResult("Please enter the prime.");
-                    Core.printHandler.appendLog("Prime:\"" + mod + "\" is invalid.", true);
-                    return;
-                } else {
-                    try {
-                        if (!Arithmetic.isPrime(Integer.parseInt(mod))) {
-                            Core.printHandler.appendResult("Please add a modulus that is a prime number.");
-                            Core.printHandler.appendLog("Modulus:\"" + mod + "\" is not prime.", true);
-                            return;
-                        }
-                    } catch (NumberFormatException exc) {
-                        Core.printHandler.appendResult("Please enter a valid integer modulus.");
-                        Core.printHandler.appendLog(polynomialPLabelP.getText() + "\"" + mod + "\" is not a constant.", true);
-                        return;
-                    }
-                }
-
-                if (operation.equals("Sum")) {
-                    solveSum(p1s, p2s, mod);
-                } else if (operation.equals("Difference")) {
-                    solveDifference(p1s, p2s, mod);
-                } else if (operation.equals("Product")) {
-                    solveProduct(p1s, p2s, mod);
-                } else if (operation.equals("Scalar Multiple")) {
-                    solveScalarMultiple(p1s, p2s, mod);
-                } else if (operation.equals("Long Division")) {
-                    solveLongDivision(p1s, p2s, mod);
-                } else if (operation.equals("Extended Euclidean Algorithm")) {
-                    solveExtendedEuclideanAlgorithm(p1s, p2s, mod);
-                } else {
-                    String p3s = polynomialPR.getText();
-                    if (p3s.equals("")) {
-                        Core.printHandler.appendResult("Please enter polynomial 3.");
-                        Core.printHandler.appendLog(polynomialRLabelP.getText() + "\"" + p3s + "\" is invalid.", true);
-                        return;
-                    }
-                    solveEqualModuloPolynomial(p1s, p2s, p3s, mod);
-                }
+                solveP();
             }
         });
+
         operationP.addActionListener(new ActionListener() {
-            /**
-             * Invoked when an action occurs.
-             *
-             * @param e
-             */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String operation = operationP.getSelectedItem().toString();
-                if (operation.equals("Scalar Multiple")) {
-                    showScalar();
-                } else if (operation.equals("Equal mod p3")) {
-                    showThreePolynomials();
-                } else {
-                    showTwoPolynomials();
-                }
+                switchModeP();
             }
         });
 
@@ -190,6 +83,144 @@ public class GUICore extends JFrame {
 
         frame.pack();
         frame.setVisible(true);
+    }
+
+    private void solveP() {
+        Core.printHandler.clearResultPane();
+
+        String operation = operationP.getSelectedItem().toString();
+        printInputP(operation);
+
+        String p1s = validatePolynomialPP();
+        if (p1s == null) return;
+
+        String p2s = validatePolynomialQP(operation);
+        if (p2s == null) return;
+
+        String mod = validatePrimeP();
+        if (mod == null) return;
+
+        chooseOperationP(operation, p1s, p2s, mod);
+    }
+
+    private String validatePolynomialPP() {
+        String p1s = polynomialPP.getText();
+        if (p1s.equals("")) {
+            Core.printHandler.appendResult("Please enter polynomial 1.");
+            Core.printHandler.appendLog(polynomialPLabelP.getText() + "\"" + p1s + "\" is invalid.", true);
+            return null;
+        }
+        return p1s;
+    }
+
+    private String validatePolynomialQP(String operation) {
+        String p2s = polynomialPQ.getText();
+        if (p2s.equals("")) {
+            Core.printHandler.appendLog(polynomialQLabelP.getText() + "\"" + p2s + "\" is invalid.", true);
+            if (operation.equals("Scalar Multiple")) {
+                Core.printHandler.appendResult("Please enter a scalar.");
+                return null;
+            }
+            Core.printHandler.appendResult("Please enter polynomial 2.");
+            return null;
+        } else {
+            if (operation.equals("Scalar Multiple")) {
+                Polynomial p = new Polynomial(Integer.MAX_VALUE, p2s);
+                if (p.keySet().size() != 1 || !p.keySet().contains(0)) {
+                    Core.printHandler.appendResult("Please enter a valid scalar.");
+                    Core.printHandler.appendLog(polynomialQLabelP.getText() + "\"" + p2s + "\" is not a constant.", true);
+                    return null;
+                }
+            }
+        }
+        return p2s;
+    }
+
+    private String validatePrimeP() {
+        String mod = modulusP.getText();
+        Polynomial p_mod = new Polynomial(Integer.MAX_VALUE, mod);
+        mod = p_mod.toString();
+        if (mod.equals("")) {
+            Core.printHandler.appendResult("Please enter the prime.");
+            Core.printHandler.appendLog("Prime:\"" + mod + "\" is invalid.", true);
+            return null;
+        } else {
+            try {
+                if (!Arithmetic.isPrime(Integer.parseInt(mod))) {
+                    Core.printHandler.appendResult("Please add a modulus that is a prime number.");
+                    Core.printHandler.appendLog("Modulus:\"" + mod + "\" is not prime.", true);
+                    return null;
+                }
+            } catch (NumberFormatException exc) {
+                Core.printHandler.appendResult("Please enter a valid prime.");
+                Core.printHandler.appendLog(polynomialPLabelP.getText() + "\"" + mod + "\" is not a constant.", true);
+                return null;
+            }
+        }
+        return mod;
+    }
+
+    private void printInputP(String operation) {
+        String input = "INPUT:&#9;" + primeLabelP.getText() + "\"" + modulusP.getText() + "\" ," + polynomialPLabelP.getText() + "\"" + polynomialPP.getText() + "\" ," + polynomialQLabelP.getText() + "\"" + polynomialPQ.getText() + "\"";
+        if (operation.equals("Equal mod p3")) {
+            input = input + " ," + polynomialRLabelP.getText() + "\"" + polynomialPR.getText() + "\"";
+        }
+        Core.printHandler.appendLog(input);
+    }
+
+    private void chooseOperationP(String operation, String p1s, String p2s, String mod) {
+        if (operation.equals("Sum")) {
+            solveSum(p1s, p2s, mod);
+        } else if (operation.equals("Difference")) {
+            solveDifference(p1s, p2s, mod);
+        } else if (operation.equals("Product")) {
+            solveProduct(p1s, p2s, mod);
+        } else if (operation.equals("Scalar Multiple")) {
+            solveScalarMultiple(p1s, p2s, mod);
+        } else if (operation.equals("Long Division")) {
+            solveLongDivision(p1s, p2s, mod);
+        } else if (operation.equals("Extended Euclidean Algorithm")) {
+            solveExtendedEuclideanAlgorithm(p1s, p2s, mod);
+        } else {
+            String p3s = validatePolynomialR();
+            if (p3s == null) return;
+            solveEqualModuloPolynomial(p1s, p2s, p3s, mod);
+        }
+    }
+
+    private String validatePolynomialR() {
+        String p3s = polynomialPR.getText();
+        if (p3s.equals("")) {
+            Core.printHandler.appendResult("Please enter polynomial 3.");
+            Core.printHandler.appendLog(polynomialRLabelP.getText() + "\"" + p3s + "\" is invalid.", true);
+            return null;
+        }
+        return p3s;
+    }
+
+    private void switchModeP() {
+        String operation = operationP.getSelectedItem().toString();
+        if (operation.equals("Scalar Multiple")) {
+            showScalar();
+        } else if (operation.equals("Equal mod p3")) {
+            showThreePolynomials();
+        } else {
+            showTwoPolynomials();
+        }
+    }
+
+    private void eraseP() {
+        polynomialPP.setText("");
+        polynomialPQ.setText("");
+        modulusP.setText("");
+        operationP.setSelectedIndex(0);
+        Core.printHandler.clearResultPane();
+    }
+
+    private void swapP() {
+        String s = polynomialPP.getText();
+        polynomialPP.setText(polynomialPQ.getText());
+        polynomialPQ.setText(s);
     }
 
     private void showThreePolynomials() {
