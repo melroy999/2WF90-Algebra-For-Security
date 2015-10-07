@@ -50,6 +50,8 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
     }
 
     public void appendResult(String message) {
+        message = message.replace("<", "&#60");
+        message = message.replace(">", "&#62");
         appendDoc(resultDoc, resultEditorKit, message);
     }
 
@@ -80,7 +82,7 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
     /**
      * Method invoked when the given thread terminates due to the
      * given uncaught exception.
-     * <p>Any exception thrown by this method will be ignored by the
+     * Any exception thrown by this method will be ignored by the
      * Java Virtual Machine.
      *
      * @param t the thread
@@ -92,7 +94,7 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
         appendLog(e.toString(), true);
         for (StackTraceElement se : e.getStackTrace()) {
             System.out.println("\u001B[31m    at" + se.toString() + "\u001B[0m");
-            appendLog("&#09 at " + se.toString(), true);
+            appendLog("&nbsp;&nbsp;&nbsp;&nbsp;at " + se.toString(), true);
         }
 
         Throwable cause = e.getCause();
@@ -102,7 +104,7 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
                 appendLog(cause.toString(), true);
                 for (StackTraceElement se : cause.getStackTrace()) {
                     System.out.println("\u001B[31m    at" + se.toString() + "\u001B[0m");
-                    appendLog("at &#09" + se.toString(), true);
+                    appendLog("&nbsp;&nbsp;&nbsp;&nbsp;at" + se.toString(), true);
                 }
                 cause = cause.getCause();
             } else {

@@ -76,21 +76,23 @@ public class GUICore extends JFrame {
 
 
                 String operation = arithmetic.getSelectedItem().toString();
-                String input = "Modulus:\"" + modulus.getText() + "\" ," + polynomial1label.getText() + "\"" + polynomial1.getText() + "\" ," + polynomial2label.getText() + "\"" + polynomial2.getText() + "\"";
+                String input = "INPUT: Modulus:\"" + modulus.getText() + "\" ," + polynomial1label.getText() + "\"" + polynomial1.getText() + "\" ," + polynomial2label.getText() + "\"" + polynomial2.getText() + "\"";
                 if (operation.equals("Equal mod p3")) {
-                    input = input + " ," + polynomial3.getText() + "\"" + polynomial3label.getText();
+                    input = input + " ," + polynomial3label.getText() + "\"" + polynomial3.getText() + "\"";
                 }
-                Core.printHandler.appendLog(input);
+                Core.printHandler.appendLog(input + ".");
 
 
 
                 String p1s = polynomial1.getText();
                 if (p1s.equals("")) {
                     Core.printHandler.appendResult("Please enter polynomial 1.");
+                    Core.printHandler.appendLog(polynomial1label.getText() + "\"" + p1s + "\" is invalid.", true);
                     return;
                 }
                 String p2s = polynomial2.getText();
                 if (p2s.equals("")) {
+                    Core.printHandler.appendLog(polynomial2label.getText() + "\"" + p2s + "\" is invalid.", true);
                     if (operation.equals("Scalar Multiple")) {
                         Core.printHandler.appendResult("Please enter a scalar.");
                         return;
@@ -102,23 +104,28 @@ public class GUICore extends JFrame {
                         Polynomial p = new Polynomial(Integer.MAX_VALUE, p2s);
                         if (p.keySet().size() != 1 || !p.keySet().contains(0)) {
                             Core.printHandler.appendResult("Please enter a valid scalar.");
+                            Core.printHandler.appendLog(polynomial2label.getText() + "\"" + p2s + "\" is not a constant.", true);
                             return;
                         }
                     }
                 }
                 String mod = modulus.getText();
+                Polynomial p_mod = new Polynomial(Integer.MAX_VALUE, mod);
+                mod = p_mod.toString();
                 if (mod.equals("")) {
                     Core.printHandler.appendResult("Please enter the modulus.");
+                    Core.printHandler.appendLog("Modulus:\"" + mod + "\" is invalid.", true);
                     return;
                 } else {
-                    Integer.getInteger(mod);
                     try {
                         if (!Arithmetic.isPrime(Integer.parseInt(mod))) {
                             Core.printHandler.appendResult("Please add a modulus that is a prime number.");
+                            Core.printHandler.appendLog("Modulus:\"" + mod + "\" is not prime.", true);
                             return;
                         }
                     } catch (NumberFormatException exc) {
                         Core.printHandler.appendResult("Please enter a valid integer modulus.");
+                        Core.printHandler.appendLog(polynomial1label.getText() + "\"" + mod + "\" is not a constant.", true);
                         return;
                     }
                 }
@@ -139,6 +146,7 @@ public class GUICore extends JFrame {
                     String p3s = polynomial3.getText();
                     if (p3s.equals("")) {
                         Core.printHandler.appendResult("Please enter polynomial 3.");
+                        Core.printHandler.appendLog(polynomial3label.getText() + "\"" + p3s + "\" is invalid.", true);
                         return;
                     }
                     solveEqualModuloPolynomial(p1s, p2s, p3s, mod);
