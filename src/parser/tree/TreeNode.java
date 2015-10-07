@@ -80,7 +80,7 @@ public class TreeNode {
      */
     @Override
     public String toString() {
-        String s = "";
+        String s;
         if(getLeftNode() != null | getRightNode() != null){
             s = value + "[";
             if(getLeftNode() != null){

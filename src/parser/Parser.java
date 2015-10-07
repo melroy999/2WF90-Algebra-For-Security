@@ -120,8 +120,7 @@ public class Parser {
         }
 
         //process everything else, including brackets.
-        TreeNode parent = process(nodes);
-        return parent;
+        return process(nodes);
     }
 
     private static ArrayList<TreeNode> convertToTreeNodeArray(String currentTerm, char[] chars) {
@@ -148,6 +147,7 @@ public class Parser {
         return nodes;
     }
 
+    @SuppressWarnings("unchecked")
     private static TreeNode process(ArrayList<TreeNode> nodes){
         //stack that keeps track of found TreeNodes before a bracket.
         Stack<TreeNode> stack = new Stack<TreeNode>();

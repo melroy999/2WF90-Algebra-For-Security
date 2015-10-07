@@ -15,6 +15,7 @@ public class GUICore extends JFrame {
     public JPanel mainPane;
     protected JTextPane resultPaneP;
     protected JTextPane logPane;
+    protected JTextPane resultPaneFF;
     private JTextField polynomialPP;
     private JTextField polynomialPQ;
     private JComboBox operationP;
@@ -30,11 +31,10 @@ public class GUICore extends JFrame {
     private JButton solveFF;
     private JComboBox operationFF;
     private JTextField modulusFF;
-    private JTextPane resultPaneFF;
     private JTextField polynomialQFF;
     private JTextField fieldElementA;
     private JTextField fieldElementB;
-    private JButton EraseFF;
+    private JButton eraseButtonFF;
     private JLabel polynomialQLabelFF;
     private JLabel fieldElementALabel;
     private JLabel fieldElementBLabel;
@@ -73,6 +73,12 @@ public class GUICore extends JFrame {
 
         polynomialPR.setVisible(false);
         polynomialRLabelP.setVisible(false);
+        eraseButtonFF.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eraseFF();
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -86,7 +92,7 @@ public class GUICore extends JFrame {
     }
 
     private void solveP() {
-        Core.printHandler.clearResultPane();
+        Core.printHandler.clearResultPaneP();
 
         String operation = operationP.getSelectedItem().toString();
         printInputP(operation);
@@ -106,7 +112,7 @@ public class GUICore extends JFrame {
     private String validatePolynomialPP() {
         String p1s = polynomialPP.getText();
         if (p1s.equals("")) {
-            Core.printHandler.appendResult("Please enter polynomial 1.");
+            Core.printHandler.appendResultP("Please enter polynomial 1.");
             Core.printHandler.appendLog(polynomialPLabelP.getText() + "\"" + p1s + "\" is invalid.", true);
             return null;
         }
@@ -118,16 +124,16 @@ public class GUICore extends JFrame {
         if (p2s.equals("")) {
             Core.printHandler.appendLog(polynomialQLabelP.getText() + "\"" + p2s + "\" is invalid.", true);
             if (operation.equals("Scalar Multiple")) {
-                Core.printHandler.appendResult("Please enter a scalar.");
+                Core.printHandler.appendResultP("Please enter a scalar.");
                 return null;
             }
-            Core.printHandler.appendResult("Please enter polynomial 2.");
+            Core.printHandler.appendResultP("Please enter polynomial 2.");
             return null;
         } else {
             if (operation.equals("Scalar Multiple")) {
                 Polynomial p = new Polynomial(Integer.MAX_VALUE, p2s);
                 if (p.keySet().size() != 1 || !p.keySet().contains(0)) {
-                    Core.printHandler.appendResult("Please enter a valid scalar.");
+                    Core.printHandler.appendResultP("Please enter a valid scalar.");
                     Core.printHandler.appendLog(polynomialQLabelP.getText() + "\"" + p2s + "\" is not a constant.", true);
                     return null;
                 }
@@ -141,18 +147,18 @@ public class GUICore extends JFrame {
         Polynomial p_mod = new Polynomial(Integer.MAX_VALUE, mod);
         mod = p_mod.toString();
         if (mod.equals("")) {
-            Core.printHandler.appendResult("Please enter the prime.");
+            Core.printHandler.appendResultP("Please enter the prime.");
             Core.printHandler.appendLog("Prime:\"" + mod + "\" is invalid.", true);
             return null;
         } else {
             try {
                 if (!Arithmetic.isPrime(Integer.parseInt(mod))) {
-                    Core.printHandler.appendResult("Please add a modulus that is a prime number.");
+                    Core.printHandler.appendResultP("Please add a modulus that is a prime number.");
                     Core.printHandler.appendLog("Modulus:\"" + mod + "\" is not prime.", true);
                     return null;
                 }
             } catch (NumberFormatException exc) {
-                Core.printHandler.appendResult("Please enter a valid prime.");
+                Core.printHandler.appendResultP("Please enter a valid prime.");
                 Core.printHandler.appendLog(polynomialPLabelP.getText() + "\"" + mod + "\" is not a constant.", true);
                 return null;
             }
@@ -191,7 +197,7 @@ public class GUICore extends JFrame {
     private String validatePolynomialR() {
         String p3s = polynomialPR.getText();
         if (p3s.equals("")) {
-            Core.printHandler.appendResult("Please enter polynomial 3.");
+            Core.printHandler.appendResultP("Please enter polynomial 3.");
             Core.printHandler.appendLog(polynomialRLabelP.getText() + "\"" + p3s + "\" is invalid.", true);
             return null;
         }
@@ -214,7 +220,16 @@ public class GUICore extends JFrame {
         polynomialPQ.setText("");
         modulusP.setText("");
         operationP.setSelectedIndex(0);
-        Core.printHandler.clearResultPane();
+        Core.printHandler.clearResultPaneP();
+    }
+
+    private void eraseFF() {
+        polynomialQFF.setText("");
+        fieldElementA.setText("");
+        fieldElementB.setText("");
+        modulusFF.setText("");
+        operationFF.setSelectedIndex(0);
+        Core.printHandler.clearResultPaneFF();
     }
 
     private void swapP() {
@@ -264,150 +279,150 @@ public class GUICore extends JFrame {
     }
 
     public void solveSum(String p1s, String p2s, String mod) {
-        Core.printHandler.appendResult("To Solve:");
+        Core.printHandler.appendResultP("To Solve:");
 
-        Core.printHandler.appendResult("(" + p1s + ") + (" + p2s + ") ≡ ? (mod " + mod + ")");
-        Core.printHandler.appendResult("");
+        Core.printHandler.appendResultP("(" + p1s + ") + (" + p2s + ") ≡ ? (mod " + mod + ")");
+        Core.printHandler.appendResultP("");
         Core.printHandler.appendLog("TO SOLVE:&#9; (" + p1s + ") + (" + p2s + ") ≡ ? (mod " + mod + ")");
 
         int modulus = Integer.parseInt(mod);
         Polynomial p1 = new Polynomial(modulus, p1s);
         Polynomial p2 = new Polynomial(modulus, p2s);
-        Core.printHandler.appendResult("Parsed Polynomials:");
-        Core.printHandler.appendResult(p1s + " ≡ " + getPolynomialText(p1) + " (mod " + modulus + ")");
-        Core.printHandler.appendResult(p2s + " ≡ " + getPolynomialText(p2) + " (mod " + modulus + ")");
-        Core.printHandler.appendResult("");
+        Core.printHandler.appendResultP("Parsed Polynomials:");
+        Core.printHandler.appendResultP(p1s + " ≡ " + getPolynomialText(p1) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP(p2s + " ≡ " + getPolynomialText(p2) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP("");
 
         Polynomial result = Arithmetic.sum(p1, p2);
-        Core.printHandler.appendResult("Solution:");
-        Core.printHandler.appendResult("(" + getPolynomialText(p1) + ") + (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP("Solution:");
+        Core.printHandler.appendResultP("(" + getPolynomialText(p1) + ") + (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
         Core.printHandler.appendLog("SOLUTION:&#9; (" + getPolynomialText(p1) + ") + (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
     }
 
     public void solveDifference(String p1s, String p2s, String mod) {
-        Core.printHandler.appendResult("To Solve:");
-        Core.printHandler.appendResult("(" + p1s + ") - (" + p2s + ") ≡ ? (mod " + mod + ")");
-        Core.printHandler.appendResult("");
+        Core.printHandler.appendResultP("To Solve:");
+        Core.printHandler.appendResultP("(" + p1s + ") - (" + p2s + ") ≡ ? (mod " + mod + ")");
+        Core.printHandler.appendResultP("");
         Core.printHandler.appendLog("TO SOLVE:&#9; (" + p1s + ") - (" + p2s + ") ≡ ? (mod " + mod + ")");
 
         int modulus = Integer.parseInt(mod);
         Polynomial p1 = new Polynomial(modulus, p1s);
         Polynomial p2 = new Polynomial(modulus, p2s);
-        Core.printHandler.appendResult("Parsed Polynomials:");
-        Core.printHandler.appendResult(p1s + " ≡ " + getPolynomialText(p1) + " (mod " + modulus + ")");
-        Core.printHandler.appendResult(p2s + " ≡ " + getPolynomialText(p2) + " (mod " + modulus + ")");
-        Core.printHandler.appendResult("");
+        Core.printHandler.appendResultP("Parsed Polynomials:");
+        Core.printHandler.appendResultP(p1s + " ≡ " + getPolynomialText(p1) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP(p2s + " ≡ " + getPolynomialText(p2) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP("");
 
         Polynomial result = Arithmetic.difference(p1, p2);
-        Core.printHandler.appendResult("Solution:");
+        Core.printHandler.appendResultP("Solution:");
 
-        Core.printHandler.appendResult("(" + getPolynomialText(p1) + ") - (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP("(" + getPolynomialText(p1) + ") - (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
         Core.printHandler.appendLog("SOLUTION:&#9; (" + getPolynomialText(p1) + ") - (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
     }
 
     public void solveProduct(String p1s, String p2s, String mod) {
-        Core.printHandler.appendResult("To Solve:");
-        Core.printHandler.appendResult("(" + p1s + ") * (" + p2s + ") ≡ ? (mod " + mod + ")");
-        Core.printHandler.appendResult("");
+        Core.printHandler.appendResultP("To Solve:");
+        Core.printHandler.appendResultP("(" + p1s + ") * (" + p2s + ") ≡ ? (mod " + mod + ")");
+        Core.printHandler.appendResultP("");
         Core.printHandler.appendLog("TO SOLVE:&#9; (" + p1s + ") * (" + p2s + ") ≡ ? (mod " + mod + ")");
 
         int modulus = Integer.parseInt(mod);
         Polynomial p1 = new Polynomial(modulus, p1s);
         Polynomial p2 = new Polynomial(modulus, p2s);
-        Core.printHandler.appendResult("Parsed Polynomials:");
-        Core.printHandler.appendResult(p1s + " ≡ " + getPolynomialText(p1) + " (mod " + modulus + ")");
-        Core.printHandler.appendResult(p2s + " ≡ " + getPolynomialText(p2) + " (mod " + modulus + ")");
-        Core.printHandler.appendResult("");
+        Core.printHandler.appendResultP("Parsed Polynomials:");
+        Core.printHandler.appendResultP(p1s + " ≡ " + getPolynomialText(p1) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP(p2s + " ≡ " + getPolynomialText(p2) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP("");
 
         Polynomial result = Arithmetic.product(p1, p2);
-        Core.printHandler.appendResult("Solution:");
-        Core.printHandler.appendResult("(" + getPolynomialText(p1) + ") * (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP("Solution:");
+        Core.printHandler.appendResultP("(" + getPolynomialText(p1) + ") * (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
         Core.printHandler.appendLog("SOLUTION:&#9; (" + getPolynomialText(p1) + ") * (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
     }
 
     public void solveScalarMultiple(String p1s, String scalars, String mod) {
-        Core.printHandler.appendResult("To Solve:");
-        Core.printHandler.appendResult(scalars + " * (" + p1s + ") ≡ ? (mod " + mod + ")");
-        Core.printHandler.appendResult("");
+        Core.printHandler.appendResultP("To Solve:");
+        Core.printHandler.appendResultP(scalars + " * (" + p1s + ") ≡ ? (mod " + mod + ")");
+        Core.printHandler.appendResultP("");
         Core.printHandler.appendLog("TO SOLVE:&#9; " + scalars + " * (" + p1s + ") ≡ ? (mod " + mod + ")");
 
         int modulus = Integer.parseInt(mod);
         Polynomial p1 = new Polynomial(modulus, p1s);
         int scalar = Integer.parseInt(scalars);
-        Core.printHandler.appendResult("Parsed Polynomials:");
-        Core.printHandler.appendResult(p1s + " ≡ " + getPolynomialText(p1) + " (mod " + modulus + ")");
-        Core.printHandler.appendResult("");
+        Core.printHandler.appendResultP("Parsed Polynomials:");
+        Core.printHandler.appendResultP(p1s + " ≡ " + getPolynomialText(p1) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP("");
 
         Polynomial result = Arithmetic.scalar(p1, scalar);
-        Core.printHandler.appendResult("Solution:");
-        Core.printHandler.appendResult(scalar + " * (" + getPolynomialText(p1) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP("Solution:");
+        Core.printHandler.appendResultP(scalar + " * (" + getPolynomialText(p1) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
         Core.printHandler.appendLog("SOLUTION:&#9; " + scalar + " * (" + getPolynomialText(p1) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
     }
 
     public void solveLongDivision(String p1s, String p2s, String mod) {
-        Core.printHandler.appendResult("To Solve:");
-        Core.printHandler.appendResult("((" + p1s + ") / (" + p2s + ")) (mod " + mod + ") ≡ (q * (" + p2s + ") + r) (mod " + mod + "),     q = ?, r = ?");
-        Core.printHandler.appendResult("");
+        Core.printHandler.appendResultP("To Solve:");
+        Core.printHandler.appendResultP("((" + p1s + ") / (" + p2s + ")) (mod " + mod + ") ≡ (q * (" + p2s + ") + r) (mod " + mod + "),     q = ?, r = ?");
+        Core.printHandler.appendResultP("");
         Core.printHandler.appendLog("TO SOLVE:&#9; ((" + p1s + ") / (" + p2s + ")) (mod " + mod + ") ≡ (q * (" + p2s + ") + r) (mod " + mod + "),     q = ?, r = ?");
 
         int modulus = Integer.parseInt(mod);
         Polynomial p1 = new Polynomial(modulus, p1s);
         Polynomial p2 = new Polynomial(modulus, p2s);
-        Core.printHandler.appendResult("Parsed Polynomials:");
-        Core.printHandler.appendResult(p1s + " ≡ " + getPolynomialText(p1) + " (mod " + modulus + ")");
-        Core.printHandler.appendResult(p2s + " ≡ " + getPolynomialText(p2) + " (mod " + modulus + ")");
-        Core.printHandler.appendResult("");
+        Core.printHandler.appendResultP("Parsed Polynomials:");
+        Core.printHandler.appendResultP(p1s + " ≡ " + getPolynomialText(p1) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP(p2s + " ≡ " + getPolynomialText(p2) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP("");
 
         Polynomial[] result = Arithmetic.longDivision(p1, p2);
-        Core.printHandler.appendResult("Solution:");
+        Core.printHandler.appendResultP("Solution:");
         assert result != null;
         assert result.length > 1;
-        Core.printHandler.appendResult("(" + getPolynomialText(p1) + ") / (" + getPolynomialText(p2) + ") ≡ (" + getPolynomialText(result[0]) + ") * (" + getPolynomialText(p2) + ") + " + getPolynomialText(result[1]) + " (mod " + modulus + ")");
-        Core.printHandler.appendResult("q = " + getPolynomialText(result[0]));
-        Core.printHandler.appendResult("r = " + getPolynomialText(result[1]));
+        Core.printHandler.appendResultP("(" + getPolynomialText(p1) + ") / (" + getPolynomialText(p2) + ") ≡ (" + getPolynomialText(result[0]) + ") * (" + getPolynomialText(p2) + ") + " + getPolynomialText(result[1]) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP("q = " + getPolynomialText(result[0]));
+        Core.printHandler.appendResultP("r = " + getPolynomialText(result[1]));
         Core.printHandler.appendLog("SOLUTION:&#9; (" + getPolynomialText(p1) + ") / (" + getPolynomialText(p2) + ") ≡ (" + getPolynomialText(result[0]) + ") * (" + getPolynomialText(p2) + ") + " + getPolynomialText(result[1]) + " (mod " + modulus + ")");
     }
 
     public void solveExtendedEuclideanAlgorithm(String p1s, String p2s, String mod) {
-        Core.printHandler.appendResult("To Solve:");
-        Core.printHandler.appendResult("gcd(" + p1s + "," + p2s + ") ≡ ((" + p1s + ") * x + (" + p2s + ") * y) (mod " + mod + "),     x = ?, y = ?");
-        Core.printHandler.appendResult("");
+        Core.printHandler.appendResultP("To Solve:");
+        Core.printHandler.appendResultP("gcd(" + p1s + "," + p2s + ") ≡ ((" + p1s + ") * x + (" + p2s + ") * y) (mod " + mod + "),     x = ?, y = ?");
+        Core.printHandler.appendResultP("");
         Core.printHandler.appendLog("TO SOLVE:&#9; gcd(" + p1s + "," + p2s + ") ≡ ((" + p1s + ") * x + (" + p2s + ") * y) (mod " + mod + "),     x = ?, y = ?");
 
         int modulus = Integer.parseInt(mod);
         Polynomial p1 = new Polynomial(modulus, p1s);
         Polynomial p2 = new Polynomial(modulus, p2s);
-        Core.printHandler.appendResult("Parsed Polynomials:");
-        Core.printHandler.appendResult(p1s + " ≡ " + getPolynomialText(p1) + " (mod " + modulus + ")");
-        Core.printHandler.appendResult(p2s + " ≡ " + getPolynomialText(p2) + " (mod " + modulus + ")");
-        Core.printHandler.appendResult("");
+        Core.printHandler.appendResultP("Parsed Polynomials:");
+        Core.printHandler.appendResultP(p1s + " ≡ " + getPolynomialText(p1) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP(p2s + " ≡ " + getPolynomialText(p2) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP("");
 
         Polynomial[] result = Arithmetic.extendedEuclideanAlgorithm(p1, p2);
-        Core.printHandler.appendResult("Solution:");
+        Core.printHandler.appendResultP("Solution:");
         assert result != null;
         assert result.length > 2;
-        Core.printHandler.appendResult("gcd(" + getPolynomialText(p1) + ", " + getPolynomialText(p2) + ") ≡ ((" + getPolynomialText(p1) + ") * (" + getPolynomialText(result[0]) + ") + (" + getPolynomialText(p2) + ") * (" + getPolynomialText(result[1]) + ")) = " + getPolynomialText(result[2]) + " (mod " + mod + ")");
-        Core.printHandler.appendResult("x = " + getPolynomialText(result[0]));
-        Core.printHandler.appendResult("y = " + getPolynomialText(result[1]));
-        Core.printHandler.appendResult("gcd(" + getPolynomialText(p1) + ", " + getPolynomialText(p2) + ") = " + getPolynomialText(result[2]));
+        Core.printHandler.appendResultP("gcd(" + getPolynomialText(p1) + ", " + getPolynomialText(p2) + ") ≡ ((" + getPolynomialText(p1) + ") * (" + getPolynomialText(result[0]) + ") + (" + getPolynomialText(p2) + ") * (" + getPolynomialText(result[1]) + ")) = " + getPolynomialText(result[2]) + " (mod " + mod + ")");
+        Core.printHandler.appendResultP("x = " + getPolynomialText(result[0]));
+        Core.printHandler.appendResultP("y = " + getPolynomialText(result[1]));
+        Core.printHandler.appendResultP("gcd(" + getPolynomialText(p1) + ", " + getPolynomialText(p2) + ") = " + getPolynomialText(result[2]));
         Core.printHandler.appendLog("SOLUTION:&#9; gcd(" + getPolynomialText(p1) + ", " + getPolynomialText(p2) + ") ≡ ((" + getPolynomialText(p1) + ") * (" + getPolynomialText(result[0]) + ") + (" + getPolynomialText(p2) + ") * (" + getPolynomialText(result[1]) + ")) = " + getPolynomialText(result[2]) + " (mod " + mod + ")");
     }
 
     public void solveEqualModuloPolynomial(String p1s, String p2s, String p3s, String mod) {
-        Core.printHandler.appendResult("To Solve:");
-        Core.printHandler.appendResult("((" + p1s + ") (mod " + mod + ")) (mod " + p3s + ") ≡ ((" + p2s + ") (mod " + mod + ")) (mod " + p3s + ")");
-        Core.printHandler.appendResult("");
+        Core.printHandler.appendResultP("To Solve:");
+        Core.printHandler.appendResultP("((" + p1s + ") (mod " + mod + ")) (mod " + p3s + ") ≡ ((" + p2s + ") (mod " + mod + ")) (mod " + p3s + ")");
+        Core.printHandler.appendResultP("");
         Core.printHandler.appendLog("TO SOLVE:&#9; ((" + p1s + ") (mod " + mod + ")) (mod " + p3s + ") ≡ ((" + p2s + ") (mod " + mod + ")) (mod " + p3s + ")");
 
         int modulus = Integer.parseInt(mod);
         Polynomial p1 = new Polynomial(modulus, p1s);
         Polynomial p2 = new Polynomial(modulus, p2s);
         Polynomial p3 = new Polynomial(Integer.MAX_VALUE, p3s);
-        Core.printHandler.appendResult("Parsed Polynomials:");
-        Core.printHandler.appendResult(p1s + " ≡ " + getPolynomialText(p1) + " (mod " + modulus + ")");
-        Core.printHandler.appendResult(p2s + " ≡ " + getPolynomialText(p2) + " (mod " + modulus + ")");
-        Core.printHandler.appendResult(p3s + " = " + getPolynomialText(p3));
-        Core.printHandler.appendResult("");
+        Core.printHandler.appendResultP("Parsed Polynomials:");
+        Core.printHandler.appendResultP(p1s + " ≡ " + getPolynomialText(p1) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP(p2s + " ≡ " + getPolynomialText(p2) + " (mod " + modulus + ")");
+        Core.printHandler.appendResultP(p3s + " = " + getPolynomialText(p3));
+        Core.printHandler.appendResultP("");
 
         Object[] result = Arithmetic.equalModuloPolynomial(p1, p2, p3);
         assert result != null;
@@ -415,10 +430,10 @@ public class GUICore extends JFrame {
         Polynomial resultP1 = (Polynomial) result[0];
         Polynomial resultP2 = (Polynomial) result[1];
         boolean isEqual = (Boolean) result[2];
-        Core.printHandler.appendResult("Solution:");
-        Core.printHandler.appendResult("((" + getPolynomialText(p1) + ") (mod " + mod + ")) ≡ ((" + getPolynomialText(p2) + ") (mod " + mod + ")) (mod " + getPolynomialText(p3) + ")");
-        Core.printHandler.appendResult(getPolynomialText(resultP1) + " ≡ " + getPolynomialText(resultP2) + " (mod " + getPolynomialText(p3) + ")");
-        Core.printHandler.appendResult(isEqual ? "Does hold." : "Does not hold.");
+        Core.printHandler.appendResultP("Solution:");
+        Core.printHandler.appendResultP("((" + getPolynomialText(p1) + ") (mod " + mod + ")) ≡ ((" + getPolynomialText(p2) + ") (mod " + mod + ")) (mod " + getPolynomialText(p3) + ")");
+        Core.printHandler.appendResultP(getPolynomialText(resultP1) + " ≡ " + getPolynomialText(resultP2) + " (mod " + getPolynomialText(p3) + ")");
+        Core.printHandler.appendResultP(isEqual ? "Does hold." : "Does not hold.");
         Core.printHandler.appendLog("SOLUTION:&#9; (" + getPolynomialText(resultP1) + " ≡ " + getPolynomialText(resultP2) + " (mod " + getPolynomialText(p3) + ") " + (isEqual ? "does hold." : "does not hold."));
     }
 }

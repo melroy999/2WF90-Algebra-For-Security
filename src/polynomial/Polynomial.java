@@ -35,6 +35,35 @@ public class Polynomial {
         return str;
     }
 
+    public static ArrayList<Polynomial> getAllDegreePolynomials(int degree, int modulo) {
+        ArrayList<Polynomial> polynomials = new ArrayList<Polynomial>();
+        int max_polynomial_rep = (int) Math.pow(modulo, degree);
+        for (int i = 0; i < max_polynomial_rep; i++) {
+            Polynomial result = new Polynomial(modulo);
+            Stack<Integer> base = toBaseRepresentation(modulo, i);
+            int counter = base.size() - 1;
+            while (!base.isEmpty()) {
+                result.addTerm(base.pop(), counter);
+                counter--;
+            }
+            polynomials.add(result);
+        }
+        return polynomials;
+    }
+
+    private static Stack<Integer> toBaseRepresentation(int modulo, int i) {
+        Stack<Integer> baseModulo = new Stack<Integer>();
+        int quotient;
+        do {
+            quotient = i / modulo;
+            int remainder = i % modulo;
+            i = quotient;
+            baseModulo.push(remainder);
+        }
+        while (quotient != 0);
+        return baseModulo;
+    }
+
     public int degree() {
         if (!terms.isEmpty()) {
             return terms.lastKey();
@@ -46,6 +75,7 @@ public class Polynomial {
         return getCoefficient(degree());
     }
 
+    @SuppressWarnings({"CloneDoesntCallSuperClone", "CloneDoesntDeclareCloneNotSupportedException"})
     public Polynomial clone() {
         Polynomial result = new Polynomial(modulus);
         result.terms = this.getTerms();
@@ -68,6 +98,7 @@ public class Polynomial {
         return terms.descendingKeySet();
     }
 
+    @SuppressWarnings("unchecked")
     public TreeMap<Integer, Integer> getTerms() {
         return (TreeMap<Integer, Integer>) terms.clone();
     }
@@ -238,35 +269,6 @@ public class Polynomial {
             }
         }
         return result;
-    }
-
-    public static ArrayList<Polynomial> getAllDegreePolynomials(int degree, int modulo){
-        ArrayList<Polynomial> polynomials = new ArrayList<Polynomial>();
-        int max_polynomial_rep = (int) Math.pow(modulo, degree);
-        for(int i = 0; i < max_polynomial_rep; i++){
-            Polynomial result = new Polynomial(modulo);
-            Stack<Integer> base = toBaseRepresentation(modulo, i);
-            int counter = base.size() - 1;
-            while(!base.isEmpty()){
-                result.addTerm(base.pop(), counter);
-                counter--;
-            }
-            polynomials.add(result);
-        }
-        return polynomials;
-    }
-
-    private static Stack<Integer> toBaseRepresentation(int modulo, int i) {
-        Stack<Integer> baseModulo = new Stack<Integer>();
-        int quotient;
-        do {
-            quotient = i / modulo;
-            int remainder = i % modulo;
-            i = quotient;
-            baseModulo.push(remainder);
-        }
-        while(quotient != 0);
-        return baseModulo;
     }
 
     public int getRanking(){

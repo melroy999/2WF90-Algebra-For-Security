@@ -1,5 +1,6 @@
 package finiteField;
 
+import core.Core;
 import polynomial.Polynomial;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class FiniteField {
      * 6. produce irreducible polynomials of a prescribed degree (4.1.6)
      */
 
-    public static Polynomial[] getEquivalenceClasses(Polynomial q){
+    public static Polynomial[] getEquivalenceClasses(Polynomial q) {
         ArrayList<Polynomial> classes = Polynomial.getAllDegreePolynomials(q.degree(), q.getModulus());
         return classes.toArray(new Polynomial[classes.size()]);
     }
@@ -33,8 +34,19 @@ public class FiniteField {
                 }
             }
         }
+        String table = getTable(classes, polyTable);
+        Core.printHandler.appendResultFF(table);
+    }
 
+    private static String getTable(ArrayList<Polynomial> classes, Polynomial[][] polyTable) {
         String table = "<table>";
+
+        table += "<tr><td>*</td>";
+        for (int i = 0; i < polyTable.length; i++) {
+            table += "<td>" + classes.get(i) + "</td>";
+        }
+        table += "</tr>";
+
         for (int i = 0; i < polyTable.length; i++) {
             Polynomial[] row = polyTable[i];
             table += "<tr>";
@@ -44,10 +56,21 @@ public class FiniteField {
             }
             table += "</tr>";
         }
-        //draw table...
+        table += "</table>";
+        return table;
     }
 
-    public static void drawAdditionTable(){
-
+    public static void drawAdditionTable(ArrayList<Polynomial> classes, Polynomial q) {
+        Polynomial[][] polyTable = new Polynomial[classes.size()][classes.size()];
+        for (int start_i = 0; start_i < classes.size(); start_i++) {
+            for (int i = start_i; i < classes.size(); i++) {
+                polyTable[start_i][i] = classes.get(start_i).sum(classes.get(i));
+                if (i != start_i) {
+                    polyTable[i][start_i] = polyTable[start_i][i];
+                }
+            }
+        }
+        String table = getTable(classes, polyTable);
+        Core.printHandler.appendResultFF(table);
     }
 }

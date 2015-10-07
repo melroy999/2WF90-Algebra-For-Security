@@ -15,23 +15,26 @@ import java.text.SimpleDateFormat;
  */
 public class PrintHandler implements Thread.UncaughtExceptionHandler {
     //html print
-    private static HTMLDocument resultDoc;
-    private static HTMLEditorKit resultEditorKit;
+    private static HTMLDocument resultDocP;
+    private static HTMLEditorKit resultEditorKitP;
+    private static HTMLDocument resultDocFF;
+    private static HTMLEditorKit resultEditorKitFF;
     private static HTMLDocument logDoc;
     private static HTMLEditorKit logEditorKit;
-    private static StyleSheet resultStyle;
-    private static StyleSheet logStyle;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     public PrintHandler(GUICore instance) {
-        resultDoc = (HTMLDocument) instance.resultPaneP.getDocument();
-        resultEditorKit = (HTMLEditorKit) instance.resultPaneP.getEditorKit();
+        resultDocP = (HTMLDocument) instance.resultPaneP.getDocument();
+        resultEditorKitP = (HTMLEditorKit) instance.resultPaneP.getEditorKit();
+
+        resultDocFF = (HTMLDocument) instance.resultPaneFF.getDocument();
+        resultEditorKitFF = (HTMLEditorKit) instance.resultPaneFF.getEditorKit();
 
         logDoc = (HTMLDocument) instance.logPane.getDocument();
         logEditorKit = (HTMLEditorKit) instance.logPane.getEditorKit();
 
-        resultStyle = resultEditorKit.getStyleSheet();
+        StyleSheet resultStyle = resultEditorKitP.getStyleSheet();
 
         Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
         resultStyle.addRule("body { font-family: " + font.getFamily() + "; " + "font-size: " + font.getSize() + "pt;}");
@@ -48,10 +51,16 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
         }
     }
 
-    public void appendResult(String message) {
+    public void appendResultP(String message) {
         message = message.replace("<", "&#60");
         message = message.replace(">", "&#62");
-        appendDoc(resultDoc, resultEditorKit, message);
+        appendDoc(resultDocP, resultEditorKitP, message);
+    }
+
+    public void appendResultFF(String message) {
+        message = message.replace("<", "&#60");
+        message = message.replace(">", "&#62");
+        appendDoc(resultDocFF, resultEditorKitFF, message);
     }
 
     public void appendLog(String message, boolean isError) {
@@ -70,8 +79,12 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
         appendLog(message, false);
     }
 
-    public void clearResultPane() {
+    public void clearResultPaneP() {
         Core.guiCore.resultPaneP.setText("");
+    }
+
+    public void clearResultPaneFF() {
+        Core.guiCore.resultPaneFF.setText("");
     }
 
     public void clearLogPane() {
