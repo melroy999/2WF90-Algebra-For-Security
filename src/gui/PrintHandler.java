@@ -25,8 +25,8 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     public PrintHandler(GUICore instance) {
-        resultDoc = (HTMLDocument) instance.resultPane.getDocument();
-        resultEditorKit = (HTMLEditorKit) instance.resultPane.getEditorKit();
+        resultDoc = (HTMLDocument) instance.resultPaneP.getDocument();
+        resultEditorKit = (HTMLEditorKit) instance.resultPaneP.getEditorKit();
 
         logDoc = (HTMLDocument) instance.logPane.getDocument();
         logEditorKit = (HTMLEditorKit) instance.logPane.getEditorKit();
@@ -71,7 +71,7 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
     }
 
     public void clearResultPane() {
-        Core.guiCore.resultPane.setText("");
+        Core.guiCore.resultPaneP.setText("");
     }
 
     public void clearLogPane() {

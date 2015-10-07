@@ -1,12 +1,8 @@
 package finiteField;
 
-import polynomial.Arithmetic;
 import polynomial.Polynomial;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Melroy van Nijnatten - 0849740.
@@ -23,25 +19,32 @@ public class FiniteField {
      */
 
     public static Polynomial[] getEquivalenceClasses(Polynomial q){
-        HashMap<Integer, Polynomial> polynomials = new HashMap<Integer, Polynomial>();
-        ArrayList<Polynomial> candidates = Polynomial.getAllDegreePolynomials(q.degree(), q.getModulus());
-        for(Polynomial p : candidates){
-            Polynomial candidate = Arithmetic.longDivision(p, q)[1];
-            polynomials.put(candidate.getRanking(), candidate);
-        }
-
-        Polynomial[] resultList = new Polynomial[polynomials.size()];
-        int counter = 0;
-        for(int i : polynomials.keySet()){
-            Polynomial p = polynomials.get(i);
-            resultList[counter] = p;
-            counter ++;
-        }
-        return resultList;
+        ArrayList<Polynomial> classes = Polynomial.getAllDegreePolynomials(q.degree(), q.getModulus());
+        return classes.toArray(new Polynomial[classes.size()]);
     }
 
-    public static void drawMultiplicationTable(){
+    public static void drawMultiplicationTable(ArrayList<Polynomial> classes, Polynomial q) {
+        Polynomial[][] polyTable = new Polynomial[classes.size()][classes.size()];
+        for (int start_i = 0; start_i < classes.size(); start_i++) {
+            for (int i = start_i; i < classes.size(); i++) {
+                polyTable[start_i][i] = classes.get(start_i).product(classes.get(i));
+                if (i != start_i) {
+                    polyTable[i][start_i] = polyTable[start_i][i];
+                }
+            }
+        }
 
+        String table = "<table>";
+        for (int i = 0; i < polyTable.length; i++) {
+            Polynomial[] row = polyTable[i];
+            table += "<tr>";
+            table += "<td>" + classes.get(i) + "</td>";
+            for (Polynomial p : row) {
+                table += "<td>" + p.toString() + "</td>";
+            }
+            table += "</tr>";
+        }
+        //draw table...
     }
 
     public static void drawAdditionTable(){

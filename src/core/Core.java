@@ -18,23 +18,21 @@ public class Core {
 
     public Core() {
         UIManager.put("TabbedPane.contentBorderInsets", new Insets(1, 0, 1, 0));
+        UIManager.put("TabbedPane.selected", Color.white);
+        UIManager.put("TabbedPane.focus", Color.white);
 
         JFrame frame = new JFrame("Assignment 2WF90 - October 2015 - Stefan Habets & Melroy van Nijnatten");
         guiCore = new GUICore();
+
+        printHandler = new PrintHandler(guiCore);
+        Thread.setDefaultUncaughtExceptionHandler(Core.printHandler);
+
         frame.setContentPane(guiCore.mainPane);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         frame.pack();
         frame.setVisible(true);
-        printHandler = new PrintHandler(guiCore);
-        Thread.setDefaultUncaughtExceptionHandler(Core.printHandler);
-
-        System.out.println(Polynomial.getAllDegreePolynomials(2, 2));
-        System.out.println(Polynomial.getAllDegreePolynomials(2, 3));
-        System.out.println(Polynomial.getAllDegreePolynomials(3, 2));
-        System.out.println(Polynomial.getAllDegreePolynomials(3, 3));
-        System.out.println(Polynomial.getAllDegreePolynomials(4, 3));
 
         System.out.println(Arrays.toString(FiniteField.getEquivalenceClasses(new Polynomial(2, "X^2+X+1"))));
         System.out.println(Arrays.toString(FiniteField.getEquivalenceClasses(new Polynomial(3, "X^2+X+1"))));

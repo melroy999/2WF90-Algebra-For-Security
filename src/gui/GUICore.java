@@ -13,27 +13,37 @@ import java.awt.event.ActionListener;
  */
 public class GUICore extends JFrame {
     public JPanel mainPane;
-    protected JTextPane resultPane;
+    protected JTextPane resultPaneP;
     protected JTextPane logPane;
-    private JTextField polynomial1;
-    private JTextField polynomial2;
-    private JComboBox arithmetic;
-    private JButton solve;
-    private JTextField modulus;
-    private JPanel parameters;
-    private JButton swapButton;
-    private JButton eraseButton;
-    private JTabbedPane tabbedPane1;
-    private JTextField polynomial3;
-    private JLabel polynomial1label;
-    private JLabel polynomial2label;
-    private JLabel polynomial3label;
+    private JTextField polynomialPP;
+    private JTextField polynomialPQ;
+    private JComboBox operationP;
+    private JButton solveP;
+    private JButton swapButtonP;
+    private JButton eraseButtonP;
+    private JTextField polynomialPR;
+    private JLabel polynomialPLabelP;
+    private JLabel polynomialQLabelP;
+    private JLabel polynomialRLabelP;
     private JRadioButton positiveAnswer;
-    private JRadioButton smallestAnswer;
     private JRadioButton negativeAnswer;
+    private JButton solveFF;
+    private JComboBox operationFF;
+    private JTextField modulusFF;
+    private JTextPane resultPaneFF;
+    private JTextField polynomialQFF;
+    private JTextField fieldElementA;
+    private JTextField fieldElementB;
+    private JButton EraseFF;
+    private JLabel polynomialQLabelFF;
+    private JLabel fieldElementALabel;
+    private JLabel fieldElementBLabel;
+    private JLabel primeLabelP;
+    private JTextField modulusP;
+    private JLabel primeLabelFF;
 
     public GUICore() {
-        swapButton.addActionListener(new ActionListener() {
+        swapButtonP.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
@@ -41,13 +51,13 @@ public class GUICore extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String s = polynomial1.getText();
-                polynomial1.setText(polynomial2.getText());
-                polynomial2.setText(s);
+                String s = polynomialPP.getText();
+                polynomialPP.setText(polynomialPQ.getText());
+                polynomialPQ.setText(s);
             }
         });
 
-        eraseButton.addActionListener(new ActionListener() {
+        eraseButtonP.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
@@ -55,15 +65,15 @@ public class GUICore extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                polynomial1.setText("");
-                polynomial2.setText("");
-                modulus.setText("");
-                arithmetic.setSelectedIndex(0);
+                polynomialPP.setText("");
+                polynomialPQ.setText("");
+                modulusP.setText("");
+                operationP.setSelectedIndex(0);
                 Core.printHandler.clearResultPane();
             }
         });
 
-        solve.addActionListener(new ActionListener() {
+        solveP.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
@@ -73,22 +83,22 @@ public class GUICore extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Core.printHandler.clearResultPane();
 
-                String operation = arithmetic.getSelectedItem().toString();
-                String input = "INPUT:&#9; Modulus:\"" + modulus.getText() + "\" ," + polynomial1label.getText() + "\"" + polynomial1.getText() + "\" ," + polynomial2label.getText() + "\"" + polynomial2.getText() + "\"";
+                String operation = operationP.getSelectedItem().toString();
+                String input = "INPUT:&#9;" + primeLabelP.getText() + "\"" + modulusP.getText() + "\" ," + polynomialPLabelP.getText() + "\"" + polynomialPP.getText() + "\" ," + polynomialQLabelP.getText() + "\"" + polynomialPQ.getText() + "\"";
                 if (operation.equals("Equal mod p3")) {
-                    input = input + " ," + polynomial3label.getText() + "\"" + polynomial3.getText() + "\"";
+                    input = input + " ," + polynomialRLabelP.getText() + "\"" + polynomialPR.getText() + "\"";
                 }
                 Core.printHandler.appendLog(input);
 
-                String p1s = polynomial1.getText();
+                String p1s = polynomialPP.getText();
                 if (p1s.equals("")) {
                     Core.printHandler.appendResult("Please enter polynomial 1.");
-                    Core.printHandler.appendLog(polynomial1label.getText() + "\"" + p1s + "\" is invalid.", true);
+                    Core.printHandler.appendLog(polynomialPLabelP.getText() + "\"" + p1s + "\" is invalid.", true);
                     return;
                 }
-                String p2s = polynomial2.getText();
+                String p2s = polynomialPQ.getText();
                 if (p2s.equals("")) {
-                    Core.printHandler.appendLog(polynomial2label.getText() + "\"" + p2s + "\" is invalid.", true);
+                    Core.printHandler.appendLog(polynomialQLabelP.getText() + "\"" + p2s + "\" is invalid.", true);
                     if (operation.equals("Scalar Multiple")) {
                         Core.printHandler.appendResult("Please enter a scalar.");
                         return;
@@ -100,17 +110,17 @@ public class GUICore extends JFrame {
                         Polynomial p = new Polynomial(Integer.MAX_VALUE, p2s);
                         if (p.keySet().size() != 1 || !p.keySet().contains(0)) {
                             Core.printHandler.appendResult("Please enter a valid scalar.");
-                            Core.printHandler.appendLog(polynomial2label.getText() + "\"" + p2s + "\" is not a constant.", true);
+                            Core.printHandler.appendLog(polynomialQLabelP.getText() + "\"" + p2s + "\" is not a constant.", true);
                             return;
                         }
                     }
                 }
-                String mod = modulus.getText();
+                String mod = modulusP.getText();
                 Polynomial p_mod = new Polynomial(Integer.MAX_VALUE, mod);
                 mod = p_mod.toString();
                 if (mod.equals("")) {
-                    Core.printHandler.appendResult("Please enter the modulus.");
-                    Core.printHandler.appendLog("Modulus:\"" + mod + "\" is invalid.", true);
+                    Core.printHandler.appendResult("Please enter the prime.");
+                    Core.printHandler.appendLog("Prime:\"" + mod + "\" is invalid.", true);
                     return;
                 } else {
                     try {
@@ -121,7 +131,7 @@ public class GUICore extends JFrame {
                         }
                     } catch (NumberFormatException exc) {
                         Core.printHandler.appendResult("Please enter a valid integer modulus.");
-                        Core.printHandler.appendLog(polynomial1label.getText() + "\"" + mod + "\" is not a constant.", true);
+                        Core.printHandler.appendLog(polynomialPLabelP.getText() + "\"" + mod + "\" is not a constant.", true);
                         return;
                     }
                 }
@@ -139,17 +149,17 @@ public class GUICore extends JFrame {
                 } else if (operation.equals("Extended Euclidean Algorithm")) {
                     solveExtendedEuclideanAlgorithm(p1s, p2s, mod);
                 } else {
-                    String p3s = polynomial3.getText();
+                    String p3s = polynomialPR.getText();
                     if (p3s.equals("")) {
                         Core.printHandler.appendResult("Please enter polynomial 3.");
-                        Core.printHandler.appendLog(polynomial3label.getText() + "\"" + p3s + "\" is invalid.", true);
+                        Core.printHandler.appendLog(polynomialRLabelP.getText() + "\"" + p3s + "\" is invalid.", true);
                         return;
                     }
                     solveEqualModuloPolynomial(p1s, p2s, p3s, mod);
                 }
             }
         });
-        arithmetic.addActionListener(new ActionListener() {
+        operationP.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
@@ -157,7 +167,7 @@ public class GUICore extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                String operation = arithmetic.getSelectedItem().toString();
+                String operation = operationP.getSelectedItem().toString();
                 if (operation.equals("Scalar Multiple")) {
                     showScalar();
                 } else if (operation.equals("Equal mod p3")) {
@@ -168,8 +178,8 @@ public class GUICore extends JFrame {
             }
         });
 
-        polynomial3.setVisible(false);
-        polynomial3label.setVisible(false);
+        polynomialPR.setVisible(false);
+        polynomialRLabelP.setVisible(false);
     }
 
     public static void main(String[] args) {
@@ -183,31 +193,27 @@ public class GUICore extends JFrame {
     }
 
     private void showThreePolynomials() {
-        polynomial1.setVisible(true);
-        polynomial2.setVisible(true);
-        polynomial3.setVisible(true);
-        polynomial2label.setText("Polynomial 2:");
-        polynomial3label.setVisible(true);
+        polynomialPP.setVisible(true);
+        polynomialPQ.setVisible(true);
+        polynomialPR.setVisible(true);
+        polynomialQLabelP.setText("Polynomial 2:");
+        polynomialRLabelP.setVisible(true);
     }
 
     private void showScalar() {
-        polynomial1.setVisible(true);
-        polynomial2.setVisible(true);
-        polynomial3.setVisible(false);
-        polynomial2label.setText("Scalar:");
-        polynomial3label.setVisible(false);
+        polynomialPP.setVisible(true);
+        polynomialPQ.setVisible(true);
+        polynomialPR.setVisible(false);
+        polynomialQLabelP.setText("Scalar:");
+        polynomialRLabelP.setVisible(false);
     }
 
     private void showTwoPolynomials() {
-        polynomial1.setVisible(true);
-        polynomial2.setVisible(true);
-        polynomial3.setVisible(false);
-        polynomial2label.setText("Polynomial 2:");
-        polynomial3label.setVisible(false);
-    }
-
-    public void addResultText(String message) {
-        Core.printHandler.appendResult(message);
+        polynomialPP.setVisible(true);
+        polynomialPQ.setVisible(true);
+        polynomialPR.setVisible(false);
+        polynomialQLabelP.setText("Polynomial 2:");
+        polynomialRLabelP.setVisible(false);
     }
 
     private void createUIComponents() {
