@@ -2,6 +2,7 @@ package core;
 
 import finiteField.FiniteField;
 import gui.GUICore;
+import gui.PrintHandler;
 import polynomial.Polynomial;
 
 import javax.swing.*;
@@ -12,6 +13,8 @@ import java.util.Arrays;
  */
 public class Core {
     public static GUICore guiCore;
+    public static PrintHandler printHandler;
+
     public Core() {
         JFrame frame = new JFrame("Assignment 2WF90 - October 2015 - Stefan Habets & Melroy van Nijnatten");
         guiCore = new GUICore();
@@ -21,6 +24,8 @@ public class Core {
 
         frame.pack();
         frame.setVisible(true);
+        printHandler = new PrintHandler(guiCore);
+        Thread.setDefaultUncaughtExceptionHandler(Core.printHandler);
 
         System.out.println(Polynomial.getAllDegreePolynomials(2, 2));
         System.out.println(Polynomial.getAllDegreePolynomials(2, 3));
@@ -34,7 +39,6 @@ public class Core {
         System.out.println(Arrays.toString(FiniteField.getEquivalenceClasses(new Polynomial(3, "X^2+1"))));
 
         int i = 1 / 0;
-        //TODO add history of operations.
         //start gui
         //GUICore.main(new String[]{});
         //new GUICore();

@@ -1,8 +1,12 @@
 package gui;
 
+import core.Core;
+
 import javax.swing.text.BadLocationException;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.StyleSheet;
+import java.awt.*;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
@@ -11,21 +15,28 @@ import java.text.SimpleDateFormat;
  */
 public class PrintHandler implements Thread.UncaughtExceptionHandler {
     //html print
-    HTMLDocument resultDoc;
-    HTMLEditorKit resultEditorKit;
-    HTMLDocument logDoc;
-    HTMLEditorKit logEditorKit;
+    private static HTMLDocument resultDoc;
+    private static HTMLEditorKit resultEditorKit;
+    private static HTMLDocument logDoc;
+    private static HTMLEditorKit logEditorKit;
+    private static StyleSheet resultStyle;
+    private static StyleSheet logStyle;
+
     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-    private GUICore instance;
 
     public PrintHandler(GUICore instance) {
-        this.instance = instance;
-
         resultDoc = (HTMLDocument) instance.resultPane.getDocument();
         resultEditorKit = (HTMLEditorKit) instance.resultPane.getEditorKit();
 
         logDoc = (HTMLDocument) instance.logPane.getDocument();
         logEditorKit = (HTMLEditorKit) instance.logPane.getEditorKit();
+
+        resultStyle = resultEditorKit.getStyleSheet();
+        logStyle = logEditorKit.getStyleSheet();
+
+        Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
+        String bodyRule = "body { font-family: " + font.getFamily() + "; " + "font-size: " + font.getSize() + "pt; }";
+        resultStyle.addRule(bodyRule);
     }
 
     public void appendDoc(HTMLDocument doc, HTMLEditorKit kit, String message) {
@@ -45,15 +56,25 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
     public void appendLog(String message, boolean isError) {
         message = message.replace("<", "&#60");
         message = message.replace(">", "&#62");
-        message = "[" + dateFormat.format(new java.util.Date()) + "]: " + message;
         if (isError) {
-            message = "<span color=\"red\"> ERROR: " + message + "</span>";
+            message = "<span color=\"red\">[" + dateFormat.format(new java.util.Date()) + "] ERROR: " + message + "</span>";
+        } else {
+            message = "[" + dateFormat.format(new java.util.Date()) + "]: " + message;
         }
+
         appendDoc(logDoc, logEditorKit, message);
     }
 
     public void appendLog(String message) {
         appendLog(message, false);
+    }
+
+    public void clearResultPane() {
+        Core.guiCore.resultPane.setText("");
+    }
+
+    public void clearLogPane() {
+        Core.guiCore.logPane.setText("");
     }
 
     /**
@@ -67,9 +88,26 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
      */
     @Override
     public void uncaughtException(Thread t, Throwable e) {
-        appendLog(e.getMessage(), true);
+        System.out.println("\u001B[31m" + e.toString() + "\u001B[0m");
+        appendLog(e.toString(), true);
         for (StackTraceElement se : e.getStackTrace()) {
-            appendLog(se.toString(), true);
+            System.out.println("\u001B[31m    at" + se.toString() + "\u001B[0m");
+            appendLog("&#09 at " + se.toString(), true);
+        }
+
+        Throwable cause = e.getCause();
+        while (true) {
+            if (cause != null) {
+                System.out.println("\u001B[31m" + cause.toString() + "\u001B[0m");
+                appendLog(cause.toString(), true);
+                for (StackTraceElement se : cause.getStackTrace()) {
+                    System.out.println("\u001B[31m    at" + se.toString() + "\u001B[0m");
+                    appendLog("at &#09" + se.toString(), true);
+                }
+                cause = cause.getCause();
+            } else {
+                break;
+            }
         }
     }
 }
