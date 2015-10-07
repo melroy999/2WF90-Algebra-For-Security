@@ -32,16 +32,15 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
         logEditorKit = (HTMLEditorKit) instance.logPane.getEditorKit();
 
         resultStyle = resultEditorKit.getStyleSheet();
-        logStyle = logEditorKit.getStyleSheet();
 
         Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
-        String bodyRule = "body { font-family: " + font.getFamily() + "; " + "font-size: " + font.getSize() + "pt; }";
-        resultStyle.addRule(bodyRule);
+        resultStyle.addRule("body { font-family: " + font.getFamily() + "; " + "font-size: " + font.getSize() + "pt;}");
+        resultStyle.addRule("pre {margin: 0; padding: 0; font-family: \" + font.getFamily() + \"; \" + \"font-size: \" + font.getSize() + \"pt;}");
     }
 
     public void appendDoc(HTMLDocument doc, HTMLEditorKit kit, String message) {
         try {
-            kit.insertHTML(doc, doc.getLength(), message, 0, 0, null);
+            kit.insertHTML(doc, doc.getLength(), "<pre>" + message + "</pre>", 0, 0, null);
         } catch (BadLocationException e) {
             e.printStackTrace();
         } catch (IOException e) {

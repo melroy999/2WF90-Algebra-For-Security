@@ -6,6 +6,7 @@ import gui.PrintHandler;
 import polynomial.Polynomial;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Arrays;
 
 /**
@@ -16,6 +17,8 @@ public class Core {
     public static PrintHandler printHandler;
 
     public Core() {
+        UIManager.put("TabbedPane.contentBorderInsets", new Insets(1, 0, 1, 0));
+
         JFrame frame = new JFrame("Assignment 2WF90 - October 2015 - Stefan Habets & Melroy van Nijnatten");
         guiCore = new GUICore();
         frame.setContentPane(guiCore.mainPane);
