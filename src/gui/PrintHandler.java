@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
  * Created by Melroy van Nijnatten - 0849740.
  */
 public class PrintHandler implements Thread.UncaughtExceptionHandler {
+    public static StyleSheet resultStyle;
     //html print
     private static HTMLDocument resultDocP;
     private static HTMLEditorKit resultEditorKitP;
@@ -21,7 +22,6 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
     private static HTMLEditorKit resultEditorKitFF;
     private static HTMLDocument logDoc;
     private static HTMLEditorKit logEditorKit;
-
     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     public PrintHandler(GUICore instance) {
@@ -34,14 +34,15 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
         logDoc = (HTMLDocument) instance.logPane.getDocument();
         logEditorKit = (HTMLEditorKit) instance.logPane.getEditorKit();
 
-        StyleSheet resultStyle = resultEditorKitP.getStyleSheet();
+        resultStyle = resultEditorKitP.getStyleSheet();
 
         Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
         resultStyle.addRule("body { font-family: " + font.getFamily() + "; " + "font-size: " + font.getSize() + "pt;}");
         resultStyle.addRule("pre {margin: 0; padding: 0; font-family: " + font.getFamily() + "; " + "font-size: " + font.getSize() + "pt;}");
         resultStyle.addRule("th, td {text-align: center; border: 1px black solid;}");
-        resultStyle.addRule("div {padding: 14px;}");
+        resultStyle.addRule("div {padding: 7px;}");
         resultStyle.addRule(".color {background-color: red;}");
+        resultStyle.addRule("table {margin: 10px;}");
     }
 
     public void appendDoc(HTMLDocument doc, HTMLEditorKit kit, String message) {
@@ -61,6 +62,17 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
 
     public void appendResultFF(String message) {
         appendDoc(resultDocFF, resultEditorKitFF, message);
+        //Core.guiCore.resultPaneFF.setCaretPosition(Core.guiCore.resultPaneFF.getText().length() - 1);
+    }
+
+    public void appendResultNoPre(String message) {
+        try {
+            resultEditorKitFF.insertHTML(resultDocFF, resultDocFF.getLength(), message, 0, 0, null);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //Core.guiCore.resultPaneFF.setCaretPosition(Core.guiCore.resultPaneFF.getText().length() - 1);
     }
 

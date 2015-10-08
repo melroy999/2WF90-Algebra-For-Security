@@ -1,10 +1,10 @@
 package finiteField;
 
 import core.Core;
+import gui.PrintHandler;
 import polynomial.Polynomial;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Melroy van Nijnatten - 0849740.
@@ -29,6 +29,7 @@ public class FiniteField {
     }
 
     public static void drawMultiplicationTable(ArrayList<Polynomial> classes, Polynomial q) {
+        PrintHandler.resultStyle.addRule(".width {width: " + 25 * (q.degree() + 1) + "px;}");
         Polynomial[][] polyTable = new Polynomial[classes.size()][classes.size()];
         for (int start_i = 0; start_i < classes.size(); start_i++) {
             for (int i = start_i; i < classes.size(); i++) {
@@ -41,7 +42,7 @@ public class FiniteField {
             }
         }
         String table = getTable(classes, polyTable, "*");
-        Core.printHandler.appendResultFF(table);
+        Core.printHandler.appendResultNoPre(table);
     }
 
     public static void drawAdditionTable(Polynomial q) {
@@ -49,6 +50,7 @@ public class FiniteField {
     }
 
     public static void drawAdditionTable(ArrayList<Polynomial> classes, Polynomial q) {
+        PrintHandler.resultStyle.addRule(".width {width: " + 25 * (q.degree() + 1) + "px;}");
         Polynomial[][] polyTable = new Polynomial[classes.size()][classes.size()];
         for (int start_i = 0; start_i < classes.size(); start_i++) {
             for (int i = start_i; i < classes.size(); i++) {
@@ -60,22 +62,22 @@ public class FiniteField {
             }
         }
         String table = getTable(classes, polyTable, "+");
-        Core.printHandler.appendResultFF(table);
+        Core.printHandler.appendResultNoPre(table);
     }
 
     private static String getTable(ArrayList<Polynomial> classes, Polynomial[][] polyTable, String symbol) {
         String table = "<table cellspacing='-1' cellpadding='-1'>";
 
-        table += "<tr><td><div class='color'>" + symbol + "</div></td>";
+        table += "<tr><td class='color'><div class='width'>" + symbol + "</div></td>";
         for (int i = 0; i < polyTable.length; i++) {
-            table += "<td><div class='color'>" + classes.get(i) + "</div></td>";
+            table += "<td class='color'><div class='width'>" + classes.get(i) + "</div></td>";
         }
         table += "</tr>";
 
         for (int i = 0; i < polyTable.length; i++) {
             Polynomial[] row = polyTable[i];
             table += "<tr>";
-            table += "<td><div class='color'>" + classes.get(i) + "</div></td>";
+            table += "<td class='color'><div>" + classes.get(i) + "</div></td>";
             for (Polynomial p : row) {
                 table += "<td><div>" + p.toString() + "</div></td>";
             }

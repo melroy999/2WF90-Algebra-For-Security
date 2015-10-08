@@ -101,6 +101,16 @@ public class GUICore extends JFrame {
         });
     }
 
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Assignment 2WF90 - October 2015 - Stefan Habets & Melroy van Nijnatten");
+        frame.setContentPane(new GUICore().mainPane);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        frame.pack();
+        frame.setVisible(true);
+    }
+
     private void solveFF() {
         Core.printHandler.clearResultPaneFF();
 
@@ -152,16 +162,6 @@ public class GUICore extends JFrame {
 
     private void switchModeFF() {
 
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Assignment 2WF90 - October 2015 - Stefan Habets & Melroy van Nijnatten");
-        frame.setContentPane(new GUICore().mainPane);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        frame.pack();
-        frame.setVisible(true);
     }
 
     private void solveP() {
@@ -320,12 +320,14 @@ public class GUICore extends JFrame {
     private void solveMultiplicationTable(String qs, String mod) {
         int modulus = Integer.parseInt(mod);
         Polynomial q = new Polynomial(modulus, qs);
+        Core.printHandler.appendResultFF("Multiplication table:");
         FiniteField.drawMultiplicationTable(q);
     }
 
     private void solveAdditionTable(String qs, String mod) {
         int modulus = Integer.parseInt(mod);
         Polynomial q = new Polynomial(modulus, qs);
+        Core.printHandler.appendResultFF("Addition table:");
         FiniteField.drawAdditionTable(q);
     }
 
