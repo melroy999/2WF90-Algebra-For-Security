@@ -2,6 +2,8 @@ package polynomial;
 
 import core.Core;
 
+import java.math.BigInteger;
+
 /**
  * Created by Melroy van Nijnatten - 0849740.
  */
@@ -114,8 +116,6 @@ public class Arithmetic {
                 break;
             }
 
-            System.out.println(r.toString() + ", " + p2.toString() + ", " + subtract.toString());
-
             //throw error if too many loops have to be made.
             i++;
             if(i > 50){
@@ -190,10 +190,13 @@ public class Arithmetic {
      * @param modulus: The modulus.
      * @return  b such that a * b = 1 (mod modulus).
      */
-    private static int modularDivision(final int a, final int modulus) {
+    private static int modularDivision(int a, final int modulus) {
         //cannot divide by 0.
         if (a == 0) {
             throw new IllegalArgumentException("The divisor may not be 0!");
+        }
+        if(a < 0){
+            a += modulus;
         }
         //find the inverse.
         return getInverse(a, modulus);
