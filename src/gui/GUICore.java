@@ -1,6 +1,7 @@
 package gui;
 
 import core.Core;
+import finiteField.FiniteField;
 import polynomial.Arithmetic;
 import polynomial.Polynomial;
 
@@ -101,7 +102,52 @@ public class GUICore extends JFrame {
     }
 
     private void solveFF() {
+        Core.printHandler.clearResultPaneFF();
 
+        String operation = operationFF.getSelectedItem().toString();
+        printInputFF(operation);
+
+        String qs = validatePolynomialQFF();
+        if (qs == null) return;
+
+        String mod = validatePrimeFF();
+        if (mod == null) return;
+
+        chooseOperationFF(operation, qs, mod);
+    }
+
+    private String validatePrimeFF() {
+        String mod = modulusFF.getText();
+        Polynomial p_mod = new Polynomial(Integer.MAX_VALUE, mod);
+        mod = p_mod.toString();
+        if (mod.equals("")) {
+            Core.printHandler.appendResultP("Please enter the prime.");
+            Core.printHandler.appendLog("Prime:\"" + mod + "\" is invalid.", true);
+            return null;
+        } else {
+            try {
+                if (!Arithmetic.isPrime(Integer.parseInt(mod))) {
+                    Core.printHandler.appendResultP("Please add a modulus that is a prime number.");
+                    Core.printHandler.appendLog(primeLabelFF.getText() + "\"" + mod + "\" is not prime.", true);
+                    return null;
+                }
+            } catch (NumberFormatException exc) {
+                Core.printHandler.appendResultP("Please enter a valid prime.");
+                Core.printHandler.appendLog(primeLabelFF.getText() + "\"" + mod + "\" is not a constant.", true);
+                return null;
+            }
+        }
+        return mod;
+    }
+
+    private String validatePolynomialQFF() {
+        String qs = polynomialQFF.getText();
+        if (qs.equals("")) {
+            Core.printHandler.appendResultP("Please enter polynomial 1.");
+            Core.printHandler.appendLog(polynomialQLabelFF.getText() + "\"" + qs + "\" is invalid.", true);
+            return null;
+        }
+        return qs;
     }
 
     private void switchModeFF() {
@@ -181,12 +227,12 @@ public class GUICore extends JFrame {
             try {
                 if (!Arithmetic.isPrime(Integer.parseInt(mod))) {
                     Core.printHandler.appendResultP("Please add a modulus that is a prime number.");
-                    Core.printHandler.appendLog(primeLabelFF.getText() + "\"" + mod + "\" is not prime.", true);
+                    Core.printHandler.appendLog(primeLabelP.getText() + "\"" + mod + "\" is not prime.", true);
                     return null;
                 }
             } catch (NumberFormatException exc) {
                 Core.printHandler.appendResultP("Please enter a valid prime.");
-                Core.printHandler.appendLog(polynomialPLabelP.getText() + "\"" + mod + "\" is not a constant.", true);
+                Core.printHandler.appendLog(primeLabelP.getText() + "\"" + mod + "\" is not a constant.", true);
                 return null;
             }
         }
@@ -194,10 +240,25 @@ public class GUICore extends JFrame {
     }
 
     private void printInputP(String operation) {
-        String input = "INPUT:&#9;" + primeLabelP.getText() + "\"" + modulusP.getText() + "\" ," + polynomialPLabelP.getText() + "\"" + polynomialPP.getText() + "\" ," + polynomialQLabelP.getText() + "\"" + polynomialPQ.getText() + "\"";
+        String input = "INPUT:&#9;" + primeLabelP.getText() + "\"" + modulusP.getText() + "\", " + polynomialPLabelP.getText() + "\"" + polynomialPP.getText() + "\", " + polynomialQLabelP.getText() + "\"" + polynomialPQ.getText() + "\"";
         if (operation.equals("Equal mod p3")) {
-            input = input + " ," + polynomialRLabelP.getText() + "\"" + polynomialPR.getText() + "\"";
+            input = input + ", " + polynomialRLabelP.getText() + "\"" + polynomialPR.getText() + "\"";
         }
+        Core.printHandler.appendLog(input);
+    }
+
+    private void printInputFF(String operation) {
+        String input = "INPUT:&#9;" + primeLabelFF.getText() + "\"" + modulusFF.getText() + "\"";
+        if(!operation.equals("Get irreducible")){
+            input += ", " + polynomialQLabelFF.getText() + "\"" + polynomialQFF.getText() + "\"";
+        }
+        if(operation.equals("Field element arithmetic") || operation.equals("Is primitive element")){
+            input += ", " + fieldElementALabel.getText() + "\"" + fieldElementA.getText() + "\"";
+        }
+        if(operation.equals("Field element arithmetic")){
+            input += ", " + fieldElementBLabel.getText() + "\"" + fieldElementB.getText() + "\"";
+        }
+
         Core.printHandler.appendLog(input);
     }
 
@@ -219,6 +280,53 @@ public class GUICore extends JFrame {
             if (p3s == null) return;
             solveEqualModuloPolynomial(p1s, p2s, p3s, mod);
         }
+    }
+
+
+    private void chooseOperationFF(String operation, String qs, String mod) {
+        System.out.println(operation);
+        if (operation.equals("Addition table")) {
+            solveAdditionTable(qs, mod);
+        } else if (operation.equals("Multiplication table")) {
+            solveMultiplicationTable(qs, mod);
+        } else if (operation.equals("Is irreducible")) {
+            solveIsIrreducible();
+        } else if (operation.equals("Get irreducible")) {
+            solveGetIrreducible();
+        } else if (operation.equals("Field element arithmetic")) {
+            solveFieldElementOperations();
+        } else if (operation.equals("Is primitive elements")) {
+            solveIsPrimitiveElement();
+        } else {//get primitive elements
+            solveGetPrimitiveElements();
+        }
+    }
+
+    private void solveGetPrimitiveElements() {
+    }
+
+    private void solveIsPrimitiveElement() {
+    }
+
+    private void solveFieldElementOperations() {
+    }
+
+    private void solveGetIrreducible() {
+    }
+
+    private void solveIsIrreducible() {
+    }
+
+    private void solveMultiplicationTable(String qs, String mod) {
+        int modulus = Integer.parseInt(mod);
+        Polynomial q = new Polynomial(modulus, qs);
+        FiniteField.drawMultiplicationTable(q);
+    }
+
+    private void solveAdditionTable(String qs, String mod) {
+        int modulus = Integer.parseInt(mod);
+        Polynomial q = new Polynomial(modulus, qs);
+        FiniteField.drawAdditionTable(q);
     }
 
     private String validatePolynomialR() {

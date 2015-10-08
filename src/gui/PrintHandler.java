@@ -38,7 +38,10 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
 
         Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
         resultStyle.addRule("body { font-family: " + font.getFamily() + "; " + "font-size: " + font.getSize() + "pt;}");
-        resultStyle.addRule("pre {margin: 0; padding: 0; font-family: \" + font.getFamily() + \"; \" + \"font-size: \" + font.getSize() + \"pt;}");
+        resultStyle.addRule("pre {margin: 0; padding: 0; font-family: " + font.getFamily() + "; " + "font-size: " + font.getSize() + "pt;}");
+        resultStyle.addRule("th, td {text-align: center; border: 1px black solid;}");
+        resultStyle.addRule("div {padding: 14px;}");
+        resultStyle.addRule(".color {background-color: red;}");
     }
 
     public void appendDoc(HTMLDocument doc, HTMLEditorKit kit, String message) {
@@ -52,15 +55,11 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
     }
 
     public void appendResultP(String message) {
-        message = message.replace("<", "&#60");
-        message = message.replace(">", "&#62");
         appendDoc(resultDocP, resultEditorKitP, message);
         //Core.guiCore.resultPaneP.setCaretPosition(Core.guiCore.resultPaneP.getText().length() - 1);
     }
 
     public void appendResultFF(String message) {
-        message = message.replace("<", "&#60");
-        message = message.replace(">", "&#62");
         appendDoc(resultDocFF, resultEditorKitFF, message);
         //Core.guiCore.resultPaneFF.setCaretPosition(Core.guiCore.resultPaneFF.getText().length() - 1);
     }
@@ -87,6 +86,7 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
     }
 
     public void clearResultPaneFF() {
+        Core.guiCore.resultPaneFF.setText(" ");
         Core.guiCore.resultPaneFF.setText("");
     }
 

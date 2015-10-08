@@ -34,12 +34,13 @@ public class FiniteField {
             for (int i = start_i; i < classes.size(); i++) {
                 Polynomial result = classes.get(start_i).product(classes.get(i));
                 polyTable[start_i][i] = result.longDivision(q)[1];
+                polyTable[start_i][i] = polyTable[start_i][i].makeCompletelyPositive();
                 if (i != start_i) {
                     polyTable[i][start_i] = polyTable[start_i][i];
                 }
             }
         }
-        String table = getTable(classes, polyTable);
+        String table = getTable(classes, polyTable, "*");
         Core.printHandler.appendResultFF(table);
     }
 
@@ -58,29 +59,30 @@ public class FiniteField {
                 }
             }
         }
-        String table = getTable(classes, polyTable);
+        String table = getTable(classes, polyTable, "+");
         Core.printHandler.appendResultFF(table);
     }
 
-    private static String getTable(ArrayList<Polynomial> classes, Polynomial[][] polyTable) {
-        String table = "<table>";
+    private static String getTable(ArrayList<Polynomial> classes, Polynomial[][] polyTable, String symbol) {
+        String table = "<table cellspacing='-1' cellpadding='-1'>";
 
-        table += "<tr><td>*</td>";
+        table += "<tr><td><div class='color'>" + symbol + "</div></td>";
         for (int i = 0; i < polyTable.length; i++) {
-            table += "<td>" + classes.get(i) + "</td>";
+            table += "<td><div class='color'>" + classes.get(i) + "</div></td>";
         }
         table += "</tr>";
 
         for (int i = 0; i < polyTable.length; i++) {
             Polynomial[] row = polyTable[i];
             table += "<tr>";
-            table += "<td>" + classes.get(i) + "</td>";
+            table += "<td><div class='color'>" + classes.get(i) + "</div></td>";
             for (Polynomial p : row) {
-                table += "<td>" + p.toString() + "</td>";
+                table += "<td><div>" + p.toString() + "</div></td>";
             }
             table += "</tr>";
         }
         table += "</table>";
+
         return table;
     }
 }
