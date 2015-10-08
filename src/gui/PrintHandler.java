@@ -55,14 +55,14 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
         message = message.replace("<", "&#60");
         message = message.replace(">", "&#62");
         appendDoc(resultDocP, resultEditorKitP, message);
-        Core.guiCore.resultPaneP.setCaretPosition(Core.guiCore.resultPaneP.getText().length() - 1);
+        //Core.guiCore.resultPaneP.setCaretPosition(Core.guiCore.resultPaneP.getText().length() - 1);
     }
 
     public void appendResultFF(String message) {
         message = message.replace("<", "&#60");
         message = message.replace(">", "&#62");
         appendDoc(resultDocFF, resultEditorKitFF, message);
-        Core.guiCore.resultPaneFF.setCaretPosition(Core.guiCore.resultPaneFF.getText().length() - 1);
+        //Core.guiCore.resultPaneFF.setCaretPosition(Core.guiCore.resultPaneFF.getText().length() - 1);
     }
 
     public void appendLog(String message, boolean isError) {
@@ -75,7 +75,7 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
         }
 
         appendDoc(logDoc, logEditorKit, message);
-        Core.guiCore.logPane.setCaretPosition(Core.guiCore.logPane.getText().length() - 1);
+        //Core.guiCore.logPane.setCaretPosition(Core.guiCore.logPane.getText().length() - 1);
     }
 
     public void appendLog(String message) {
