@@ -1,5 +1,7 @@
 package polynomial;
 
+import core.Core;
+
 /**
  * Created by Melroy van Nijnatten - 0849740.
  */
@@ -104,17 +106,20 @@ public class Arithmetic {
 
             //set the quotient and the remainder.
             q = Arithmetic.sum(q, toAdd);
-            r = Arithmetic.difference(r, Arithmetic.product(toAdd, p2));
+            Polynomial subtract = Arithmetic.product(toAdd, p2);
+            r = Arithmetic.difference(r, subtract);
 
             //stop the loop if r has become 0.
             if(r.toString().equals("0")){
                 break;
             }
 
+            System.out.println(r.toString() + ", " + p2.toString() + ", " + subtract.toString());
+
             //throw error if too many loops have to be made.
             i++;
             if(i > 50){
-                throw new Error();
+                throw new Error("Too many loops.");
             }
         }
         return new Polynomial[]{q, r};

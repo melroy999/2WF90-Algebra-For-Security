@@ -33,16 +33,6 @@ public class Core {
 
         frame.pack();
         frame.setVisible(true);
-
-        System.out.println(Arrays.toString(FiniteField.getEquivalenceClasses(new Polynomial(2, "X^2+X+1"))));
-        System.out.println(Arrays.toString(FiniteField.getEquivalenceClasses(new Polynomial(3, "X^2+X+1"))));
-        System.out.println(Arrays.toString(FiniteField.getEquivalenceClasses(new Polynomial(3, "X^4+X^2"))));
-        System.out.println(Arrays.toString(FiniteField.getEquivalenceClasses(new Polynomial(3, "X^2+1"))));
-
-        int i = 1 / 0;
-        //start gui
-        //GUICore.main(new String[]{});
-        //new GUICore();
     }
 
     public static void main(String[] args){

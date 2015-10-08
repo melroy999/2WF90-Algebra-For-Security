@@ -4,6 +4,7 @@ import core.Core;
 import polynomial.Polynomial;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Melroy van Nijnatten - 0849740.
@@ -19,16 +20,39 @@ public class FiniteField {
      * 6. produce irreducible polynomials of a prescribed degree (4.1.6)
      */
 
-    public static Polynomial[] getEquivalenceClasses(Polynomial q) {
-        ArrayList<Polynomial> classes = Polynomial.getAllDegreePolynomials(q.degree(), q.getModulus());
-        return classes.toArray(new Polynomial[classes.size()]);
+    public static ArrayList<Polynomial> getEquivalenceClasses(Polynomial q) {
+        return Polynomial.getAllDegreePolynomials(q.degree(), q.getModulus());
+    }
+
+    public static void drawMultiplicationTable(Polynomial q){
+        drawMultiplicationTable(getEquivalenceClasses(q), q);
     }
 
     public static void drawMultiplicationTable(ArrayList<Polynomial> classes, Polynomial q) {
         Polynomial[][] polyTable = new Polynomial[classes.size()][classes.size()];
         for (int start_i = 0; start_i < classes.size(); start_i++) {
             for (int i = start_i; i < classes.size(); i++) {
-                polyTable[start_i][i] = classes.get(start_i).product(classes.get(i));
+                Polynomial result = classes.get(start_i).product(classes.get(i));
+                polyTable[start_i][i] = result.longDivision(q)[1];
+                if (i != start_i) {
+                    polyTable[i][start_i] = polyTable[start_i][i];
+                }
+            }
+        }
+        String table = getTable(classes, polyTable);
+        Core.printHandler.appendResultFF(table);
+    }
+
+    public static void drawAdditionTable(Polynomial q) {
+        drawAdditionTable(getEquivalenceClasses(q), q);
+    }
+
+    public static void drawAdditionTable(ArrayList<Polynomial> classes, Polynomial q) {
+        Polynomial[][] polyTable = new Polynomial[classes.size()][classes.size()];
+        for (int start_i = 0; start_i < classes.size(); start_i++) {
+            for (int i = start_i; i < classes.size(); i++) {
+                Polynomial result = classes.get(start_i).sum(classes.get(i));
+                polyTable[start_i][i] = result.longDivision(q)[1];
                 if (i != start_i) {
                     polyTable[i][start_i] = polyTable[start_i][i];
                 }
@@ -58,19 +82,5 @@ public class FiniteField {
         }
         table += "</table>";
         return table;
-    }
-
-    public static void drawAdditionTable(ArrayList<Polynomial> classes, Polynomial q) {
-        Polynomial[][] polyTable = new Polynomial[classes.size()][classes.size()];
-        for (int start_i = 0; start_i < classes.size(); start_i++) {
-            for (int i = start_i; i < classes.size(); i++) {
-                polyTable[start_i][i] = classes.get(start_i).sum(classes.get(i));
-                if (i != start_i) {
-                    polyTable[i][start_i] = polyTable[start_i][i];
-                }
-            }
-        }
-        String table = getTable(classes, polyTable);
-        Core.printHandler.appendResultFF(table);
     }
 }

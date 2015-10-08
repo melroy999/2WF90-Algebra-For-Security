@@ -41,6 +41,7 @@ public class GUICore extends JFrame {
     private JLabel primeLabelP;
     private JTextField modulusP;
     private JLabel primeLabelFF;
+    private JButton eraseButton;
 
     public GUICore() {
         swapButtonP.addActionListener(new ActionListener() {
@@ -79,6 +80,32 @@ public class GUICore extends JFrame {
                 eraseFF();
             }
         });
+        operationFF.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switchModeFF();
+            }
+        });
+        solveFF.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                solveFF();
+            }
+        });
+        eraseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Core.printHandler.clearLogPane();
+            }
+        });
+    }
+
+    private void solveFF() {
+
+    }
+
+    private void switchModeFF() {
+
     }
 
     public static void main(String[] args) {
@@ -154,7 +181,7 @@ public class GUICore extends JFrame {
             try {
                 if (!Arithmetic.isPrime(Integer.parseInt(mod))) {
                     Core.printHandler.appendResultP("Please add a modulus that is a prime number.");
-                    Core.printHandler.appendLog("Modulus:\"" + mod + "\" is not prime.", true);
+                    Core.printHandler.appendLog(primeLabelFF.getText() + "\"" + mod + "\" is not prime.", true);
                     return null;
                 }
             } catch (NumberFormatException exc) {

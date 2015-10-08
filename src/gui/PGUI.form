@@ -348,7 +348,16 @@
                             <maximum-size width="200" height="30"/>
                           </grid>
                         </constraints>
-                        <properties/>
+                        <properties>
+                          <model>
+                            <item value="Draw tables"/>
+                            <item value="Is irreducible"/>
+                            <item value="Get irreducible"/>
+                            <item value="Field element arithmetic"/>
+                            <item value="Is primitive element"/>
+                            <item value="Get primitive elements"/>
+                          </model>
+                        </properties>
                       </component>
                       <component id="97e57" class="javax.swing.JLabel" binding="primeLabelFF">
                         <constraints>
@@ -480,7 +489,7 @@
           </grid>
         </children>
       </tabbedpane>
-      <grid id="a1f65" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="a1f65" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="5" bottom="0" right="5"/>
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -497,7 +506,7 @@
         <children>
           <scrollpane id="e9760">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <horizontalScrollBarPolicy value="31"/>
@@ -522,6 +531,19 @@
               <text value="Log"/>
             </properties>
           </component>
+          <component id="3f2ca" class="javax.swing.JButton" binding="eraseButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Erase"/>
+            </properties>
+          </component>
+          <hspacer id="b5b04">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
         </children>
       </grid>
       <toolbar id="7c278">
