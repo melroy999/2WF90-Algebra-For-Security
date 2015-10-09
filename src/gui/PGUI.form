@@ -352,6 +352,8 @@
                           <model>
                             <item value="Addition table"/>
                             <item value="Multiplication table"/>
+                            <item value="Inverse table"/>
+                            <item value="Quotient table"/>
                             <item value="Is irreducible"/>
                             <item value="Get irreducible"/>
                             <item value="Field element arithmetic"/>

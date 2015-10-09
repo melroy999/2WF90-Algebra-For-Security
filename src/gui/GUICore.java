@@ -317,12 +317,18 @@ public class GUICore extends JFrame {
             solveAdditionTable(qs, mod);
         } else if (operation.equals("Multiplication table")) {
             solveMultiplicationTable(qs, mod);
+        } else if (operation.equals("Inverse table")){
+            solveInverseTable(qs, mod);
+        }else if (operation.equals("Quotient table")) {
+            solveQuotientTable(qs, mod);
         } else if (operation.equals("Is irreducible")) {
             solveIsIrreducible();
         } else if (operation.equals("Get irreducible")) {
             solveGetIrreducible();
         } else if (operation.equals("Field element arithmetic")) {
-            solveFieldElementOperations();
+            String as = fieldElementA.getText();
+            String bs = fieldElementB.getText();
+            solveFieldElementOperations(qs, as,  bs, mod);
         } else if (operation.equals("Is primitive elements")) {
             solveIsPrimitiveElement();
         } else {//get primitive elements
@@ -643,7 +649,15 @@ public class GUICore extends JFrame {
     private void solveIsPrimitiveElement() {
     }
 
-    private void solveFieldElementOperations() {
+    private void solveFieldElementOperations(String qs, String as, String bs, String mod) {
+        int modulus = Integer.parseInt(mod);
+        Polynomial q = new Polynomial(modulus, qs);
+        Polynomial a = new Polynomial(modulus, as);
+        Polynomial b = new Polynomial(modulus, bs);
+
+        Core.printHandler.appendResultFF(FiniteField.sumFieldElements(a, b, q).toString());
+        Core.printHandler.appendResultFF(FiniteField.productFieldElements(a, b, q).toString());
+        Core.printHandler.appendResultFF(FiniteField.quotientFieldElements(a, b, q).toString());
     }
 
     private void solveGetIrreducible() {
@@ -664,5 +678,19 @@ public class GUICore extends JFrame {
         Polynomial q = new Polynomial(modulus, qs);
         Core.printHandler.appendResultFF("Addition table:");
         FiniteField.drawAdditionTable(q);
+    }
+
+    private void solveInverseTable(String qs, String mod) {
+        int modulus = Integer.parseInt(mod);
+        Polynomial q = new Polynomial(modulus, qs);
+        Core.printHandler.appendResultFF("Inverse table:");
+        FiniteField.drawInverseTable(q);
+    }
+
+    private void solveQuotientTable(String qs, String mod) {
+        int modulus = Integer.parseInt(mod);
+        Polynomial q = new Polynomial(modulus, qs);
+        Core.printHandler.appendResultFF("Quotient table:");
+        FiniteField.drawQuotientTable(q);
     }
 }
