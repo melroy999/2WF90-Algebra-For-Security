@@ -22,9 +22,12 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
     private static HTMLEditorKit resultEditorKitFF;
     private static HTMLDocument logDoc;
     private static HTMLEditorKit logEditorKit;
+
+    //format the time should be shown in.
     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     public PrintHandler(GUICore instance) {
+        //gets everything needed to do html formatting correctly.
         resultDocP = (HTMLDocument) instance.resultPaneP.getDocument();
         resultEditorKitP = (HTMLEditorKit) instance.resultPaneP.getEditorKit();
 
@@ -45,8 +48,17 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
         resultStyle.addRule("table {margin: 10px;}");
     }
 
+    /**
+     * Append one of the result panels.
+     *
+     * @param doc:     The html document.
+     * @param kit:     the html editor kit.
+     * @param message: the message that should be added.
+     */
     public void appendDoc(HTMLDocument doc, HTMLEditorKit kit, String message) {
+        //try to do it, if not working, print stacktrace.
         try {
+            //at pre to conserve formatting.
             kit.insertHTML(doc, doc.getLength(), "<pre>" + message + "</pre>", 0, 0, null);
         } catch (BadLocationException e) {
             e.printStackTrace();
@@ -55,16 +67,29 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
         }
     }
 
+    /**
+     * Add message to the result panel of the polynomial tab.
+     *
+     * @param message: the message that should be added.
+     */
     public void appendResultP(String message) {
         appendDoc(resultDocP, resultEditorKitP, message);
-        //Core.guiCore.resultPaneP.setCaretPosition(Core.guiCore.resultPaneP.getText().length() - 1);
     }
 
+    /**
+     * Add message to the result panel of the finite fields tab.
+     *
+     * @param message: the message that should be added.
+     */
     public void appendResultFF(String message) {
         appendDoc(resultDocFF, resultEditorKitFF, message);
-        //Core.guiCore.resultPaneFF.setCaretPosition(Core.guiCore.resultPaneFF.getText().length() - 1);
     }
 
+    /**
+     * Add message to the result panel of the finite fields tab, without using pre (for tables).
+     *
+     * @param message: the message that should be added.
+     */
     public void appendResultNoPre(String message) {
         try {
             resultEditorKitFF.insertHTML(resultDocFF, resultDocFF.getLength(), message, 0, 0, null);
@@ -73,9 +98,14 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //Core.guiCore.resultPaneFF.setCaretPosition(Core.guiCore.resultPaneFF.getText().length() - 1);
     }
 
+    /**
+     * Add message to the text panel of the log.
+     *
+     * @param message: the message that should be added.
+     * @param isError: if the input is an error or not. becomes red and has "ERROR" as prefix.
+     */
     public void appendLog(String message, boolean isError) {
         message = message.replace("<", "&#60");
         message = message.replace(">", "&#62");
@@ -86,22 +116,35 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
         }
 
         appendDoc(logDoc, logEditorKit, message);
-        //Core.guiCore.logPane.setCaretPosition(Core.guiCore.logPane.getText().length() - 1);
     }
 
+    /**
+     * Append the log with non error message.
+     *
+     * @param message: the message that should be added.
+     */
     public void appendLog(String message) {
         appendLog(message, false);
     }
 
+    /**
+     * Reset the text of the polynomial result pane.
+     */
     public void clearResultPaneP() {
         Core.guiCore.resultPaneP.setText("");
     }
 
+    /**
+     * Reset the text of the finite field result pane.
+     */
     public void clearResultPaneFF() {
         Core.guiCore.resultPaneFF.setText(" ");
         Core.guiCore.resultPaneFF.setText("");
     }
 
+    /**
+     * Clear the log.
+     */
     public void clearLogPane() {
         Core.guiCore.logPane.setText("");
     }
@@ -117,6 +160,7 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
      */
     @Override
     public void uncaughtException(Thread t, Throwable e) {
+        //print the error, nothing special here.
         System.out.println("\u001B[31m" + e.toString() + "\u001B[0m");
         appendLog(e.toString(), true);
         for (StackTraceElement se : e.getStackTrace()) {
