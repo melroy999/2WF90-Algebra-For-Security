@@ -10,6 +10,12 @@ import java.util.Stack;
  * Created by Melroy van Nijnatten - 0849740.
  */
 public class Parser {
+    /**
+     * Changes the inputted string representation of a polynomial to a Tree object.
+     *
+     * @param toParse: The string to convert to polynomial.
+     * @return The tree of components.
+     */
     public static TreeNode parse(String toParse){
         //clean up the inserted string.
         toParse = toParse.trim();
@@ -27,6 +33,7 @@ public class Parser {
         toParse = toParse.replaceAll("X⁸", "X^8");
         toParse = toParse.replaceAll("X⁹", "X^9");
 
+        //change back solo superscripts.
         toParse = toParse.replaceAll("⁰", "0");
         toParse = toParse.replaceAll("¹", "1");
         toParse = toParse.replaceAll("²", "2");
@@ -93,6 +100,12 @@ public class Parser {
         return makeTree("" + toParse + "");
     }
 
+    /**
+     * Convert the preformatted string to polynomial.
+     *
+     * @param s: The string to convert to polynomial.
+     * @return The polynomial in the format of a string.
+     */
     public static TreeNode makeTree(final String s){
         //holds the current term, as we might have numbers not fitting in 0-9
         String currentTerm = "";
@@ -123,6 +136,13 @@ public class Parser {
         return process(nodes);
     }
 
+    /**
+     * Convert string to array of TreeNodes.
+     *
+     * @param currentTerm: The term we are on.
+     * @param chars:       Array of chars.
+     * @return array of TreeNodes.
+     */
     private static ArrayList<TreeNode> convertToTreeNodeArray(String currentTerm, char[] chars) {
         ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
         //Split up the string into multiple TreeNodes:
@@ -147,6 +167,12 @@ public class Parser {
         return nodes;
     }
 
+    /**
+     * Process the operators in the TreeNode array.
+     *
+     * @param nodes: The array of TreeNodes.
+     * @return The Polynomial in tree format.
+     */
     @SuppressWarnings("unchecked")
     private static TreeNode process(ArrayList<TreeNode> nodes){
         //stack that keeps track of found TreeNodes before a bracket.
