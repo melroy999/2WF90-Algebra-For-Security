@@ -423,9 +423,9 @@ public class GUICore extends JFrame {
     }
 
     /***
-     *
+     * ############################################
      * Display correct input objects (Finite Fields).
-     *
+     * ############################################
      */
     private void switchModeFF() {
         String operation = operationFF.getSelectedItem().toString();
@@ -488,9 +488,9 @@ public class GUICore extends JFrame {
     }
 
     /***
-     *
+     * ############################################
      * Solve print/control methods (Polynomials).
-     *
+     * ############################################
      */
     public void solveSum(String p1s, String p2s, String mod) {
         Core.printHandler.appendResultP("To Solve:");
@@ -652,71 +652,149 @@ public class GUICore extends JFrame {
     }
 
     /***
-     *
+     * ############################################
      * Solve print/control methods (Finite Fields).
-     *
+     * ############################################
+     */
+
+    /**
+     * @param qs: String representation of irreducible polynomial.
      */
     private void solveGetPrimitiveElement(String qs) {
+        Core.printHandler.appendLog("TO SOLVE: get a primitive element of polynomial " + qs + ".");
         String mod = modulusFF.getText();
         Polynomial q = new Polynomial(Integer.parseInt(mod), qs);
         Polynomial primitive = FiniteField.getPrimitiveElement(q);
         Core.printHandler.appendResultFF("The polynomial " + primitive.toString() + " a primitive element of " + q.toString() + ".");
     }
 
+    /**
+     * Checks if the given field element is a primitive element.
+     *
+     * @param qs: String representation of irreducible polynomial.
+     * @param as: Field element a.
+     */
     private void solveIsPrimitiveElement(String as, String qs) {
+        Core.printHandler.appendLog("TO SOLVE: is " + qs + " a primitive element?");
         String mod = modulusFF.getText();
         Polynomial q = new Polynomial(Integer.parseInt(mod), qs);
         Polynomial a = new Polynomial(Integer.parseInt(mod), as);
-        Core.printHandler.appendResultFF("The polynomial " + a.toString() + " is " + (FiniteField.isPrimitiveElement(a, q) ? "" : "not ") + "a primitive element of " + q.toString() + ".");
+        Core.printHandler.appendResultFF("The field element " + a.toString() + " is " + (FiniteField.isPrimitiveElement(a, q) ? "" : "not ") + "a primitive element of " + q.toString() + ".");
+        Core.printHandler.appendLog("SOLUTION: The field element " + a.toString() + " is " + (FiniteField.isPrimitiveElement(a, q) ? "" : "not ") + "a primitive element of " + q.toString() + ".");
     }
 
+    /**
+     * Returns the addition, multiplication and quotient of two field elements.
+     *
+     * @param qs: String representation of irreducible polynomial.
+     * @param as: Field element a.
+     * @param bs: Field element b.
+     * @param mod: String representation of the prime modulus that should be used.
+     */
     private void solveFieldElementOperations(String qs, String as, String bs, String mod) {
+        Core.printHandler.appendLog("TO SOLVE: get (" + as + ")+(" + bs + "), (" + as + ")*(" + bs + ") and (" + as + ")*(" + bs + ")^-1.");
         int modulus = Integer.parseInt(mod);
         Polynomial q = new Polynomial(modulus, qs);
         Polynomial a = new Polynomial(modulus, as);
         Polynomial b = new Polynomial(modulus, bs);
 
-        Core.printHandler.appendResultFF(FiniteField.sumFieldElements(a, b, q).toString());
-        Core.printHandler.appendResultFF(FiniteField.productFieldElements(a, b, q).toString());
-        Core.printHandler.appendResultFF(FiniteField.quotientFieldElements(a, b, q).toString());
+        Polynomial addition = FiniteField.sumFieldElements(a, b, q);
+        Polynomial multiplication = FiniteField.productFieldElements(a, b, q);
+        Polynomial quotient = FiniteField.quotientFieldElements(a, b, q);
+
+        Core.printHandler.appendResultFF("Solution: ");
+        Core.printHandler.appendResultFF("(" + a.toString() + ")+(" + b.toString() + ")≡" + addition.toString() + " (mod + " + q.toString() + ")");
+        Core.printHandler.appendResultFF("(" + a.toString() + ")*(" + b.toString() + ")≡" + multiplication.toString() + " (mod + " + q.toString() + ")");
+        Core.printHandler.appendResultFF("(" + a.toString() + ")*(" + b.toString() + ")^-1≡" + quotient.toString() + " (mod + " + q.toString() + ")");
+        Core.printHandler.appendLog("SOLUTION: a+b=" + addition.toString() + ", a*b=" + multiplication.toString() + ", a*b^-1=" + quotient.toString());
     }
 
+    /**
+     * Generates a random irreducible polynomial of the given degree.
+     *
+     * @param degree: The degree of the desired irreducible polynomial.
+     * @param mod: String representation of the prime modulus that should be used.
+     */
     private void solveGetIrreducible(String degree, String mod) {
+        Core.printHandler.appendLog("TO SOLVE: get an irreducible polynomial?");
         Polynomial irreducible = FiniteField.getIrreducible(Integer.parseInt(degree), Integer.parseInt(mod));
         Core.printHandler.appendResultFF("The polynomial " + irreducible.toString() + " is irreducible with degree " + degree + ".");
     }
 
+    /**
+     * Check if the given polynomial is irreducible.
+     *
+     * @param qs: String representation of irreducible polynomial.
+     */
     private void solveIsIrreducible(String qs) {
+        Core.printHandler.appendLog("TO SOLVE: is " + qs + " irreducible?");
         String mod = modulusFF.getText();
         Polynomial q = new Polynomial(Integer.parseInt(mod), qs);
         Core.printHandler.appendResultFF("The polynomial " + q.toString() + " is " + (FiniteField.isIrreducible(q) ? "" : "not ") + "irreducible.");
+        Core.printHandler.appendLog("SOLUTION: The polynomial " + q.toString() + " is " + (FiniteField.isIrreducible(q) ? "" : "not ") + "irreducible.");
     }
 
+    /**
+     * Draws a multiplication table for the given irreducible polynomial.
+     *
+     * @param qs: String representation of irreducible polynomial.
+     * @param mod: String representation of the prime modulus that should be used.
+     */
     private void solveMultiplicationTable(String qs, String mod) {
+        Core.printHandler.appendLog("TO SOLVE: get multiplication table.");
         int modulus = Integer.parseInt(mod);
         Polynomial q = new Polynomial(modulus, qs);
         Core.printHandler.appendResultFF("Multiplication table:");
+        //draw the table.
         FiniteField.drawMultiplicationTable(q);
+        Core.printHandler.appendLog("Multiplication table has been drawn.");
     }
 
+    /**
+     * Draws a addition table for the given irreducible polynomial.
+     *
+     * @param qs: String representation of irreducible polynomial.
+     * @param mod: String representation of the prime modulus that should be used.
+     */
     private void solveAdditionTable(String qs, String mod) {
+        Core.printHandler.appendLog("TO SOLVE: get addition table.");
         int modulus = Integer.parseInt(mod);
         Polynomial q = new Polynomial(modulus, qs);
         Core.printHandler.appendResultFF("Addition table:");
+        //draw the table.
         FiniteField.drawAdditionTable(q);
+        Core.printHandler.appendLog("Addition table has been drawn.");
     }
 
+    /**
+     * Draws a inverse table for the given irreducible polynomial.
+     *
+     * @param qs: String representation of irreducible polynomial.
+     * @param mod: String representation of the prime modulus that should be used.
+     */
     private void solveInverseTable(String qs, String mod) {
+        Core.printHandler.appendLog("TO SOLVE: get inverse table.");
         int modulus = Integer.parseInt(mod);
         Polynomial q = new Polynomial(modulus, qs);
         Core.printHandler.appendResultFF("Inverse table:");
+        //draw the table.
         FiniteField.drawInverseTable(q);
+        Core.printHandler.appendLog("Inverse table has been drawn.");
     }
 
+    /**
+     * Draws a quotient table for the given irreducible polynomial.
+     *
+     * @param qs: String representation of irreducible polynomial.
+     * @param mod: String representation of the prime modulus that should be used.
+     */
     private void solveQuotientTable(String qs, String mod) {
+        Core.printHandler.appendLog("TO SOLVE: get quotient table.");
         int modulus = Integer.parseInt(mod);
         Polynomial q = new Polynomial(modulus, qs);
         Core.printHandler.appendResultFF("Quotient table:");
+        //draw the table.
         FiniteField.drawQuotientTable(q);
+        Core.printHandler.appendLog("Quotient table has been drawn.");
     }
 }

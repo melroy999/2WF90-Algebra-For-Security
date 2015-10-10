@@ -167,18 +167,6 @@ public class FiniteField {
         return false;
     }
 
-    private static ArrayList<Integer> getPrimeDivisors(int q) {
-        ArrayList<Integer> primes = new ArrayList<Integer>();
-        for (int i = 1; i <= q; i++) {
-            if (Arithmetic.isPrime(i)) {
-                if (q % i == 0) {
-                    primes.add(i);
-                }
-            }
-        }
-        return primes;
-    }
-
     public static Polynomial getPrimitiveElement(Polynomial q) {
         Polynomial element = new Polynomial(q.getModulus());
         element.randomize(q.degree() - 1, false);
