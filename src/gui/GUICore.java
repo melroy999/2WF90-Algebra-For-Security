@@ -657,9 +657,17 @@ public class GUICore extends JFrame {
      *
      */
     private void solveGetPrimitiveElement(String qs) {
+        String mod = modulusFF.getText();
+        Polynomial q = new Polynomial(Integer.parseInt(mod), qs);
+        Polynomial primitive = FiniteField.getPrimitiveElement(q);
+        Core.printHandler.appendResultFF("The polynomial " + primitive.toString() + " a primitive element of " + q.toString() + ".");
     }
 
-    private void solveIsPrimitiveElement(String a, String qs) {
+    private void solveIsPrimitiveElement(String as, String qs) {
+        String mod = modulusFF.getText();
+        Polynomial q = new Polynomial(Integer.parseInt(mod), qs);
+        Polynomial a = new Polynomial(Integer.parseInt(mod), as);
+        Core.printHandler.appendResultFF("The polynomial " + a.toString() + " is " + (FiniteField.isPrimitiveElement(a, q) ? "" : "not ") + "a primitive element of " + q.toString() + ".");
     }
 
     private void solveFieldElementOperations(String qs, String as, String bs, String mod) {
@@ -681,7 +689,7 @@ public class GUICore extends JFrame {
     private void solveIsIrreducible(String qs) {
         String mod = modulusFF.getText();
         Polynomial q = new Polynomial(Integer.parseInt(mod), qs);
-        Core.printHandler.appendResultFF("The polynomial " + qs + " is " + (FiniteField.isIrreducible(q) ? "" : "not") + " irreducible.");
+        Core.printHandler.appendResultFF("The polynomial " + q.toString() + " is " + (FiniteField.isIrreducible(q) ? "" : "not ") + "irreducible.");
     }
 
     private void solveMultiplicationTable(String qs, String mod) {

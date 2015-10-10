@@ -147,19 +147,37 @@ public class FiniteField {
         Polynomial q = new Polynomial(mod);
         do {
             q.randomize(degree, true);
-            System.out.println(q.toString());
         }
         while (!q.isIrreducible());
         return q;
     }
 
     public static boolean isPrimitiveElement(Polynomial a, Polynomial q){
+        ArrayList<Polynomial> classes = getEquivalenceClasses(q);
         int i = 1;
-        int n = 0;
-        /*while(){
+        int classes_size = classes.size();
+        System.out.println(classes_size);
+        ArrayList<Integer> primes = getPrimeDivisors(classes_size - 1);
+        System.out.println("divisors of q-1=" + (classes_size - 1) + ", " + primes);
+        int n = primes.size();
+        System.out.println(n);
+        while (!a.pow((n - 1) / primes.get(i - 1), q).toString().equals("1") && i <= n) {
+            System.out.println("pow: " + a.pow((n - 1) / primes.get(i - 1), q));
             i++;
-        }*/
+        }
         return i <= n;
+    }
+
+    private static ArrayList<Integer> getPrimeDivisors(int q) {
+        ArrayList<Integer> primes = new ArrayList<Integer>();
+        for (int i = 2; i <= q; i++) {
+            if (Arithmetic.isPrime(i)) {
+                if (q % i == 0) {
+                    primes.add(i);
+                }
+            }
+        }
+        return primes;
     }
 
     public static Polynomial getPrimitiveElement(Polynomial q) {

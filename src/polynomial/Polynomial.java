@@ -301,4 +301,13 @@ public class Polynomial {
             addTerm(randomNum, degree);
         }
     }
+
+    public Polynomial pow(int n, Polynomial q) {
+        Polynomial result = new Polynomial(modulus, "1");
+        for (int i = 0; i < n; i++) {
+            result = result.product(this);
+            result = result.longDivision(q)[1];
+        }
+        return result;
+    }
 }
