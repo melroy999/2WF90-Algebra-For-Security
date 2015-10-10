@@ -271,12 +271,34 @@ public class Polynomial {
         return result;
     }
 
-    public int getRanking(){
-        Polynomial toRank = this.makeCompletelyPositive();
-        int rank = 0;
-        for(int i : toRank.keySet()){
-            rank += toRank.getCoefficient(i) * Math.pow(modulus, i);
+    public boolean isIrreducible() {
+        if (this.toString().equals("0") || this.toString().equals("1")) {
+            return true;
         }
-        return rank;
+
+        int t = 1;
+        Polynomial q = new Polynomial(modulus);
+        q.addTerm(-1, 1);
+        q.addTerm(1, (int) Math.pow(modulus, t));
+        while (this.extendedEuclideanAlgorithm(q)[2].toString().equals("1")) {
+            t++;
+            q = new Polynomial(modulus);
+            q.addTerm(-1, 1);
+            q.addTerm(1, (int) Math.pow(modulus, t));
+        }
+        return t == this.degree();
+    }
+
+    public void randomize(int degree, boolean ofDegree) {
+        Random rand = new Random();
+        terms = new TreeMap<Integer, Integer>();
+        for (int i = 0; i < (ofDegree ? degree : degree + 1); i++) {
+            int randomNum = rand.nextInt(modulus);
+            addTerm(randomNum, i);
+        }
+        if (ofDegree) {
+            int randomNum = 1 + rand.nextInt(modulus - 1);
+            addTerm(randomNum, degree);
+        }
     }
 }

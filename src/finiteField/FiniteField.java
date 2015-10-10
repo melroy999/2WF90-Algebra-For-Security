@@ -106,11 +106,7 @@ public class FiniteField {
         Core.printHandler.appendResultNoPre(table);
     }
 
-    private interface Operation {
-        public Polynomial operation(Polynomial p, Polynomial q);
-    }
-
-    public static Polynomial sumFieldElements(Polynomial a, Polynomial b, Polynomial q){
+    public static Polynomial sumFieldElements(Polynomial a, Polynomial b, Polynomial q) {
         Polynomial result = a.sum(b);
         return result.longDivision(q)[1];
     }
@@ -142,20 +138,37 @@ public class FiniteField {
         }
     }
 
+    //lecture notes
     public static boolean isIrreducible(Polynomial p){
-        return false;
+        return p.isIrreducible();
     }
 
     public static Polynomial getIrreducible(int degree, int mod){
-        return null;
+        Polynomial q = new Polynomial(mod);
+        do {
+            q.randomize(degree, true);
+            System.out.println(q.toString());
+        }
+        while (!q.isIrreducible());
+        return q;
     }
 
     public static boolean isPrimitiveElement(Polynomial a, Polynomial q){
-        return false;
+        int i = 1;
+        int n = 0;
+        /*while(){
+            i++;
+        }*/
+        return i <= n;
     }
 
-    public static ArrayList<Polynomial> getPrivateElements(Polynomial q){
-        return new ArrayList<Polynomial>();
+    public static Polynomial getPrimitiveElement(Polynomial q) {
+        Polynomial element = new Polynomial(q.getModulus());
+        element.randomize(q.degree() - 1, false);
+        while (!isPrimitiveElement(element, q)) {
+            element.randomize(q.degree() - 1, false);
+        }
+        return element;
     }
 
     private static String getTable(ArrayList<Polynomial> classesX, ArrayList<Polynomial> classesY, Polynomial[][] polyTable, String symbol) {
@@ -183,5 +196,9 @@ public class FiniteField {
         table += "</table>";
 
         return table;
+    }
+
+    private interface Operation {
+        public Polynomial operation(Polynomial p, Polynomial q);
     }
 }

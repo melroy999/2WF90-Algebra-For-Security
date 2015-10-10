@@ -358,7 +358,7 @@
                             <item value="Get irreducible"/>
                             <item value="Field element arithmetic"/>
                             <item value="Is primitive element"/>
-                            <item value="Get primitive elements"/>
+                            <item value="Get primitive element"/>
                           </model>
                         </properties>
                       </component>

@@ -1,9 +1,5 @@
 package polynomial;
 
-import core.Core;
-
-import java.math.BigInteger;
-
 /**
  * Created by Melroy van Nijnatten - 0849740.
  */
@@ -100,7 +96,6 @@ public class Arithmetic {
         Polynomial r = p1.clone();
 
         //to avoid infinite looping.
-        int i = 0;
         while (r.degree() >= p2.degree()) {
             //find the term that should be added in this iteration.
             Polynomial toAdd = new Polynomial(p1.getModulus());
@@ -114,12 +109,6 @@ public class Arithmetic {
             //stop the loop if r has become 0.
             if(r.toString().equals("0")){
                 break;
-            }
-
-            //throw error if too many loops have to be made.
-            i++;
-            if(i > 50){
-                throw new Error("Too many loops.");
             }
         }
         return new Polynomial[]{q, r};

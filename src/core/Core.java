@@ -1,13 +1,10 @@
 package core;
 
-import finiteField.FiniteField;
 import gui.GUICore;
 import gui.PrintHandler;
-import polynomial.Polynomial;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
 
 /**
  * Created by Melroy van Nijnatten - 0849740.

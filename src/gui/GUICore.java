@@ -107,14 +107,14 @@ public class GUICore extends JFrame {
         String operation = operationP.getSelectedItem().toString();
         printInputP(operation);
 
+        String mod = validatePrimeP();
+        if (mod == null) return;
+
         String p1s = validatePolynomialPP();
         if (p1s == null) return;
 
         String p2s = validatePolynomialQP(operation);
         if (p2s == null) return;
-
-        String mod = validatePrimeP();
-        if (mod == null) return;
 
         chooseOperationP(operation, p1s, p2s, mod);
     }
@@ -130,11 +130,11 @@ public class GUICore extends JFrame {
         String operation = operationFF.getSelectedItem().toString();
         printInputFF(operation);
 
-        String qs = validatePolynomialQFF();
-        if (qs == null) return;
-
         String mod = validatePrimeFF();
         if (mod == null) return;
+
+        String qs = validatePolynomialQFF(operation);
+        if (qs == null) return;
 
         chooseOperationFF(operation, qs, mod);
     }
@@ -238,12 +238,20 @@ public class GUICore extends JFrame {
         return mod;
     }
 
-    private String validatePolynomialQFF() {
+    private String validatePolynomialQFF(String operation) {
         String qs = polynomialQFF.getText();
         if (qs.equals("")) {
             Core.printHandler.appendResultP("Please enter polynomial 1.");
             Core.printHandler.appendLog(polynomialQLabelFF.getText() + "\"" + qs + "\" is invalid.", true);
             return null;
+        } else {
+            String mod = modulusFF.getText();
+            Polynomial q = new Polynomial(Integer.parseInt(mod), qs);
+            if (!operation.equals("Get irreducible") && !operation.equals("Is irreducible") && !q.isIrreducible()) {
+                Core.printHandler.appendResultP("Please enter an irreducible polynomial q.");
+                Core.printHandler.appendLog(polynomialQLabelFF.getText() + "\"" + qs + "\" is reducible.", true);
+                return null;
+            }
         }
         return qs;
     }
@@ -268,9 +276,7 @@ public class GUICore extends JFrame {
      */
     private void printInputFF(String operation) {
         String input = "INPUT:&#9;" + primeLabelFF.getText() + "\"" + modulusFF.getText() + "\"";
-        if(!operation.equals("Get irreducible")){
-            input += ", " + polynomialQLabelFF.getText() + "\"" + polynomialQFF.getText() + "\"";
-        }
+        input += ", " + polynomialQLabelFF.getText() + "\"" + polynomialQFF.getText() + "\"";
         if(operation.equals("Field element arithmetic") || operation.equals("Is primitive element")){
             input += ", " + fieldElementALabel.getText() + "\"" + fieldElementA.getText() + "\"";
         }
@@ -335,11 +341,11 @@ public class GUICore extends JFrame {
             String as = fieldElementA.getText();
             String bs = fieldElementB.getText();
             solveFieldElementOperations(qs, as,  bs, mod);
-        } else if (operation.equals("Is primitive elements")) {
+        } else if (operation.equals("Is primitive element")) {
             String as = fieldElementA.getText();
             solveIsPrimitiveElement(as, qs);
         } else {//get primitive elements
-            solveGetPrimitiveElements(qs);
+            solveGetPrimitiveElement(qs);
         }
     }
 
@@ -650,7 +656,7 @@ public class GUICore extends JFrame {
      * Solve print/control methods (Finite Fields).
      *
      */
-    private void solveGetPrimitiveElements(String qs) {
+    private void solveGetPrimitiveElement(String qs) {
     }
 
     private void solveIsPrimitiveElement(String a, String qs) {
@@ -668,9 +674,14 @@ public class GUICore extends JFrame {
     }
 
     private void solveGetIrreducible(String degree, String mod) {
+        Polynomial irreducible = FiniteField.getIrreducible(Integer.parseInt(degree), Integer.parseInt(mod));
+        Core.printHandler.appendResultFF("The polynomial " + irreducible.toString() + " is irreducible with degree " + degree + ".");
     }
 
     private void solveIsIrreducible(String qs) {
+        String mod = modulusFF.getText();
+        Polynomial q = new Polynomial(Integer.parseInt(mod), qs);
+        Core.printHandler.appendResultFF("The polynomial " + qs + " is " + (FiniteField.isIrreducible(q) ? "" : "not") + " irreducible.");
     }
 
     private void solveMultiplicationTable(String qs, String mod) {
