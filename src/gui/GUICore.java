@@ -120,9 +120,7 @@ public class GUICore extends JFrame {
     }
 
     /***
-     *
      * Main solve call for Finite Fields.
-     *
      */
     private void solveFF() {
         Core.printHandler.clearResultPaneFF();
@@ -139,10 +137,17 @@ public class GUICore extends JFrame {
         chooseOperationFF(operation, qs, mod);
     }
 
+
     /***
-     *
+     * ############################################
      * Validate inputs (Polynomials).
+     * ############################################
+     */
+
+    /**
+     * Validates polynomial P.
      *
+     * @return null if polynomial is invalid, string representation otherwise.
      */
     private String validatePolynomialPP() {
         String p1s = polynomialPP.getText();
@@ -154,6 +159,12 @@ public class GUICore extends JFrame {
         return p1s;
     }
 
+    /**
+     * Validates polynomial Q.
+     *
+     * @param operation: The operation specified by the user.
+     * @return null if polynomial is invalid, string representation otherwise.
+     */
     private String validatePolynomialQP(String operation) {
         String p2s = polynomialPQ.getText();
         if (p2s.equals("")) {
@@ -177,6 +188,11 @@ public class GUICore extends JFrame {
         return p2s;
     }
 
+    /**
+     * Validates the prime modulo.
+     *
+     * @return null if prime is invalid, string representation otherwise.
+     */
     private String validatePrimeP() {
         String mod = modulusP.getText();
         Polynomial p_mod = new Polynomial(Integer.MAX_VALUE, mod);
@@ -201,6 +217,11 @@ public class GUICore extends JFrame {
         return mod;
     }
 
+    /**
+     * Validates polynomial R.
+     *
+     * @return null if polynomial is invalid, string representation otherwise.
+     */
     private String validatePolynomialR() {
         String p3s = polynomialPR.getText();
         if (p3s.equals("")) {
@@ -211,8 +232,17 @@ public class GUICore extends JFrame {
         return p3s;
     }
 
+
     /**
+     * ############################################
      * Validate inputs (Finite Fields).
+     * ############################################
+     */
+
+    /**
+     * Checks if the given prime is valid.
+     *
+     * @return null if prime is invalid, string representation otherwise.
      */
     private String validatePrimeFF() {
         String mod = modulusFF.getText();
@@ -238,6 +268,12 @@ public class GUICore extends JFrame {
         return mod;
     }
 
+    /**
+     * Validates the irreducible polynomial.
+     *
+     * @param operation: The operation specified by the user.
+     * @return null if polynomial is invalid, string representation otherwise.
+     */
     private String validatePolynomialQFF(String operation) {
         String qs = polynomialQFF.getText();
         if (qs.equals("")) {
@@ -257,9 +293,9 @@ public class GUICore extends JFrame {
     }
 
     /***
-     *
      * print the input given by user (Polynomial).
      *
+     * @param operation: The operation specified by the user.
      */
     private void printInputP(String operation) {
         String input = "INPUT:&#9;" + primeLabelP.getText() + "\"" + modulusP.getText() + "\", " + polynomialPLabelP.getText() + "\"" + polynomialPP.getText() + "\", " + polynomialQLabelP.getText() + "\"" + polynomialPQ.getText() + "\"";
@@ -269,10 +305,10 @@ public class GUICore extends JFrame {
         Core.printHandler.appendLog(input);
     }
 
-    /***
-     *
+    /**
      * print the input given by user (Finite Field).
      *
+     * @param operation: The operation specified by the user.
      */
     private void printInputFF(String operation) {
         String input = "INPUT:&#9;" + primeLabelFF.getText() + "\"" + modulusFF.getText() + "\"";
@@ -287,10 +323,13 @@ public class GUICore extends JFrame {
         Core.printHandler.appendLog(input);
     }
 
-    /***
-     *
+    /**
      * Switch operation mode (Polynomials).
      *
+     * @param operation: The operation specified by the user.
+     * @param p1s: The string representation of the first polynomial.
+     * @param p2s: The string representation of the second polynomial.
+     * @param mod: The string representation of the prime modulo.
      */
     private void chooseOperationP(String operation, String p1s, String p2s, String mod) {
         if (operation.equals("Sum")) {
@@ -312,10 +351,12 @@ public class GUICore extends JFrame {
         }
     }
 
-    /***
-     *
+    /**
      * Switch operation mode (Finite Fields).
      *
+     * @param operation: The operation specified by the user.
+     * @param qs: The string representation of the irreducible polynomial.
+     * @param mod: The string representation of the prime modulo.
      */
     private void chooseOperationFF(String operation, String qs, String mod) {
         System.out.println(operation);
@@ -350,9 +391,7 @@ public class GUICore extends JFrame {
     }
 
     /***
-     *
-     * Erase settings on tab.
-     *
+     * Erase the input on the Polynomials tab.
      */
     private void eraseP() {
         polynomialPP.setText("");
@@ -362,6 +401,9 @@ public class GUICore extends JFrame {
         Core.printHandler.clearResultPaneP();
     }
 
+    /**
+     * Erase the input on the Finite Fields tab.
+     */
     private void eraseFF() {
         polynomialQFF.setText("");
         fieldElementA.setText("");
@@ -372,9 +414,7 @@ public class GUICore extends JFrame {
     }
 
     /***
-     *
      * Swap contents of Polynomial p and Polynomial q.
-     *
      */
     private void swapP() {
         String s = polynomialPP.getText();
@@ -382,10 +422,15 @@ public class GUICore extends JFrame {
         polynomialPQ.setText(s);
     }
 
+
     /***
-     *
+     * ############################################
      * Display correct input objects (Polynomials).
-     *
+     * ############################################
+     */
+
+    /**
+     * Switch to the correct input fields needed for polynomials.
      */
     private void switchModeP() {
         String operation = operationP.getSelectedItem().toString();
@@ -398,6 +443,9 @@ public class GUICore extends JFrame {
         }
     }
 
+    /**
+     * Show three polynomial fields.
+     */
     private void showThreePolynomials() {
         polynomialPP.setVisible(true);
         polynomialPQ.setVisible(true);
@@ -406,6 +454,9 @@ public class GUICore extends JFrame {
         polynomialRLabelP.setVisible(true);
     }
 
+    /**
+     * Show the scalar field.
+     */
     private void showScalar() {
         polynomialPP.setVisible(true);
         polynomialPQ.setVisible(true);
@@ -414,6 +465,9 @@ public class GUICore extends JFrame {
         polynomialRLabelP.setVisible(false);
     }
 
+    /**
+     * Show two polynomial fields.
+     */
     private void showTwoPolynomials() {
         polynomialPP.setVisible(true);
         polynomialPQ.setVisible(true);
@@ -422,10 +476,15 @@ public class GUICore extends JFrame {
         polynomialRLabelP.setVisible(false);
     }
 
+
     /***
      * ############################################
      * Display correct input objects (Finite Fields).
      * ############################################
+     */
+
+    /**
+     * Switch to the correct fields to process the input.
      */
     private void switchModeFF() {
         String operation = operationFF.getSelectedItem().toString();
@@ -440,6 +499,9 @@ public class GUICore extends JFrame {
         }
     }
 
+    /**
+     * Show only the polynomial field.
+     */
     private void showPoly() {
         polynomialQLabelFF.setText("Polynomial q:");
         fieldElementA.setVisible(false);
@@ -448,6 +510,9 @@ public class GUICore extends JFrame {
         fieldElementBLabel.setVisible(false);
     }
 
+    /**
+     * Show only field element a field.
+     */
     private void showFieldElement() {
         polynomialQLabelFF.setText("Polynomial q:");
         fieldElementA.setVisible(true);
@@ -456,6 +521,9 @@ public class GUICore extends JFrame {
         fieldElementBLabel.setVisible(false);
     }
 
+    /**
+     * Show the field elements fields.
+     */
     private void showFieldElements() {
         polynomialQLabelFF.setText("Polynomial q:");
         fieldElementA.setVisible(true);
@@ -464,6 +532,9 @@ public class GUICore extends JFrame {
         fieldElementBLabel.setVisible(true);
     }
 
+    /**
+     * Show the fields required for degrees.
+     */
     private void showDegree() {
         polynomialQLabelFF.setText("Degree:");
         fieldElementA.setVisible(false);
@@ -472,8 +543,12 @@ public class GUICore extends JFrame {
         fieldElementBLabel.setVisible(false);
     }
 
+
     /**
      * Convert polynomial to one of the three required modes.
+     *
+     * @param p: The polynomial that has to be converted.
+     * @return The polynomial that has the correct properties.
      */
     private String getPolynomialText(Polynomial p){
         String text;
@@ -487,10 +562,19 @@ public class GUICore extends JFrame {
         return text;
     }
 
+
     /***
      * ############################################
      * Solve print/control methods (Polynomials).
      * ############################################
+     */
+
+    /**
+     * Gets the sum of two polynomials.
+     *
+     * @param p1s: String representation of the first polynomial.
+     * @param p2s: String representation of the second polynomial.
+     * @param mod: String representation of the prime modulus that should be used.
      */
     public void solveSum(String p1s, String p2s, String mod) {
         Core.printHandler.appendResultP("To Solve:");
@@ -513,6 +597,13 @@ public class GUICore extends JFrame {
         Core.printHandler.appendLog("SOLUTION:&#9; (" + getPolynomialText(p1) + ") + (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
     }
 
+    /**
+     * Gets the difference of two polynomials.
+     *
+     * @param p1s: String representation of the first polynomial.
+     * @param p2s: String representation of the second polynomial.
+     * @param mod: String representation of the prime modulus that should be used.
+     */
     public void solveDifference(String p1s, String p2s, String mod) {
         Core.printHandler.appendResultP("To Solve:");
         Core.printHandler.appendResultP("(" + p1s + ") - (" + p2s + ") ≡ ? (mod " + mod + ")");
@@ -534,6 +625,13 @@ public class GUICore extends JFrame {
         Core.printHandler.appendLog("SOLUTION:&#9; (" + getPolynomialText(p1) + ") - (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
     }
 
+    /**
+     * Gets the product of two polynomials.
+     *
+     * @param p1s: String representation of the first polynomial.
+     * @param p2s: String representation of the second polynomial.
+     * @param mod: String representation of the prime modulus that should be used.
+     */
     public void solveProduct(String p1s, String p2s, String mod) {
         Core.printHandler.appendResultP("To Solve:");
         Core.printHandler.appendResultP("(" + p1s + ") * (" + p2s + ") ≡ ? (mod " + mod + ")");
@@ -554,6 +652,13 @@ public class GUICore extends JFrame {
         Core.printHandler.appendLog("SOLUTION:&#9; (" + getPolynomialText(p1) + ") * (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
     }
 
+    /**
+     * Multiplies the polynomial by a constant.
+     *
+     * @param p1s:     String representation of the first polynomial.
+     * @param scalars: The constant that we multiply by.
+     * @param mod:     String representation of the prime modulus that should be used.
+     */
     public void solveScalarMultiple(String p1s, String scalars, String mod) {
         Core.printHandler.appendResultP("To Solve:");
         Core.printHandler.appendResultP(scalars + " * (" + p1s + ") ≡ ? (mod " + mod + ")");
@@ -573,6 +678,13 @@ public class GUICore extends JFrame {
         Core.printHandler.appendLog("SOLUTION:&#9; " + scalar + " * (" + getPolynomialText(p1) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
     }
 
+    /**
+     * Gets the quotient and remainder by long division.
+     *
+     * @param p1s: String representation of the first polynomial.
+     * @param p2s: String representation of the second polynomial.
+     * @param mod: String representation of the prime modulus that should be used.
+     */
     public void solveLongDivision(String p1s, String p2s, String mod) {
         Core.printHandler.appendResultP("To Solve:");
         Core.printHandler.appendResultP("((" + p1s + ") / (" + p2s + ")) (mod " + mod + ") ≡ (q * (" + p2s + ") + r) (mod " + mod + "),     q = ?, r = ?");
@@ -597,6 +709,13 @@ public class GUICore extends JFrame {
         Core.printHandler.appendLog("SOLUTION:&#9; (" + getPolynomialText(p1) + ") / (" + getPolynomialText(p2) + ") ≡ (" + getPolynomialText(result[0]) + ") * (" + getPolynomialText(p2) + ") + " + getPolynomialText(result[1]) + " (mod " + modulus + ")");
     }
 
+    /**
+     * Get the gcd of two polynomials, together with factors polynomials x and y such that ax + by = gcd.
+     *
+     * @param p1s: String representation of the first polynomial.
+     * @param p2s: String representation of the second polynomial.
+     * @param mod: String representation of the prime modulus that should be used.
+     */
     public void solveExtendedEuclideanAlgorithm(String p1s, String p2s, String mod) {
         Core.printHandler.appendResultP("To Solve:");
         Core.printHandler.appendResultP("gcd(" + p1s + "," + p2s + ") ≡ ((" + p1s + ") * x + (" + p2s + ") * y) (mod " + mod + "),     x = ?, y = ?");
@@ -622,6 +741,14 @@ public class GUICore extends JFrame {
         Core.printHandler.appendLog("SOLUTION:&#9; gcd(" + getPolynomialText(p1) + ", " + getPolynomialText(p2) + ") ≡ ((" + getPolynomialText(p1) + ") * (" + getPolynomialText(result[0]) + ") + (" + getPolynomialText(p2) + ") * (" + getPolynomialText(result[1]) + ")) = " + getPolynomialText(result[2]) + " (mod " + mod + ")");
     }
 
+    /**
+     * Check if two polynomials are equal modulo a third polynomial.
+     *
+     * @param p1s: String representation of the first polynomial.
+     * @param p2s: String representation of the second polynomial.
+     * @param p3s: String representation of the third polynomial.
+     * @param mod: String representation of the prime modulus that should be used.
+     */
     public void solveEqualModuloPolynomial(String p1s, String p2s, String p3s, String mod) {
         Core.printHandler.appendResultP("To Solve:");
         Core.printHandler.appendResultP("((" + p1s + ") (mod " + mod + ")) (mod " + p3s + ") ≡ ((" + p2s + ") (mod " + mod + ")) (mod " + p3s + ")");
@@ -651,6 +778,8 @@ public class GUICore extends JFrame {
         Core.printHandler.appendLog("SOLUTION:&#9; (" + getPolynomialText(resultP1) + " ≡ " + getPolynomialText(resultP2) + " (mod " + getPolynomialText(p3) + ") " + (isEqual ? "does hold." : "does not hold."));
     }
 
+
+
     /***
      * ############################################
      * Solve print/control methods (Finite Fields).
@@ -658,6 +787,8 @@ public class GUICore extends JFrame {
      */
 
     /**
+     * Gets a primitive element of the given polynomial.
+     *
      * @param qs: String representation of irreducible polynomial.
      */
     private void solveGetPrimitiveElement(String qs) {
