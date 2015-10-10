@@ -138,7 +138,6 @@ public class FiniteField {
         }
     }
 
-    //lecture notes
     public static boolean isIrreducible(Polynomial p){
         return p.isIrreducible();
     }
@@ -154,23 +153,23 @@ public class FiniteField {
 
     public static boolean isPrimitiveElement(Polynomial a, Polynomial q){
         ArrayList<Polynomial> classes = getEquivalenceClasses(q);
-        int i = 1;
-        int classes_size = classes.size();
-        System.out.println(classes_size);
-        ArrayList<Integer> primes = getPrimeDivisors(classes_size - 1);
-        System.out.println("divisors of q-1=" + (classes_size - 1) + ", " + primes);
-        int n = primes.size();
-        System.out.println(n);
-        while (!a.pow((n - 1) / primes.get(i - 1), q).toString().equals("1") && i <= n) {
-            System.out.println("pow: " + a.pow((n - 1) / primes.get(i - 1), q));
-            i++;
+        int n = classes.size();
+        Polynomial pow = a.clone();
+        System.out.println("init:" + pow.toString());
+        for (int i = 1; i < n - 1; i++) {
+            pow = pow.product(a);
+            pow = pow.longDivision(q)[1].makeCompletelyPositive();
+            System.out.println(pow.toString());
+            if (pow.toString().equals("1")) {
+                return i == n - 2;
+            }
         }
-        return i <= n;
+        return false;
     }
 
     private static ArrayList<Integer> getPrimeDivisors(int q) {
         ArrayList<Integer> primes = new ArrayList<Integer>();
-        for (int i = 2; i <= q; i++) {
+        for (int i = 1; i <= q; i++) {
             if (Arithmetic.isPrime(i)) {
                 if (q % i == 0) {
                     primes.add(i);
