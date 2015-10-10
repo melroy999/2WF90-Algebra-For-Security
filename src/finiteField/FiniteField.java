@@ -142,6 +142,22 @@ public class FiniteField {
         }
     }
 
+    public static boolean isIrreducible(Polynomial p){
+        return false;
+    }
+
+    public static Polynomial getIrreducible(int degree, int mod){
+        return null;
+    }
+
+    public static boolean isPrimitiveElement(Polynomial a, Polynomial q){
+        return false;
+    }
+
+    public static ArrayList<Polynomial> getPrivateElements(Polynomial q){
+        return new ArrayList<Polynomial>();
+    }
+
     private static String getTable(ArrayList<Polynomial> classesX, ArrayList<Polynomial> classesY, Polynomial[][] polyTable, String symbol) {
         String table = "<table cellspacing='-1' cellpadding='-1'>";
 

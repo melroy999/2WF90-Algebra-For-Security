@@ -322,17 +322,24 @@ public class GUICore extends JFrame {
         }else if (operation.equals("Quotient table")) {
             solveQuotientTable(qs, mod);
         } else if (operation.equals("Is irreducible")) {
-            solveIsIrreducible();
+            solveIsIrreducible(qs);
         } else if (operation.equals("Get irreducible")) {
-            solveGetIrreducible();
+            Polynomial q = new Polynomial(Integer.MAX_VALUE, qs);
+            if (q.keySet().size() != 1 || !q.keySet().contains(0)) {
+                Core.printHandler.appendResultP("Please enter a valid integer degree.");
+                Core.printHandler.appendLog(polynomialQLabelP.getText() + "\"" + qs + "\" is not a constant.", true);
+                return;
+            }
+            solveGetIrreducible(qs, mod);
         } else if (operation.equals("Field element arithmetic")) {
             String as = fieldElementA.getText();
             String bs = fieldElementB.getText();
             solveFieldElementOperations(qs, as,  bs, mod);
         } else if (operation.equals("Is primitive elements")) {
-            solveIsPrimitiveElement();
+            String as = fieldElementA.getText();
+            solveIsPrimitiveElement(as, qs);
         } else {//get primitive elements
-            solveGetPrimitiveElements();
+            solveGetPrimitiveElements(qs);
         }
     }
 
@@ -643,10 +650,10 @@ public class GUICore extends JFrame {
      * Solve print/control methods (Finite Fields).
      *
      */
-    private void solveGetPrimitiveElements() {
+    private void solveGetPrimitiveElements(String qs) {
     }
 
-    private void solveIsPrimitiveElement() {
+    private void solveIsPrimitiveElement(String a, String qs) {
     }
 
     private void solveFieldElementOperations(String qs, String as, String bs, String mod) {
@@ -660,10 +667,10 @@ public class GUICore extends JFrame {
         Core.printHandler.appendResultFF(FiniteField.quotientFieldElements(a, b, q).toString());
     }
 
-    private void solveGetIrreducible() {
+    private void solveGetIrreducible(String degree, String mod) {
     }
 
-    private void solveIsIrreducible() {
+    private void solveIsIrreducible(String qs) {
     }
 
     private void solveMultiplicationTable(String qs, String mod) {
