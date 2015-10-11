@@ -581,7 +581,7 @@ public class GUICore extends JFrame {
 
         Core.printHandler.appendResultP("(" + p1s + ") + (" + p2s + ") ≡ ? (mod " + mod + ")");
         Core.printHandler.appendResultP("");
-        Core.printHandler.appendLog("TO SOLVE:&#9; (" + p1s + ") + (" + p2s + ") ≡ ? (mod " + mod + ")");
+        Core.printHandler.appendLog("TO SOLVE:&#9;(" + p1s + ") + (" + p2s + ") ≡ ? (mod " + mod + ")");
 
         int modulus = Integer.parseInt(mod);
         Polynomial p1 = new Polynomial(modulus, p1s);
@@ -594,7 +594,7 @@ public class GUICore extends JFrame {
         Polynomial result = Arithmetic.sum(p1, p2);
         Core.printHandler.appendResultP("Solution:");
         Core.printHandler.appendResultP("(" + getPolynomialText(p1) + ") + (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
-        Core.printHandler.appendLog("SOLUTION:&#9; (" + getPolynomialText(p1) + ") + (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
+        Core.printHandler.appendLog("SOLUTION:&#9;(" + getPolynomialText(p1) + ") + (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
     }
 
     /**
@@ -608,7 +608,7 @@ public class GUICore extends JFrame {
         Core.printHandler.appendResultP("To Solve:");
         Core.printHandler.appendResultP("(" + p1s + ") - (" + p2s + ") ≡ ? (mod " + mod + ")");
         Core.printHandler.appendResultP("");
-        Core.printHandler.appendLog("TO SOLVE:&#9; (" + p1s + ") - (" + p2s + ") ≡ ? (mod " + mod + ")");
+        Core.printHandler.appendLog("TO SOLVE:&#9;(" + p1s + ") - (" + p2s + ") ≡ ? (mod " + mod + ")");
 
         int modulus = Integer.parseInt(mod);
         Polynomial p1 = new Polynomial(modulus, p1s);
@@ -622,7 +622,7 @@ public class GUICore extends JFrame {
         Core.printHandler.appendResultP("Solution:");
 
         Core.printHandler.appendResultP("(" + getPolynomialText(p1) + ") - (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
-        Core.printHandler.appendLog("SOLUTION:&#9; (" + getPolynomialText(p1) + ") - (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
+        Core.printHandler.appendLog("SOLUTION:&#9;(" + getPolynomialText(p1) + ") - (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
     }
 
     /**
@@ -636,7 +636,7 @@ public class GUICore extends JFrame {
         Core.printHandler.appendResultP("To Solve:");
         Core.printHandler.appendResultP("(" + p1s + ") * (" + p2s + ") ≡ ? (mod " + mod + ")");
         Core.printHandler.appendResultP("");
-        Core.printHandler.appendLog("TO SOLVE:&#9; (" + p1s + ") * (" + p2s + ") ≡ ? (mod " + mod + ")");
+        Core.printHandler.appendLog("TO SOLVE:&#9;(" + p1s + ") * (" + p2s + ") ≡ ? (mod " + mod + ")");
 
         int modulus = Integer.parseInt(mod);
         Polynomial p1 = new Polynomial(modulus, p1s);
@@ -649,7 +649,7 @@ public class GUICore extends JFrame {
         Polynomial result = Arithmetic.product(p1, p2);
         Core.printHandler.appendResultP("Solution:");
         Core.printHandler.appendResultP("(" + getPolynomialText(p1) + ") * (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
-        Core.printHandler.appendLog("SOLUTION:&#9; (" + getPolynomialText(p1) + ") * (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
+        Core.printHandler.appendLog("SOLUTION:&#9;(" + getPolynomialText(p1) + ") * (" + getPolynomialText(p2) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
     }
 
     /**
@@ -663,7 +663,7 @@ public class GUICore extends JFrame {
         Core.printHandler.appendResultP("To Solve:");
         Core.printHandler.appendResultP(scalars + " * (" + p1s + ") ≡ ? (mod " + mod + ")");
         Core.printHandler.appendResultP("");
-        Core.printHandler.appendLog("TO SOLVE:&#9; " + scalars + " * (" + p1s + ") ≡ ? (mod " + mod + ")");
+        Core.printHandler.appendLog("TO SOLVE:&#9;" + scalars + " * (" + p1s + ") ≡ ? (mod " + mod + ")");
 
         int modulus = Integer.parseInt(mod);
         Polynomial p1 = new Polynomial(modulus, p1s);
@@ -675,7 +675,7 @@ public class GUICore extends JFrame {
         Polynomial result = Arithmetic.scalar(p1, scalar);
         Core.printHandler.appendResultP("Solution:");
         Core.printHandler.appendResultP(scalar + " * (" + getPolynomialText(p1) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
-        Core.printHandler.appendLog("SOLUTION:&#9; " + scalar + " * (" + getPolynomialText(p1) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
+        Core.printHandler.appendLog("SOLUTION:&#9;" + scalar + " * (" + getPolynomialText(p1) + ") ≡ " + getPolynomialText(result) + " (mod " + modulus + ")");
     }
 
     /**
@@ -689,7 +689,7 @@ public class GUICore extends JFrame {
         Core.printHandler.appendResultP("To Solve:");
         Core.printHandler.appendResultP("((" + p1s + ") / (" + p2s + ")) (mod " + mod + ") ≡ (q * (" + p2s + ") + r) (mod " + mod + "),     q = ?, r = ?");
         Core.printHandler.appendResultP("");
-        Core.printHandler.appendLog("TO SOLVE:&#9; ((" + p1s + ") / (" + p2s + ")) (mod " + mod + ") ≡ (q * (" + p2s + ") + r) (mod " + mod + "),     q = ?, r = ?");
+        Core.printHandler.appendLog("TO SOLVE:&#9;((" + p1s + ") / (" + p2s + ")) (mod " + mod + ") ≡ (q * (" + p2s + ") + r) (mod " + mod + "),     q = ?, r = ?");
 
         int modulus = Integer.parseInt(mod);
         Polynomial p1 = new Polynomial(modulus, p1s);
@@ -706,7 +706,7 @@ public class GUICore extends JFrame {
         Core.printHandler.appendResultP("(" + getPolynomialText(p1) + ") / (" + getPolynomialText(p2) + ") ≡ (" + getPolynomialText(result[0]) + ") * (" + getPolynomialText(p2) + ") + " + getPolynomialText(result[1]) + " (mod " + modulus + ")");
         Core.printHandler.appendResultP("q = " + getPolynomialText(result[0]));
         Core.printHandler.appendResultP("r = " + getPolynomialText(result[1]));
-        Core.printHandler.appendLog("SOLUTION:&#9; (" + getPolynomialText(p1) + ") / (" + getPolynomialText(p2) + ") ≡ (" + getPolynomialText(result[0]) + ") * (" + getPolynomialText(p2) + ") + " + getPolynomialText(result[1]) + " (mod " + modulus + ")");
+        Core.printHandler.appendLog("SOLUTION:&#9;(" + getPolynomialText(p1) + ") / (" + getPolynomialText(p2) + ") ≡ (" + getPolynomialText(result[0]) + ") * (" + getPolynomialText(p2) + ") + " + getPolynomialText(result[1]) + " (mod " + modulus + ")");
     }
 
     /**
@@ -720,7 +720,7 @@ public class GUICore extends JFrame {
         Core.printHandler.appendResultP("To Solve:");
         Core.printHandler.appendResultP("gcd(" + p1s + "," + p2s + ") ≡ ((" + p1s + ") * x + (" + p2s + ") * y) (mod " + mod + "),     x = ?, y = ?");
         Core.printHandler.appendResultP("");
-        Core.printHandler.appendLog("TO SOLVE:&#9; gcd(" + p1s + "," + p2s + ") ≡ ((" + p1s + ") * x + (" + p2s + ") * y) (mod " + mod + "),     x = ?, y = ?");
+        Core.printHandler.appendLog("TO SOLVE:&#9;gcd(" + p1s + "," + p2s + ") ≡ ((" + p1s + ") * x + (" + p2s + ") * y) (mod " + mod + "),     x = ?, y = ?");
 
         int modulus = Integer.parseInt(mod);
         Polynomial p1 = new Polynomial(modulus, p1s);
@@ -738,7 +738,7 @@ public class GUICore extends JFrame {
         Core.printHandler.appendResultP("x = " + getPolynomialText(result[0]));
         Core.printHandler.appendResultP("y = " + getPolynomialText(result[1]));
         Core.printHandler.appendResultP("gcd(" + getPolynomialText(p1) + ", " + getPolynomialText(p2) + ") = " + getPolynomialText(result[2]));
-        Core.printHandler.appendLog("SOLUTION:&#9; gcd(" + getPolynomialText(p1) + ", " + getPolynomialText(p2) + ") ≡ ((" + getPolynomialText(p1) + ") * (" + getPolynomialText(result[0]) + ") + (" + getPolynomialText(p2) + ") * (" + getPolynomialText(result[1]) + ")) = " + getPolynomialText(result[2]) + " (mod " + mod + ")");
+        Core.printHandler.appendLog("SOLUTION:&#9;gcd(" + getPolynomialText(p1) + ", " + getPolynomialText(p2) + ") ≡ ((" + getPolynomialText(p1) + ") * (" + getPolynomialText(result[0]) + ") + (" + getPolynomialText(p2) + ") * (" + getPolynomialText(result[1]) + ")) = " + getPolynomialText(result[2]) + " (mod " + mod + ")");
     }
 
     /**
@@ -753,7 +753,7 @@ public class GUICore extends JFrame {
         Core.printHandler.appendResultP("To Solve:");
         Core.printHandler.appendResultP("((" + p1s + ") (mod " + mod + ")) (mod " + p3s + ") ≡ ((" + p2s + ") (mod " + mod + ")) (mod " + p3s + ")");
         Core.printHandler.appendResultP("");
-        Core.printHandler.appendLog("TO SOLVE:&#9; ((" + p1s + ") (mod " + mod + ")) (mod " + p3s + ") ≡ ((" + p2s + ") (mod " + mod + ")) (mod " + p3s + ")");
+        Core.printHandler.appendLog("TO SOLVE:&#9;((" + p1s + ") (mod " + mod + ")) (mod " + p3s + ") ≡ ((" + p2s + ") (mod " + mod + ")) (mod " + p3s + ")");
 
         int modulus = Integer.parseInt(mod);
         Polynomial p1 = new Polynomial(modulus, p1s);
@@ -775,7 +775,7 @@ public class GUICore extends JFrame {
         Core.printHandler.appendResultP("((" + getPolynomialText(p1) + ") (mod " + mod + ")) ≡ ((" + getPolynomialText(p2) + ") (mod " + mod + ")) (mod " + getPolynomialText(p3) + ")");
         Core.printHandler.appendResultP(getPolynomialText(resultP1) + " ≡ " + getPolynomialText(resultP2) + " (mod " + getPolynomialText(p3) + ")");
         Core.printHandler.appendResultP(isEqual ? "Does hold." : "Does not hold.");
-        Core.printHandler.appendLog("SOLUTION:&#9; (" + getPolynomialText(resultP1) + " ≡ " + getPolynomialText(resultP2) + " (mod " + getPolynomialText(p3) + ") " + (isEqual ? "does hold." : "does not hold."));
+        Core.printHandler.appendLog("SOLUTION:&#9;(" + getPolynomialText(resultP1) + " ≡ " + getPolynomialText(resultP2) + " (mod " + getPolynomialText(p3) + ") " + (isEqual ? "does hold." : "does not hold."));
     }
 
 
@@ -792,11 +792,12 @@ public class GUICore extends JFrame {
      * @param qs: String representation of irreducible polynomial.
      */
     private void solveGetPrimitiveElement(String qs) {
-        Core.printHandler.appendLog("TO SOLVE: get a primitive element of polynomial " + qs + ".");
+        Core.printHandler.appendLog("TO SOLVE:&#9;Get a primitive element of polynomial " + qs + ".");
         String mod = modulusFF.getText();
         Polynomial q = new Polynomial(Integer.parseInt(mod), qs);
         Polynomial primitive = FiniteField.getPrimitiveElement(q);
         Core.printHandler.appendResultFF("The polynomial " + primitive.toString() + " a primitive element of " + q.toString() + ".");
+        Core.printHandler.appendLog("SOLUTION:&#9;The polynomial " + primitive.toString() + " a primitive element of " + q.toString() + ".");
     }
 
     /**
@@ -806,12 +807,12 @@ public class GUICore extends JFrame {
      * @param as: Field element a.
      */
     private void solveIsPrimitiveElement(String as, String qs) {
-        Core.printHandler.appendLog("TO SOLVE: is " + qs + " a primitive element?");
+        Core.printHandler.appendLog("TO SOLVE:&#9;Is " + qs + " a primitive element?");
         String mod = modulusFF.getText();
         Polynomial q = new Polynomial(Integer.parseInt(mod), qs);
         Polynomial a = new Polynomial(Integer.parseInt(mod), as);
         Core.printHandler.appendResultFF("The field element " + a.toString() + " is " + (FiniteField.isPrimitiveElement(a, q) ? "" : "not ") + "a primitive element of " + q.toString() + ".");
-        Core.printHandler.appendLog("SOLUTION: The field element " + a.toString() + " is " + (FiniteField.isPrimitiveElement(a, q) ? "" : "not ") + "a primitive element of " + q.toString() + ".");
+        Core.printHandler.appendLog("SOLUTION:&#9;The field element " + a.toString() + " is " + (FiniteField.isPrimitiveElement(a, q) ? "" : "not ") + "a primitive element of " + q.toString() + ".");
     }
 
     /**
@@ -823,7 +824,7 @@ public class GUICore extends JFrame {
      * @param mod: String representation of the prime modulus that should be used.
      */
     private void solveFieldElementOperations(String qs, String as, String bs, String mod) {
-        Core.printHandler.appendLog("TO SOLVE: get (" + as + ")+(" + bs + "), (" + as + ")*(" + bs + ") and (" + as + ")*(" + bs + ")^-1.");
+        Core.printHandler.appendLog("TO SOLVE:&#9;Get (" + as + ")+(" + bs + "), (" + as + ")*(" + bs + ") and (" + as + ")*(" + bs + ")^-1.");
         int modulus = Integer.parseInt(mod);
         Polynomial q = new Polynomial(modulus, qs);
         Polynomial a = new Polynomial(modulus, as);
@@ -837,7 +838,7 @@ public class GUICore extends JFrame {
         Core.printHandler.appendResultFF("(" + a.toString() + ")+(" + b.toString() + ")≡" + addition.toString() + " (mod + " + q.toString() + ")");
         Core.printHandler.appendResultFF("(" + a.toString() + ")*(" + b.toString() + ")≡" + multiplication.toString() + " (mod + " + q.toString() + ")");
         Core.printHandler.appendResultFF("(" + a.toString() + ")*(" + b.toString() + ")^-1≡" + quotient.toString() + " (mod + " + q.toString() + ")");
-        Core.printHandler.appendLog("SOLUTION: a+b=" + addition.toString() + ", a*b=" + multiplication.toString() + ", a*b^-1=" + quotient.toString());
+        Core.printHandler.appendLog("SOLUTION:&#9;a+b=" + addition.toString() + ", a*b=" + multiplication.toString() + ", a*b^-1=" + quotient.toString());
     }
 
     /**
@@ -847,9 +848,10 @@ public class GUICore extends JFrame {
      * @param mod: String representation of the prime modulus that should be used.
      */
     private void solveGetIrreducible(String degree, String mod) {
-        Core.printHandler.appendLog("TO SOLVE: get an irreducible polynomial?");
+        Core.printHandler.appendLog("TO SOLVE:&#9;Get an irreducible polynomial?");
         Polynomial irreducible = FiniteField.getIrreducible(Integer.parseInt(degree), Integer.parseInt(mod));
         Core.printHandler.appendResultFF("The polynomial " + irreducible.toString() + " is irreducible with degree " + degree + ".");
+        Core.printHandler.appendLog("SOLUTION:&#9;The polynomial " + irreducible.toString() + " is irreducible with degree " + degree + ".");
     }
 
     /**
@@ -858,11 +860,11 @@ public class GUICore extends JFrame {
      * @param qs: String representation of irreducible polynomial.
      */
     private void solveIsIrreducible(String qs) {
-        Core.printHandler.appendLog("TO SOLVE: is " + qs + " irreducible?");
+        Core.printHandler.appendLog("TO SOLVE:&#9;Is " + qs + " irreducible?");
         String mod = modulusFF.getText();
         Polynomial q = new Polynomial(Integer.parseInt(mod), qs);
         Core.printHandler.appendResultFF("The polynomial " + q.toString() + " is " + (FiniteField.isIrreducible(q) ? "" : "not ") + "irreducible.");
-        Core.printHandler.appendLog("SOLUTION: The polynomial " + q.toString() + " is " + (FiniteField.isIrreducible(q) ? "" : "not ") + "irreducible.");
+        Core.printHandler.appendLog("SOLUTION:&#9;The polynomial " + q.toString() + " is " + (FiniteField.isIrreducible(q) ? "" : "not ") + "irreducible.");
     }
 
     /**
@@ -872,7 +874,7 @@ public class GUICore extends JFrame {
      * @param mod: String representation of the prime modulus that should be used.
      */
     private void solveMultiplicationTable(String qs, String mod) {
-        Core.printHandler.appendLog("TO SOLVE: get multiplication table.");
+        Core.printHandler.appendLog("TO SOLVE:&#9;Get multiplication table.");
         int modulus = Integer.parseInt(mod);
         Polynomial q = new Polynomial(modulus, qs);
         Core.printHandler.appendResultFF("Multiplication table:");
@@ -888,7 +890,7 @@ public class GUICore extends JFrame {
      * @param mod: String representation of the prime modulus that should be used.
      */
     private void solveAdditionTable(String qs, String mod) {
-        Core.printHandler.appendLog("TO SOLVE: get addition table.");
+        Core.printHandler.appendLog("TO SOLVE:&#9;Get addition table.");
         int modulus = Integer.parseInt(mod);
         Polynomial q = new Polynomial(modulus, qs);
         Core.printHandler.appendResultFF("Addition table:");
@@ -904,7 +906,7 @@ public class GUICore extends JFrame {
      * @param mod: String representation of the prime modulus that should be used.
      */
     private void solveInverseTable(String qs, String mod) {
-        Core.printHandler.appendLog("TO SOLVE: get inverse table.");
+        Core.printHandler.appendLog("TO SOLVE:&#9;Get inverse table.");
         int modulus = Integer.parseInt(mod);
         Polynomial q = new Polynomial(modulus, qs);
         Core.printHandler.appendResultFF("Inverse table:");
@@ -920,7 +922,7 @@ public class GUICore extends JFrame {
      * @param mod: String representation of the prime modulus that should be used.
      */
     private void solveQuotientTable(String qs, String mod) {
-        Core.printHandler.appendLog("TO SOLVE: get quotient table.");
+        Core.printHandler.appendLog("TO SOLVE:&#9;Get quotient table.");
         int modulus = Integer.parseInt(mod);
         Polynomial q = new Polynomial(modulus, qs);
         Core.printHandler.appendResultFF("Quotient table:");
