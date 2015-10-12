@@ -1,5 +1,8 @@
 package polynomial;
 
+import java.math.BigInteger;
+import java.util.Random;
+
 /**
  * Created by Melroy van Nijnatten - 0849740.
  */
@@ -232,15 +235,56 @@ public class Arithmetic {
         return x;
     }
 
+    public static boolean millerRabin(int n, int trials){
+        int i = 0;
+
+        int m = n - 1;
+        int t = m;
+        int s = 0;
+        while(t % 2 == 0){
+            s++;
+            t /= 2;
+        }
+
+        Random r = new Random();
+
+        while(i < trials){
+            int a = 2 + r.nextInt() % (n - 1 - 2);//number from 2 to 2 + (n - 3) - 1
+            int k = 0;
+            int x = BigInteger.valueOf(a).modPow(BigInteger.valueOf(t), BigInteger.valueOf(n)).intValue();
+            int z = 1;
+            while(k < s && x % n != 1){
+                k++;
+                z = x;
+                x = (x * x) % n;
+            }
+            if(k==0){
+                i++;
+            } else {
+                if(k == s && x % n != 1){
+                    return false;
+                } else {
+                    if(z % n == -1){
+                        i++;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     //http://stackoverflow.com/questions/14650360/very-simple-prime-number-test-i-think-im-not-understanding-the-for-loop
-    public static boolean isPrime(long n) {
-        // fast even test.
+    public static boolean isPrime(int n) {
+        /*// fast even test.
         if (n > 2 && (n & 1) == 0)
             return false;
         // only odd factors need to be tested up to n^0.5
         for (int i = 3; i * i <= n; i += 2)
             if (n % i == 0)
                 return false;
-        return true;
+        return true;*/
+        return millerRabin(n, 8);
     }
 }
