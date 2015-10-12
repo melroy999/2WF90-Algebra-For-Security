@@ -47,6 +47,7 @@ public class Parser {
 
         //clean up the inserted string.
         toParse = toParse.replaceAll("((?<=[0-9])\\*X)", "X");
+        toParse = toParse.replaceAll("X(?=[0-9])", "X*");
         toParse = toParse.replaceAll("X(?!\\^)", "X^1");
         toParse = toParse.replaceAll("[^0-9\\+\\-*()^]", "");
         toParse = toParse.replace("+^", "+1^");
