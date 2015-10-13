@@ -188,6 +188,7 @@ public class Arithmetic {
             a += modulus;
         }
         //find the inverse.
+        System.out.println("go");
         return getInverse(a, modulus);
     }
 
@@ -211,14 +212,15 @@ public class Arithmetic {
             int temp = a - q * b;
             a = b;
             b = temp;
-
+            System.out.println(temp);
             temp = x_1 - q * x_2;
             x_1 = x_2;
             x_2 = temp;
-
+            System.out.println(temp);
             temp = y_1 - q * y_2;
             y_1 = y_2;
             y_2 = temp;
+            System.out.println(temp);
         }
 
         //check if a is negative.
@@ -228,7 +230,7 @@ public class Arithmetic {
         } else {
             x = -x_1;
         }
-
+        System.out.println("x: " + x);
         return x;
     }
 
