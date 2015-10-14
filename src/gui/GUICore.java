@@ -249,18 +249,18 @@ public class GUICore extends JFrame {
         Polynomial p_mod = new Polynomial(Integer.MAX_VALUE, mod);
         mod = p_mod.toString();
         if (mod.equals("")) {
-            Core.printHandler.appendResultP("Please enter the prime.");
+            Core.printHandler.appendResultFF("Please enter the prime.");
             Core.printHandler.appendLog("Prime:\"" + mod + "\" is invalid.", true);
             return null;
         } else {
             try {
                 if (!Arithmetic.isPrime(Integer.parseInt(mod))) {
-                    Core.printHandler.appendResultP("Please add a modulus that is a prime number.");
+                    Core.printHandler.appendResultFF("Please add a modulus that is a prime number.");
                     Core.printHandler.appendLog(primeLabelFF.getText() + "\"" + mod + "\" is not prime.", true);
                     return null;
                 }
             } catch (NumberFormatException exc) {
-                Core.printHandler.appendResultP("Please enter a valid prime.");
+                Core.printHandler.appendResultFF("Please enter a valid prime.");
                 Core.printHandler.appendLog(primeLabelFF.getText() + "\"" + mod + "\" is not a constant.", true);
                 return null;
             }
@@ -277,14 +277,14 @@ public class GUICore extends JFrame {
     private String validatePolynomialQFF(String operation) {
         String qs = polynomialQFF.getText();
         if (qs.equals("")) {
-            Core.printHandler.appendResultP("Please enter polynomial 1.");
+            Core.printHandler.appendResultFF("Please enter polynomial.");
             Core.printHandler.appendLog(polynomialQLabelFF.getText() + "\"" + qs + "\" is invalid.", true);
             return null;
         } else {
             String mod = modulusFF.getText();
             Polynomial q = new Polynomial(Integer.parseInt(mod), qs);
-            if (!operation.equals("Get irreducible") && !operation.equals("Is irreducible") && !q.isIrreducible()) {
-                Core.printHandler.appendResultP("Please enter an irreducible polynomial q.");
+            if (!q.isIrreducible()) {
+                Core.printHandler.appendResultFF("Please enter an irreducible polynomial q.");
                 Core.printHandler.appendLog(polynomialQLabelFF.getText() + "\"" + qs + "\" is reducible.", true);
                 return null;
             }
