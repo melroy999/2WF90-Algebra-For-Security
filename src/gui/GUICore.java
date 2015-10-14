@@ -62,7 +62,7 @@ public class GUICore extends JFrame {
         solveP.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (currentWorker == null || currentWorker.isDone()) {
+                if (currentWorker == null || (currentWorker.isDone() || currentWorker.isCancelled())) {
                     solveP();
                 } else {
                     System.out.println("Worker is still busy!");
@@ -90,7 +90,7 @@ public class GUICore extends JFrame {
         solveFF.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (currentWorker == null || currentWorker.isDone()) {
+                if (currentWorker == null || (currentWorker.isDone() || currentWorker.isCancelled())) {
                     solveFF();
                 } else {
                     System.out.println("Worker is still busy!");

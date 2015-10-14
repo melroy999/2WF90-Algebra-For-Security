@@ -554,6 +554,7 @@
             <properties>
               <background color="-8912894"/>
               <enabled value="true"/>
+              <foreground color="-1"/>
               <text value="Terminate Calculation"/>
             </properties>
           </component>

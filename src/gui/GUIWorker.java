@@ -10,7 +10,7 @@ import javax.swing.*;
 /**
  * Created by Melroy van Nijnatten - 0849740.
  */
-public class GUIWorker extends SwingWorker<String, Integer> {
+public class GUIWorker extends SwingWorker<Void, Integer> {
     private boolean isPolyTab;
     private String[] input;
 
@@ -99,7 +99,7 @@ public class GUIWorker extends SwingWorker<String, Integer> {
      * @throws Exception if unable to compute a result
      */
     @Override
-    protected String doInBackground() throws Exception {
+    protected Void doInBackground() throws Exception {
         if (isPolyTab) {
             if (input.length == 4) {
                 chooseOperationP(input[0], input[1], input[2], input[3]);
