@@ -462,6 +462,13 @@ public class Polynomial {
         //check if the gcd is equal to 1.
 
         while (this.extendedEuclideanAlgorithm(q)[2].toString().equals("1")) {
+            try {
+                Thread.sleep(60);
+            } catch (InterruptedException e) {
+                throw new Error();
+                //e.printStackTrace();
+            }
+            System.out.println("Checking if i am irreducible!");
             t++;
             //Generate the polynomial X^modulus^t - X
             q = new Polynomial(modulus);
@@ -484,15 +491,18 @@ public class Polynomial {
         //for each term, 0 to degree, generate random value 0 to modulus - 1.
         //leave out last one if we want a polynomial of exactly the degree.
         for (int i = 0; i < (ofDegree ? degree : degree + 1); i++) {
-            int randomNum = rand.nextInt(modulus);
+            System.out.println("Finding terms. " + i);
+            int randomNum = rand.nextInt() % modulus;
             addTerm(randomNum, i);
         }
 
         //add the term with the given degree, with a coefficient between 1 and modulus -1.
         if (ofDegree) {
+            System.out.println("Adding last term.");
             int randomNum = 1 + rand.nextInt(modulus - 1);
             addTerm(randomNum, degree);
         }
+        System.out.println("Found random!");
     }
 
     /**

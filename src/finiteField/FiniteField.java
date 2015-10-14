@@ -223,6 +223,13 @@ public class FiniteField {
     public static Polynomial getIrreducible(int degree, int mod){
         Polynomial q = new Polynomial(mod);
         do {
+            try {
+                Thread.sleep(60);
+            } catch (InterruptedException e) {
+                throw new Error();
+                //e.printStackTrace();
+            }
+            System.out.println("Searching for irreducible!");
             //generate a random polynomial of the given degree until we find one that is irreducible.
             q.randomize(degree, true);
         }
@@ -263,6 +270,12 @@ public class FiniteField {
         Polynomial element = new Polynomial(q.getModulus());
         element.randomize(q.degree() - 1, false);
         while (!isPrimitiveElement(element, q)) {
+            try {
+                Thread.sleep(60);
+            } catch (InterruptedException e) {
+                throw new Error();
+                //e.printStackTrace();
+            }
             element.randomize(q.degree() - 1, false);
         }
         return element;

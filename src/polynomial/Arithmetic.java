@@ -100,6 +100,12 @@ public class Arithmetic {
 
         //to avoid infinite looping.
         while (r.degree() >= p2.degree()) {
+            try {
+                Thread.sleep(60);
+            } catch (InterruptedException e) {
+                throw new Error();
+                //e.printStackTrace();
+            }
             //find the term that should be added in this iteration.
             Polynomial toAdd = new Polynomial(p1.getModulus());
             toAdd.addTerm(r.getLeadingCoefficient() * modularDivision(p2.getLeadingCoefficient(), p1.getModulus()), r.degree() - p2.degree());
@@ -136,6 +142,12 @@ public class Arithmetic {
 
         //while b is not zero.
         while (!b.toString().equals("0")) {
+            try {
+                Thread.sleep(60);
+            } catch (InterruptedException e) {
+                throw new Error();
+                //e.printStackTrace();
+            }
             Polynomial[] temp = longDivision(a, b);
             Polynomial q = temp[0].clone();
             a = b.clone();
@@ -213,6 +225,12 @@ public class Arithmetic {
 
         //while b is greater than 0.
         while (b > 0) {
+            try {
+                Thread.sleep(60);
+            } catch (InterruptedException e) {
+                throw new Error();
+                //e.printStackTrace();
+            }
             int q = a / b;
 
             int temp = a - q * b;
