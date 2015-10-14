@@ -236,7 +236,15 @@ public class Arithmetic {
         return x;
     }
 
+    /**
+     * Non-deterministic probability test, As described in algorithm 5.1 in the lecture notes.
+     *
+     * @param n: The number that should be checked for primality.
+     * @param R: The amount of trials.
+     * @return If n is prime or not.
+     */
     public static boolean millerRabin(int n, int R) {
+        //some cases that this algorithm won't be able to handle.
         if (n == 2 || n == 3) {
             return true;
         }
@@ -244,6 +252,7 @@ public class Arithmetic {
             return false;
         }
 
+        //get factors t and s such that n - 1 = 2 ^ s * t
         int t = n - 1;
         int s = 0;
         while (t % 2 == 0) {
@@ -251,12 +260,14 @@ public class Arithmetic {
             t /= 2;
         }
 
+        //complete the R trials
         int r = 0;
         while (r < R) {
             int a = ThreadLocalRandom.current().nextInt(2, n - 1);
             int k = 0;
             int x = BigInteger.valueOf(a).modPow(BigInteger.valueOf(t), BigInteger.valueOf(n)).intValue();
             int z = 1;
+
             while (k < s && x % n != 1) {
                 k++;
                 z = x;
@@ -277,43 +288,17 @@ public class Arithmetic {
                 }
             }
         }
-
-        /*int i = 0;
-        int t = n - 1;
-        int s = 0;
-        while(t % 2 == 0){
-            s++;
-            t /= 2;
-        }
-
-        while(i < trials){
-
-            int k = 0;
-
-            int z = 1;
-            while(k < s && x % n != 1){
-                k++;
-                z = x;
-                x = (x * x) % n;
-            }
-            if(k==0){
-                i++;
-            } else {
-                if(k == s && x % n != 1){
-                    return false;
-                } else {
-                    if(z % n == -1){
-                        i++;
-                    } else {
-                        return false;
-                    }
-                }
-            }
-        }*/
         return true;
     }
 
+    /**
+     * Checks if the given number is prime.
+     *
+     * @param n: The number that should be checked.
+     * @return If n is prime or not.
+     */
     public static boolean isPrime(int n) {
+        //find the solution by using 10 trails in the millerRabin.
         return millerRabin(n, 10);
     }
 }
