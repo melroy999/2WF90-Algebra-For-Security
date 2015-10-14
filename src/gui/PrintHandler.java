@@ -164,7 +164,7 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
         System.out.println("\u001B[31m" + e.toString() + "\u001B[0m");
         appendLog(e.toString(), true);
         for (StackTraceElement se : e.getStackTrace()) {
-            System.out.println("\u001B[31m    at" + se.toString() + "\u001B[0m");
+            System.out.println("\u001B[31m    at " + se.toString() + "\u001B[0m");
             appendLog("&nbsp;&nbsp;&nbsp;&nbsp;at " + se.toString(), true);
         }
 
@@ -174,7 +174,7 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
                 System.out.println("\u001B[31m" + cause.toString() + "\u001B[0m");
                 appendLog(cause.toString(), true);
                 for (StackTraceElement se : cause.getStackTrace()) {
-                    System.out.println("\u001B[31m    at" + se.toString() + "\u001B[0m");
+                    System.out.println("\u001B[31m    at " + se.toString() + "\u001B[0m");
                     appendLog("&nbsp;&nbsp;&nbsp;&nbsp;at" + se.toString(), true);
                 }
                 cause = cause.getCause();

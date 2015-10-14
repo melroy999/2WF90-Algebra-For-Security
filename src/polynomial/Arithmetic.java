@@ -1,9 +1,7 @@
 package polynomial;
 
-import core.Core;
-
 import java.math.BigInteger;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by Melroy van Nijnatten - 0849740.
@@ -154,9 +152,7 @@ public class Arithmetic {
         Polynomial result = Arithmetic.sum(Arithmetic.product(x, p1), Arithmetic.product(y, p2));
 
         //make the leading coefficient 1.
-        Core.printHandler.appendLog("pre:" + result.toString() + ", modular inverse: " + modularDivision(result.getLeadingCoefficient(), p1.getModulus()));
         result = Arithmetic.scalar(result, modularDivision(result.getLeadingCoefficient(), p1.getModulus()));
-        Core.printHandler.appendLog("post:" + result.toString());
 
         if(result.getLeadingCoefficient() < 0){
             result = result.scalar(-1);
@@ -199,7 +195,6 @@ public class Arithmetic {
             a += modulus;
         }
         //find the inverse.
-        System.out.println("go");
         return getInverse(a, modulus);
     }
 
@@ -223,15 +218,12 @@ public class Arithmetic {
             int temp = a - q * b;
             a = b;
             b = temp;
-            System.out.println(temp);
             temp = x_1 - q * x_2;
             x_1 = x_2;
             x_2 = temp;
-            System.out.println(temp);
             temp = y_1 - q * y_2;
             y_1 = y_2;
             y_2 = temp;
-            System.out.println(temp);
         }
 
         //check if a is negative.
@@ -241,27 +233,63 @@ public class Arithmetic {
         } else {
             x = -x_1;
         }
-        System.out.println("x: " + x);
         return x;
     }
 
-    public static boolean millerRabin(int n, int trials){
-        int i = 0;
+    public static boolean millerRabin(int n, int R) {
+        if (n == 2 || n == 3) {
+            return true;
+        }
+        if ((n & 1) == 0) {
+            return false;
+        }
 
-        int m = n - 1;
-        int t = m;
+        int t = n - 1;
+        int s = 0;
+        while (t % 2 == 0) {
+            s++;
+            t /= 2;
+        }
+
+        int r = 0;
+        while (r < R) {
+            int a = ThreadLocalRandom.current().nextInt(2, n - 1);
+            int k = 0;
+            int x = BigInteger.valueOf(a).modPow(BigInteger.valueOf(t), BigInteger.valueOf(n)).intValue();
+            int z = 1;
+            while (k < s && x % n != 1) {
+                k++;
+                z = x;
+                x = x * x;
+            }
+
+            if (k == 0) {
+                r++;
+            } else {
+                if (k == s && x % n != 1) {
+                    return false;
+                } else {
+                    if (z % n == -1 || z % n == (n - 1)) {
+                        r++;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        /*int i = 0;
+        int t = n - 1;
         int s = 0;
         while(t % 2 == 0){
             s++;
             t /= 2;
         }
 
-        Random r = new Random();
-
         while(i < trials){
-            int a = 2 + r.nextInt() % (n - 1 - 2);//number from 2 to 2 + (n - 3) - 1
+
             int k = 0;
-            int x = BigInteger.valueOf(a).modPow(BigInteger.valueOf(t), BigInteger.valueOf(n)).intValue();
+
             int z = 1;
             while(k < s && x % n != 1){
                 k++;
@@ -281,20 +309,11 @@ public class Arithmetic {
                     }
                 }
             }
-        }
+        }*/
         return true;
     }
 
-    //http://stackoverflow.com/questions/14650360/very-simple-prime-number-test-i-think-im-not-understanding-the-for-loop
     public static boolean isPrime(int n) {
-        // fast even test.
-        if (n > 2 && (n & 1) == 0)
-            return false;
-        // only odd factors need to be tested up to n^0.5
-        for (int i = 3; i * i <= n; i += 2)
-            if (n % i == 0)
-                return false;
-        return true;
-        //return millerRabin(n, 8);
+        return millerRabin(n, 10);
     }
 }

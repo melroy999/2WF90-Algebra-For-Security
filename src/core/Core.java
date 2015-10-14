@@ -34,7 +34,7 @@ public class Core {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        //display trhe frame
+        //display the frame
         frame.pack();
         frame.setVisible(true);
     }
