@@ -1,5 +1,7 @@
 package polynomial;
 
+import core.Core;
+
 import java.math.BigInteger;
 import java.util.Random;
 
@@ -152,7 +154,13 @@ public class Arithmetic {
         Polynomial result = Arithmetic.sum(Arithmetic.product(x, p1), Arithmetic.product(y, p2));
 
         //make the leading coefficient 1.
+        Core.printHandler.appendLog("pre:" + result.toString() + ", modular inverse: " + modularDivision(result.getLeadingCoefficient(), p1.getModulus()));
         result = Arithmetic.scalar(result, modularDivision(result.getLeadingCoefficient(), p1.getModulus()));
+        Core.printHandler.appendLog("post:" + result.toString());
+
+        if(result.getLeadingCoefficient() < 0){
+            result = result.scalar(-1);
+        }
 
         //set the terms.
         return new Polynomial[]{x, y, result};
@@ -277,14 +285,14 @@ public class Arithmetic {
 
     //http://stackoverflow.com/questions/14650360/very-simple-prime-number-test-i-think-im-not-understanding-the-for-loop
     public static boolean isPrime(int n) {
-        /*// fast even test.
+        // fast even test.
         if (n > 2 && (n & 1) == 0)
             return false;
         // only odd factors need to be tested up to n^0.5
         for (int i = 3; i * i <= n; i += 2)
             if (n % i == 0)
                 return false;
-        return true;*/
-        return millerRabin(n, 8);
+        return true;
+        //return millerRabin(n, 8);
     }
 }

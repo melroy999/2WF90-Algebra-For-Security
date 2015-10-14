@@ -1,5 +1,6 @@
 package polynomial;
 
+import core.Core;
 import parser.Parser;
 import parser.tree.TreeNode;
 
@@ -460,12 +461,15 @@ public class Polynomial {
         q.addTerm(-1, 1);
         q.addTerm(1, (int) Math.pow(modulus, t));
         //check if the gcd is equal to 1.
+
+        Core.printHandler.appendLog(t + ":" + q.toString() + ", " + this.extendedEuclideanAlgorithm(q)[2].toString());
         while (this.extendedEuclideanAlgorithm(q)[2].toString().equals("1")) {
             t++;
             //Generate the polynomial X^modulus^t - X
             q = new Polynomial(modulus);
             q.addTerm(-1, 1);
             q.addTerm(1, (int) Math.pow(modulus, t));
+            Core.printHandler.appendLog(t + ":" + q.toString() + ", " + this.extendedEuclideanAlgorithm(q)[2].toString());
         }
         //if all are equal to 1, this polynomial is irreducible.
         return t == this.degree();

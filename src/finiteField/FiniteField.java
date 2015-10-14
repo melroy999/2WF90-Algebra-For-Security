@@ -155,11 +155,9 @@ public class FiniteField {
         ArrayList<Polynomial> classes = getEquivalenceClasses(q);
         int n = classes.size();
         Polynomial pow = a.clone();
-        System.out.println("init:" + pow.toString());
         for (int i = 1; i < n - 1; i++) {
             pow = pow.product(a);
             pow = pow.longDivision(q)[1].makeCompletelyPositive();
-            System.out.println(pow.toString());
             if (pow.toString().equals("1")) {
                 return i == n - 2;
             }
