@@ -112,6 +112,8 @@ public class GUICore extends JFrame {
                     currentWorker.cancel(true);
                     System.out.println("Interrupted thread!");
                     Core.printHandler.appendLog("CANCELLED CALCULATION!", true);
+                    currentWorker = null;
+                    System.gc();
                 } else {
                     System.out.println("No worker to interrupt!");
                 }
@@ -408,7 +410,7 @@ public class GUICore extends JFrame {
         polynomialPP.setVisible(true);
         polynomialPQ.setVisible(true);
         polynomialPR.setVisible(true);
-        polynomialQLabelP.setText("Polynomial 2:");
+        polynomialQLabelP.setText("Polynomial q:");
         polynomialRLabelP.setVisible(true);
     }
 
@@ -430,7 +432,7 @@ public class GUICore extends JFrame {
         polynomialPP.setVisible(true);
         polynomialPQ.setVisible(true);
         polynomialPR.setVisible(false);
-        polynomialQLabelP.setText("Polynomial 2:");
+        polynomialQLabelP.setText("Polynomial q:");
         polynomialRLabelP.setVisible(false);
     }
 

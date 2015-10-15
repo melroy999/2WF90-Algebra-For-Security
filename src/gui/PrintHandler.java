@@ -74,6 +74,7 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
      */
     public void appendResultP(String message) {
         appendDoc(resultDocP, resultEditorKitP, message);
+        Core.guiCore.resultPaneP.setCaretPosition(resultDocP.getLength());
     }
 
     /**
@@ -83,6 +84,7 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
      */
     public void appendResultFF(String message) {
         appendDoc(resultDocFF, resultEditorKitFF, message);
+        Core.guiCore.resultPaneFF.setCaretPosition(resultDocFF.getLength());
     }
 
     /**
@@ -98,6 +100,7 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Core.guiCore.resultPaneFF.setCaretPosition(resultDocFF.getLength());
     }
 
     /**
@@ -116,6 +119,7 @@ public class PrintHandler implements Thread.UncaughtExceptionHandler {
         }
 
         appendDoc(logDoc, logEditorKit, message);
+        Core.guiCore.logPane.setCaretPosition(logDoc.getLength());
     }
 
     /**

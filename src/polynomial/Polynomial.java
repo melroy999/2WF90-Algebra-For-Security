@@ -382,11 +382,19 @@ public class Polynomial {
      */
     public boolean isEqual(Polynomial q) {
         //convert to same form
-        Polynomial p1 = this.makeABSMinimal();
-        Polynomial p2 = q.makeABSMinimal();
+        if(!this.keySet().equals(q.keySet())){
+           return false;
+        }
+
+        for(int degree : this.keySet()){
+            if((this.getCoefficient(degree) - q.getCoefficient(degree)) % modulus != 0){
+               return false;
+            }
+        }
 
         //check if the list of coefficients and degrees is equal.
-        return p1.getAllCoefficients().equals(p2.getAllCoefficients()) && p1.keySet().equals(p2.keySet());
+        //return p1.getAllCoefficients().equals(p2.getAllCoefficients()) && p1.keySet().equals(p2.keySet());
+        return true;
     }
 
     /**
@@ -450,7 +458,7 @@ public class Polynomial {
      */
     public boolean isIrreducible() {
         //0 and 1 are always irreducible, so handle it as an exception.
-        if (this.toString().equals("0") || this.toString().equals("1")) {
+        if (this.equals(new Polynomial(modulus, "0")) || this.equals(new Polynomial(modulus, "1"))) {
             return true;
         }
 
@@ -461,9 +469,9 @@ public class Polynomial {
         q.addTerm(1, (int) Math.pow(modulus, t));
         //check if the gcd is equal to 1.
 
-        while (this.extendedEuclideanAlgorithm(q)[2].toString().equals("1")) {
+        while (this.extendedEuclideanAlgorithm(q)[2].equals(new Polynomial(modulus, "1"))) {
             try {
-                Thread.sleep(1);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 throw new Error();
                 //e.printStackTrace();
@@ -516,6 +524,45 @@ public class Polynomial {
             result = result.product(this);
             result = result.longDivision(q)[1];
         }
+        return result;
+    }
+
+    /**
+     * A recursive variant of the above.
+     * https://en.wikipedia.org/wiki/Exponentiation_by_squaring
+     *
+     * @param n: The power.
+     * @param q: The polynomial that is used as modulus.
+     * @return this ^ n.
+     */
+    public Polynomial powRec(int n, Polynomial a, Polynomial q){
+        if(n == 0){
+            return new Polynomial(modulus, "1");
+        } else if(n == 1){
+            return a.longDivision(q)[1];
+        } else if(n % 2 == 0){
+            return powRec(n / 2, a.product(a), q).longDivision(q)[1];
+        } else {
+            return q.product(powRec((n - 1) / 2, a.product(a), q)).longDivision(q)[1];
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Polynomial that = (Polynomial) o;
+
+        if (modulus != that.modulus) return false;
+
+        return this.isEqual(that);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = modulus;
+        result = 31 * result + (terms != null ? terms.hashCode() : 0);
         return result;
     }
 }

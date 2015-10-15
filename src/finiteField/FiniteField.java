@@ -175,7 +175,7 @@ public class FiniteField {
      */
     public static Polynomial inverseFieldElements(Polynomial a, Polynomial q) {
         Polynomial[] result = Arithmetic.extendedEuclideanAlgorithm(a, q);
-        if(!result[2].toString().equals("1")){
+        if(!result[2].equals(new Polynomial(result[2].getModulus(), "1"))){
             return null;
         } else {
             return Arithmetic.longDivision(result[0], q)[1];
@@ -224,7 +224,7 @@ public class FiniteField {
         Polynomial q = new Polynomial(mod);
         do {
             try {
-                Thread.sleep(1);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 throw new Error();
                 //e.printStackTrace();
@@ -248,14 +248,17 @@ public class FiniteField {
     public static boolean isPrimitiveElement(Polynomial a, Polynomial q){
         ArrayList<Polynomial> classes = getEquivalenceClasses(q);
         int n = classes.size();
-        Polynomial pow = a.clone();
+        Polynomial result;
 
-        for (int i = 1; i < n - 1; i++) {
-            pow = pow.product(a);
-            pow = pow.longDivision(q)[1].makeCompletelyPositive();
-            if (pow.toString().equals("1")) {
-                return i == n - 2;
+        for (int i = 2; i < n; i++) {
+            if((n - 1) % i == 0){
+                result = a.powRec(i, a, q);
+                System.out.println("Calculating: (" + a + ")^" + i + " = " + result + " (mod " + q.toString() + ").");
+                if (result.equals(new Polynomial(a.getModulus(), "1"))) {
+                    return i == n - 1;
+                }
             }
+
         }
         return false;
     }
@@ -271,7 +274,7 @@ public class FiniteField {
         element.randomize(q.degree() - 1, false);
         while (!isPrimitiveElement(element, q)) {
             try {
-                Thread.sleep(1);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 throw new Error();
                 //e.printStackTrace();
@@ -326,6 +329,6 @@ public class FiniteField {
      * An interface that can contain any of the possible operators (+, * etc) that can be plugged into the the generate table method.
      */
     private interface Operation {
-        public Polynomial operation(Polynomial p, Polynomial q);
+        Polynomial operation(Polynomial p, Polynomial q);
     }
 }

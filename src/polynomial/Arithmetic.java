@@ -101,7 +101,7 @@ public class Arithmetic {
         //to avoid infinite looping.
         while (r.degree() >= p2.degree()) {
             try {
-                Thread.sleep(1);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 throw new Error();
                 //e.printStackTrace();
@@ -116,7 +116,7 @@ public class Arithmetic {
             r = Arithmetic.difference(r, subtract);
 
             //stop the loop if r has become 0.
-            if(r.toString().equals("0")){
+            if(r.equals(new Polynomial(r.getModulus(), "0"))){
                 break;
             }
         }
@@ -141,9 +141,9 @@ public class Arithmetic {
         Polynomial u = new Polynomial(p1.getModulus(), "0");
 
         //while b is not zero.
-        while (!b.toString().equals("0")) {
+        while (!b.equals(new Polynomial(b.getModulus(), "0"))) {
             try {
-                Thread.sleep(1);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 throw new Error();
                 //e.printStackTrace();
@@ -225,12 +225,6 @@ public class Arithmetic {
 
         //while b is greater than 0.
         while (b > 0) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                throw new Error();
-                //e.printStackTrace();
-            }
             int q = a / b;
 
             int temp = a - q * b;
