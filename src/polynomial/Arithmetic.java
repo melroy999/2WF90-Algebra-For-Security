@@ -101,7 +101,7 @@ public class Arithmetic {
         //to avoid infinite looping.
         while (r.degree() >= p2.degree()) {
             try {
-                Thread.sleep(60);
+                Thread.sleep(1);
             } catch (InterruptedException e) {
                 throw new Error();
                 //e.printStackTrace();
@@ -143,7 +143,7 @@ public class Arithmetic {
         //while b is not zero.
         while (!b.toString().equals("0")) {
             try {
-                Thread.sleep(60);
+                Thread.sleep(1);
             } catch (InterruptedException e) {
                 throw new Error();
                 //e.printStackTrace();
@@ -226,7 +226,7 @@ public class Arithmetic {
         //while b is greater than 0.
         while (b > 0) {
             try {
-                Thread.sleep(60);
+                Thread.sleep(1);
             } catch (InterruptedException e) {
                 throw new Error();
                 //e.printStackTrace();

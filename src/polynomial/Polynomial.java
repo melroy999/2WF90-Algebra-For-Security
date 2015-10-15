@@ -463,7 +463,7 @@ public class Polynomial {
 
         while (this.extendedEuclideanAlgorithm(q)[2].toString().equals("1")) {
             try {
-                Thread.sleep(60);
+                Thread.sleep(1);
             } catch (InterruptedException e) {
                 throw new Error();
                 //e.printStackTrace();

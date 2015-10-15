@@ -224,7 +224,7 @@ public class FiniteField {
         Polynomial q = new Polynomial(mod);
         do {
             try {
-                Thread.sleep(60);
+                Thread.sleep(1);
             } catch (InterruptedException e) {
                 throw new Error();
                 //e.printStackTrace();
@@ -271,7 +271,7 @@ public class FiniteField {
         element.randomize(q.degree() - 1, false);
         while (!isPrimitiveElement(element, q)) {
             try {
-                Thread.sleep(60);
+                Thread.sleep(1);
             } catch (InterruptedException e) {
                 throw new Error();
                 //e.printStackTrace();
