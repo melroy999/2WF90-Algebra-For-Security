@@ -39,7 +39,7 @@ public class Core {
         frame.setVisible(true);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         new Core();
     }
 }

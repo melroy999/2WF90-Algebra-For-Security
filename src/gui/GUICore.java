@@ -103,9 +103,6 @@ public class GUICore extends JFrame {
                 Core.printHandler.clearLogPane();
             }
         });
-
-        showTwoPolynomials();
-        showPoly();
         terminateCalculationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -120,6 +117,9 @@ public class GUICore extends JFrame {
                 }
             }
         });
+
+        showTwoPolynomials();
+        showPoly();
     }
 
     /**
@@ -341,10 +341,10 @@ public class GUICore extends JFrame {
     private void printInputFF(String operation) {
         String input = "INPUT:&#9;" + primeLabelFF.getText() + "\"" + modulusFF.getText() + "\"";
         input += ", " + polynomialQLabelFF.getText() + "\"" + polynomialQFF.getText() + "\"";
-        if(operation.equals("Field element arithmetic") || operation.equals("Is primitive element")){
+        if (operation.equals("Field element arithmetic") || operation.equals("Is primitive element")) {
             input += ", " + fieldElementALabel.getText() + "\"" + fieldElementA.getText() + "\"";
         }
-        if(operation.equals("Field element arithmetic")){
+        if (operation.equals("Field element arithmetic")) {
             input += ", " + fieldElementBLabel.getText() + "\"" + fieldElementB.getText() + "\"";
         }
 

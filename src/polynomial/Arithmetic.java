@@ -14,7 +14,7 @@ public class Arithmetic {
      *
      * @param p1: The base polynomial.
      * @param p2: The polynomial that is added to p1.
-     * @return  A new polynomial that satisfies p1 + p2.
+     * @return A new polynomial that satisfies p1 + p2.
      */
     public static Polynomial sum(Polynomial p1, Polynomial p2) {
         //create an empty polynomial with the modulus of p1.
@@ -34,9 +34,9 @@ public class Arithmetic {
     /**
      * Multiplies the coefficients by a scalar.
      *
-     * @param p1: The polynomial that contains the coefficients that have to be multiplied.
+     * @param p1:     The polynomial that contains the coefficients that have to be multiplied.
      * @param scalar: The integer value that is multiplied with.
-     * @return  A nwe polynomial that satisfies scalar * p1.
+     * @return A nwe polynomial that satisfies scalar * p1.
      */
     public static Polynomial scalar(Polynomial p1, int scalar) {
         //create empty polynomial with the modulus of p1.
@@ -54,7 +54,7 @@ public class Arithmetic {
      *
      * @param p1: The base polynomial.
      * @param p2: The polynomial that is subtracted.
-     * @return  A new polynomial that satisfies p1 - p2.
+     * @return A new polynomial that satisfies p1 - p2.
      */
     public static Polynomial difference(Polynomial p1, Polynomial p2) {
         //multiply polynomial p2 by -1.
@@ -69,7 +69,7 @@ public class Arithmetic {
      *
      * @param p1: The base polynomial.
      * @param p2: The polynomial that is multiplied by.
-     * @return  A new polynomial that satisfies p1 * p2;
+     * @return A new polynomial that satisfies p1 * p2;
      */
     public static Polynomial product(Polynomial p1, Polynomial p2) {
         //an empty polynomial with the modulus of p1.
@@ -91,7 +91,7 @@ public class Arithmetic {
      *
      * @param p1: The base polynomial.
      * @param p2: The polynomial that is divided by.
-     * @return  A new polynomial that satisfies p1 / p2 = q * p2 + r.
+     * @return A new polynomial that satisfies p1 / p2 = q * p2 + r.
      */
     public static Polynomial[] longDivision(Polynomial p1, Polynomial p2) {
         //polynomial with the value 0.
@@ -119,7 +119,7 @@ public class Arithmetic {
             r = Arithmetic.difference(r, subtract);
 
             //stop the loop if r has become 0.
-            if(r.equals(new Polynomial(r.getModulus(), "0"))){
+            if (r.equals(new Polynomial(r.getModulus(), "0"))) {
                 break;
             }
         }
@@ -132,7 +132,7 @@ public class Arithmetic {
      *
      * @param p1: The first polynomial.
      * @param p2: The second polynomial.
-     * @return  gcd, x and y such that gcd(p1, p2) = x * p1 + y * p2
+     * @return gcd, x and y such that gcd(p1, p2) = x * p1 + y * p2
      */
     public static Polynomial[] extendedEuclideanAlgorithm(Polynomial p1, Polynomial p2) {
         //initialize the parameters.
@@ -170,7 +170,7 @@ public class Arithmetic {
         //make the leading coefficient 1.
         result = Arithmetic.scalar(result, modularDivision(result.getLeadingCoefficient(), p1.getModulus()));
 
-        if(result.getLeadingCoefficient() < 0){
+        if (result.getLeadingCoefficient() < 0) {
             result = result.scalar(-1);
         }
 
@@ -184,7 +184,7 @@ public class Arithmetic {
      * @param p1: The first polynomial.
      * @param p2: The second polynomial.
      * @param p3: The polynomial that is used as modulo.
-     * @return  if the remainders are equal
+     * @return if the remainders are equal
      */
     public static Object[] equalModuloPolynomial(Polynomial p1, Polynomial p2, Polynomial p3) {
         //find the remainders.
@@ -198,16 +198,16 @@ public class Arithmetic {
     /**
      * Returns the inverse of an element.
      *
-     * @param a: The value that has to be inverted.
+     * @param a:       The value that has to be inverted.
      * @param modulus: The modulus.
-     * @return  b such that a * b = 1 (mod modulus).
+     * @return b such that a * b = 1 (mod modulus).
      */
     private static int modularDivision(int a, final int modulus) {
         //cannot divide by 0.
         if (a == 0) {
             throw new IllegalArgumentException("The divisor may not be 0!");
         }
-        if(a < 0){
+        if (a < 0) {
             a += modulus;
         }
         //find the inverse.
@@ -219,7 +219,7 @@ public class Arithmetic {
      *
      * @param a: First integer.
      * @param b: Second integer.
-     * @return  Only the value of x. Not the gcd and y.
+     * @return Only the value of x. Not the gcd and y.
      */
     private static int getInverse(int a, int b) {
         int x_1 = 1;

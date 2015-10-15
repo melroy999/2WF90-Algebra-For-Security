@@ -26,7 +26,7 @@ public class FiniteField {
      *
      * @param qq: The polynomial you want a multiplication table of.
      */
-    public static void drawMultiplicationTable(final Polynomial qq){
+    public static void drawMultiplicationTable(final Polynomial qq) {
         drawTable(getEquivalenceClasses(qq), qq, "*", new Operation() {
 
             @Override
@@ -56,7 +56,7 @@ public class FiniteField {
      *
      * @param q: The polynomial you want a inverse table of.
      */
-    public static void drawInverseTable(Polynomial q){
+    public static void drawInverseTable(Polynomial q) {
         ArrayList<Polynomial> classes = getEquivalenceClasses(q);
         Polynomial[][] polyTable = new Polynomial[classes.size()][1];
         ArrayList<Polynomial> inverseTop = new ArrayList<Polynomial>();
@@ -65,7 +65,7 @@ public class FiniteField {
         //for all elements
         for (int start_i = 0; start_i < classes.size(); start_i++) {
             polyTable[start_i][0] = inverseFieldElements(classes.get(start_i), q);
-            if(polyTable[start_i][0] != null){
+            if (polyTable[start_i][0] != null) {
                 polyTable[start_i][0] = polyTable[start_i][0].makeCompletelyPositive();
             }
         }
@@ -82,7 +82,7 @@ public class FiniteField {
             table += "<td class='color'><div>" + classes.get(i) + "</div></td>";
             for (Polynomial p : row) {
                 String p_value = "N.A.";
-                if(p != null) {
+                if (p != null) {
                     p_value = p.toString();
                 }
                 table += "<td><div>" + p_value + "</div></td>";
@@ -119,7 +119,7 @@ public class FiniteField {
      * @param arithmetic: An abstract class containing the correct arithmetic.
      * @param mirror:     If the table should be mirrored through the diagonal.
      */
-    public static void drawTable(ArrayList<Polynomial> classes, Polynomial q, String symbol, Operation arithmetic, boolean mirror){
+    public static void drawTable(ArrayList<Polynomial> classes, Polynomial q, String symbol, Operation arithmetic, boolean mirror) {
         PrintHandler.resultStyle.addRule(".width {width: " + 25 * (q.degree() + 1) + "px;}");
         Polynomial[][] polyTable = new Polynomial[classes.size()][classes.size()];
 
@@ -161,7 +161,7 @@ public class FiniteField {
      * @param q: The specified polynomial generating the field.
      * @return returns the product of the two elements mod q.
      */
-    public static Polynomial productFieldElements(Polynomial a, Polynomial b, Polynomial q){
+    public static Polynomial productFieldElements(Polynomial a, Polynomial b, Polynomial q) {
         Polynomial result = a.product(b);
         return result.longDivision(q)[1].makeCompletelyPositive();
     }
@@ -175,7 +175,7 @@ public class FiniteField {
      */
     public static Polynomial inverseFieldElements(Polynomial a, Polynomial q) {
         Polynomial[] result = Arithmetic.extendedEuclideanAlgorithm(a, q);
-        if(!result[2].equals(new Polynomial(result[2].getModulus(), "1"))){
+        if (!result[2].equals(new Polynomial(result[2].getModulus(), "1"))) {
             return null;
         } else {
             return Arithmetic.longDivision(result[0], q)[1];
@@ -190,12 +190,12 @@ public class FiniteField {
      * @param q: The specified polynomial generating the field.
      * @return returns the quotient of the two elements mod q.
      */
-    public static Polynomial quotientFieldElements(Polynomial a, Polynomial b, Polynomial q){
-        if(b.toString().equals("0")){
+    public static Polynomial quotientFieldElements(Polynomial a, Polynomial b, Polynomial q) {
+        if (b.toString().equals("0")) {
             return null;
         } else {
             Polynomial inverse = inverseFieldElements(b, q);
-            if(inverse == null){
+            if (inverse == null) {
                 return null;
             } else {
                 return productFieldElements(a, inverse, q);
@@ -209,7 +209,7 @@ public class FiniteField {
      * @param p: The polynomial you should check.
      * @return If p is irreducible.
      */
-    public static boolean isIrreducible(Polynomial p){
+    public static boolean isIrreducible(Polynomial p) {
         return p.isIrreducible();
     }
 
@@ -217,10 +217,10 @@ public class FiniteField {
      * Gets an irreducible polynomial of the specified degree.
      *
      * @param degree: The required degree.
-     * @param mod: The prime modulus.
+     * @param mod:    The prime modulus.
      * @return A irreducible polynomial of the given degree.
      */
-    public static Polynomial getIrreducible(int degree, int mod){
+    public static Polynomial getIrreducible(int degree, int mod) {
         Polynomial q = new Polynomial(mod);
         do {
             try {
@@ -245,13 +245,13 @@ public class FiniteField {
      * @param q: The polynomial that generates the field.
      * @return If a is a primitive element.
      */
-    public static boolean isPrimitiveElement(Polynomial a, Polynomial q){
+    public static boolean isPrimitiveElement(Polynomial a, Polynomial q) {
         ArrayList<Polynomial> classes = getEquivalenceClasses(q);
         int n = classes.size();
         Polynomial result;
 
         for (int i = 2; i < n; i++) {
-            if((n - 1) % i == 0){
+            if ((n - 1) % i == 0) {
                 result = a.powRec(i, a, q);
                 System.out.println("Calculating: (" + a + ")^" + i + " = " + result + " (mod " + q.toString() + ").");
                 if (result.equals(new Polynomial(a.getModulus(), "1"))) {
@@ -288,10 +288,10 @@ public class FiniteField {
     /**
      * Returns the table in string form.
      *
-     * @param classesX: The equivalence classes in the X direction.
-     * @param classesY: The equivalence classes in the Y direction.
+     * @param classesX:  The equivalence classes in the X direction.
+     * @param classesY:  The equivalence classes in the Y direction.
      * @param polyTable: The poly table generated in the generate table method.
-     * @param symbol: The symbol that has to be drawn.
+     * @param symbol:    The symbol that has to be drawn.
      * @return Returns the table in string format with the correct formatting.
      */
     private static String getTable(ArrayList<Polynomial> classesX, ArrayList<Polynomial> classesY, Polynomial[][] polyTable, String symbol) {
@@ -314,7 +314,7 @@ public class FiniteField {
             for (Polynomial p : row) {
                 //if no result is available, print N.A.
                 String p_value = "N.A.";
-                if(p != null) {
+                if (p != null) {
                     p_value = p.toString();
                 }
                 table += "<td><div>" + p_value + "</div></td>";

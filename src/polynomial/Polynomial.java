@@ -138,7 +138,7 @@ public class Polynomial {
      *
      * @return the size of the tree.
      */
-    public int size(){
+    public int size() {
         return terms.size();
     }
 
@@ -147,7 +147,7 @@ public class Polynomial {
      *
      * @return terms.keySet().
      */
-    public Set<Integer> keySet(){
+    public Set<Integer> keySet() {
         return terms.keySet();
     }
 
@@ -156,7 +156,7 @@ public class Polynomial {
      *
      * @return terms.descendingKeySet().
      */
-    public Set<Integer> inverseKeySet(){
+    public Set<Integer> inverseKeySet() {
         return terms.descendingKeySet();
     }
 
@@ -207,8 +207,8 @@ public class Polynomial {
      * @param degree: The degree of the desired term.
      * @return 0 if not existing, coefficient if existing.
      */
-    public int getCoefficient(int degree){
-        if(terms.containsKey(degree)){
+    public int getCoefficient(int degree) {
+        if (terms.containsKey(degree)) {
             return terms.get(degree);
         } else {
             return 0;
@@ -222,34 +222,34 @@ public class Polynomial {
      * @param current: The leading node.
      * @return A polynomial satisfying the calculational rules given.
      */
-    private Polynomial nodesToPoly(TreeNode current){
+    private Polynomial nodesToPoly(TreeNode current) {
         Polynomial leftChildP = null;
         Polynomial rightChildP = null;
         String value = current.getValue();
 
         //first solve the trees that have this as node as root.
         TreeNode leftChild = current.getLeftNode();
-        if(leftChild!=null){
+        if (leftChild != null) {
             leftChildP = nodesToPoly(current.getLeftNode());
         }
 
         //first solve the trees that have this as node as root.
         TreeNode rightChild = current.getRightNode();
-        if(rightChild!=null){
+        if (rightChild != null) {
             rightChildP = nodesToPoly(current.getRightNode());
         }
 
         Polynomial result;
 
         //check which operation this node represents, and execute it. Also check if we don't accidently get nulls.
-        if(current.getValue().equals("-")){
+        if (current.getValue().equals("-")) {
             assert leftChildP != null;
             result = leftChildP.scalar(-1);
-        } else if(current.getValue().equals("+")){
+        } else if (current.getValue().equals("+")) {
             assert leftChildP != null;
             assert rightChildP != null;
             result = leftChildP.sum(rightChildP);
-        } else if(current.getValue().equals("*")) {
+        } else if (current.getValue().equals("*")) {
             assert leftChildP != null;
             assert rightChildP != null;
             result = leftChildP.product(rightChildP);
@@ -257,7 +257,7 @@ public class Polynomial {
             int d = 0;
             int c;
             //if it is a term, split on ^. This gives the coefficient and degree.
-            if(value.contains("^")){
+            if (value.contains("^")) {
                 String[] split = value.split("\\^");
                 d = Integer.parseInt(split[1]);
                 c = Integer.parseInt(split[0]);
@@ -387,14 +387,14 @@ public class Polynomial {
      */
     public boolean isEqual(Polynomial q) {
         //check if the same degrees are in the keyset.
-        if(!this.keySet().equals(q.keySet())){
-           return false;
+        if (!this.keySet().equals(q.keySet())) {
+            return false;
         }
 
         //check the coefficient connected to the keys.
-        for(int degree : this.keySet()){
-            if((this.getCoefficient(degree) - q.getCoefficient(degree)) % modulus != 0){
-               return false;
+        for (int degree : this.keySet()) {
+            if ((this.getCoefficient(degree) - q.getCoefficient(degree)) % modulus != 0) {
+                return false;
             }
         }
 
@@ -507,7 +507,7 @@ public class Polynomial {
     /**
      * Create a random polynomial of given degree.
      *
-     * @param degree: The desired degree.
+     * @param degree:   The desired degree.
      * @param ofDegree: If the degree may be lower or not.
      */
     public void randomize(int degree, boolean ofDegree) {
@@ -536,7 +536,7 @@ public class Polynomial {
      * @param n: The power.
      * @param q: The polynomial that is used as modulus.
      * @return this ^ n.
-     *
+     * <p/>
      * This could have been done recursively to spare speed, but it currently isn't used.
      */
     public Polynomial pow(int n, Polynomial q) {
@@ -556,12 +556,12 @@ public class Polynomial {
      * @param q: The polynomial that is used as modulus.
      * @return this ^ n.
      */
-    public Polynomial powRec(int n, Polynomial a, Polynomial q){
-        if(n == 0){
+    public Polynomial powRec(int n, Polynomial a, Polynomial q) {
+        if (n == 0) {
             return new Polynomial(modulus, "1");
-        } else if(n == 1){
+        } else if (n == 1) {
             return a.longDivision(q)[1];
-        } else if(n % 2 == 0){
+        } else if (n % 2 == 0) {
             return powRec(n / 2, a.product(a), q).longDivision(q)[1];
         } else {
             return q.product(powRec((n - 1) / 2, a.product(a), q)).longDivision(q)[1];

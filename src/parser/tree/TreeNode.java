@@ -26,7 +26,7 @@ public class TreeNode {
      *
      * @return the left child node.
      */
-    public TreeNode getLeftNode(){
+    public TreeNode getLeftNode() {
         return child[0];
     }
 
@@ -47,7 +47,7 @@ public class TreeNode {
      *
      * @return the right child node.
      */
-    public TreeNode getRightNode(){
+    public TreeNode getRightNode() {
         return child[1];
     }
 
@@ -86,7 +86,7 @@ public class TreeNode {
      *
      * @return the parent.
      */
-    public TreeNode getParent(){
+    public TreeNode getParent() {
         return parent;
     }
 
@@ -106,7 +106,7 @@ public class TreeNode {
      *
      * @return Array containing both children.
      */
-    public TreeNode[] getChildren(){
+    public TreeNode[] getChildren() {
         return child;
     }
 
@@ -134,18 +134,18 @@ public class TreeNode {
     @Override
     public String toString() {
         String s;
-        if(getLeftNode() != null | getRightNode() != null){
+        if (getLeftNode() != null | getRightNode() != null) {
             s = value + "[";
-            if(getLeftNode() != null){
+            if (getLeftNode() != null) {
                 s = s + getLeftNode().toString();
             }
             s = s + ",";
-            if(getRightNode() != null){
+            if (getRightNode() != null) {
                 s = s + getRightNode().toString();
             }
             s = s + "]";
         } else {
-            s=value;
+            s = value;
         }
         return s;
     }
