@@ -226,10 +226,10 @@ public class FiniteField {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
+                Core.printHandler.appendLog("The worker has been successfully interrupted.", true);
+                System.out.println("The worker has been successfully interrupted.");
                 throw new Error();
-                //e.printStackTrace();
             }
-            System.out.println("Searching for irreducible!");
             //generate a random polynomial of the given degree until we find one that is irreducible.
             q.randomize(degree, true);
         }
@@ -276,8 +276,9 @@ public class FiniteField {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
+                Core.printHandler.appendLog("The worker has been successfully interrupted.", true);
+                System.out.println("The worker has been successfully interrupted.");
                 throw new Error();
-                //e.printStackTrace();
             }
             element.randomize(q.degree() - 1, false);
         }

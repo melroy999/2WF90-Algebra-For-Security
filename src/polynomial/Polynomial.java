@@ -1,5 +1,6 @@
 package polynomial;
 
+import core.Core;
 import parser.Parser;
 import parser.tree.TreeNode;
 
@@ -184,7 +185,11 @@ public class Polynomial {
             //do some fancy formatting...
             standardForm += (coefficient > 0 ? (coefficient == 1 && degree != 0 ? "" : coefficient) : coefficient == -1 && degree != 0 ? "-" : coefficient);
             standardForm += (degree == 0 ? "" : "X");
-            standardForm += (degree > 1 ? superscript(String.valueOf(degree)) : "");
+            if (Core.guiCore.viewSuperscriptsRadioButton.isSelected()) {
+                standardForm += (degree > 1 ? superscript(String.valueOf(degree)) : "");
+            } else {
+                standardForm += (degree > 1 ? "^" + degree : "");
+            }
             standardForm += (iterator.hasNext() ? " + " : "");
         }
         //if it is empty, return 0 as value.
@@ -381,11 +386,12 @@ public class Polynomial {
      * @return this==q.
      */
     public boolean isEqual(Polynomial q) {
-        //convert to same form
+        //check if the same degrees are in the keyset.
         if(!this.keySet().equals(q.keySet())){
            return false;
         }
 
+        //check the coefficient connected to the keys.
         for(int degree : this.keySet()){
             if((this.getCoefficient(degree) - q.getCoefficient(degree)) % modulus != 0){
                return false;
@@ -393,7 +399,6 @@ public class Polynomial {
         }
 
         //check if the list of coefficients and degrees is equal.
-        //return p1.getAllCoefficients().equals(p2.getAllCoefficients()) && p1.keySet().equals(p2.keySet());
         return true;
     }
 
@@ -462,6 +467,15 @@ public class Polynomial {
             return true;
         }
 
+        for (int i = -modulus + 1; i < modulus; i++) {
+            if (getValue(i) % modulus == 0) {
+                System.out.println(this.toString() + ":" + i + ", " + getValue(i) + ", " + +(getValue(i) % modulus));
+                return false;
+            }
+        }
+        System.out.println("accepted: " + toString());
+
+
         //Generate the polynomial X^modulus^t - X
         int t = 1;
         Polynomial q = new Polynomial(modulus);
@@ -473,14 +487,18 @@ public class Polynomial {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
+                Core.printHandler.appendLog("The worker has been successfully interrupted.", true);
+                System.out.println("The worker has been successfully interrupted.");
                 throw new Error();
-                //e.printStackTrace();
             }
             t++;
             //Generate the polynomial X^modulus^t - X
             q = new Polynomial(modulus);
             q.addTerm(-1, 1);
             q.addTerm(1, (int) Math.pow(modulus, t));
+            if (t > this.degree()) {
+                return false;
+            }
         }
         //if all are equal to 1, this polynomial is irreducible.
         return t == this.degree();
@@ -499,6 +517,9 @@ public class Polynomial {
         //leave out last one if we want a polynomial of exactly the degree.
         for (int i = 0; i < (ofDegree ? degree : degree + 1); i++) {
             int randomNum = rand.nextInt() % modulus;
+            if (randomNum < 0) {
+                randomNum += modulus;
+            }
             addTerm(randomNum, i);
         }
 
@@ -547,6 +568,12 @@ public class Polynomial {
         }
     }
 
+    /**
+     * Check if the given object is equal to this polynomial.
+     *
+     * @param o: the object.
+     * @return: If o equals this.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -554,15 +581,21 @@ public class Polynomial {
 
         Polynomial that = (Polynomial) o;
 
-        if (modulus != that.modulus) return false;
-
-        return this.isEqual(that);
+        //the modulus should be equal, as should the values
+        return modulus == that.modulus && this.isEqual(that);
     }
 
-    @Override
-    public int hashCode() {
-        int result = modulus;
-        result = 31 * result + (terms != null ? terms.hashCode() : 0);
-        return result;
+    /**
+     * Fills in X in this polynomial, to get a theoretical value.
+     *
+     * @param x: The value that should be inserted.
+     * @return f(x) as if the polynomial is a function.
+     */
+    public int getValue(int x) {
+        int value = 0;
+        for (int degree : keySet()) {
+            value += this.getCoefficient(degree) * Math.pow(x, degree);
+        }
+        return value;
     }
 }

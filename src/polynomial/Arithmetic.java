@@ -1,5 +1,7 @@
 package polynomial;
 
+import core.Core;
+
 import java.math.BigInteger;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -103,8 +105,9 @@ public class Arithmetic {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
+                Core.printHandler.appendLog("The worker has been successfully interrupted.", true);
+                System.out.println("The worker has been successfully interrupted.");
                 throw new Error();
-                //e.printStackTrace();
             }
             //find the term that should be added in this iteration.
             Polynomial toAdd = new Polynomial(p1.getModulus());
@@ -145,8 +148,9 @@ public class Arithmetic {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
+                Core.printHandler.appendLog("The worker has been successfully interrupted.", true);
+                System.out.println("The worker has been successfully interrupted.");
                 throw new Error();
-                //e.printStackTrace();
             }
             Polynomial[] temp = longDivision(a, b);
             Polynomial q = temp[0].clone();

@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
  */
 public class GUICore extends JFrame {
     public JPanel mainPane;
+    public JRadioButton viewSuperscriptsRadioButton;
     protected JTextPane resultPaneP;
     protected JTextPane logPane;
     protected JTextPane resultPaneFF;
@@ -109,9 +110,9 @@ public class GUICore extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (currentWorker != null && !currentWorker.isDone()) {
-                    currentWorker.cancel(true);
                     System.out.println("Interrupted thread!");
                     Core.printHandler.appendLog("CANCELLED CALCULATION!", true);
+                    currentWorker.cancel(true);
                     currentWorker = null;
                     System.gc();
                 } else {
