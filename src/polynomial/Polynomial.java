@@ -531,24 +531,6 @@ public class Polynomial {
     }
 
     /**
-     * Returns this to the power n.
-     *
-     * @param n: The power.
-     * @param q: The polynomial that is used as modulus.
-     * @return this ^ n.
-     * <p/>
-     * This could have been done recursively to spare speed, but it currently isn't used.
-     */
-    public Polynomial pow(int n, Polynomial q) {
-        Polynomial result = new Polynomial(modulus, "1");
-        for (int i = 0; i < n; i++) {
-            result = result.product(this);
-            result = result.longDivision(q)[1];
-        }
-        return result;
-    }
-
-    /**
      * A recursive variant of the above.
      * https://en.wikipedia.org/wiki/Exponentiation_by_squaring
      *
@@ -572,7 +554,7 @@ public class Polynomial {
      * Check if the given object is equal to this polynomial.
      *
      * @param o: the object.
-     * @return: If o equals this.
+     * @return If o equals this.
      */
     @Override
     public boolean equals(Object o) {
