@@ -5,7 +5,6 @@ import polynomial.Arithmetic;
 import polynomial.Polynomial;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -500,21 +499,5 @@ public class GUICore extends JFrame {
         fieldElementALabel.setVisible(false);
         fieldElementB.setVisible(false);
         fieldElementBLabel.setVisible(false);
-    }
-
-    @Override
-    protected void processEvent(AWTEvent e) {
-        if (e instanceof AWT) {
-            AWT event = (AWT) e;
-            if (event.getTarget().equals("Log")) {
-                Core.printHandler.appendLog(event.getMessage(), event.isError());
-            } else if (event.getTarget().equals("Polynomial")) {
-                Core.printHandler.appendResultP(event.getMessage());
-            } else {
-                Core.printHandler.appendResultFF(event.getMessage());
-            }
-        } else {
-            super.processEvent(e);
-        }
     }
 }
