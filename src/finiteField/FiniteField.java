@@ -59,8 +59,6 @@ public class FiniteField {
     public static void drawInverseTable(Polynomial q) {
         ArrayList<Polynomial> classes = getEquivalenceClasses(q);
         Polynomial[][] polyTable = new Polynomial[classes.size()][1];
-        ArrayList<Polynomial> inverseTop = new ArrayList<Polynomial>();
-        inverseTop.add(new Polynomial(q.getModulus(), "X^-1"));
 
         //for all elements
         for (int start_i = 0; start_i < classes.size(); start_i++) {
@@ -300,8 +298,8 @@ public class FiniteField {
         //draw the top row.
         table += "<tr><td class='color'><div class='width'>" + symbol + "</div></td>";
         //print all the equivalence classes.
-        for (int i = 0; i < classesY.size(); i++) {
-            table += "<td class='color'><div class='width'>" + classesY.get(i) + "</div></td>";
+        for (Polynomial aClassesY : classesY) {
+            table += "<td class='color'><div class='width'>" + aClassesY + "</div></td>";
         }
         table += "</tr>";
 

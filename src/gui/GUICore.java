@@ -142,7 +142,6 @@ public class GUICore extends JFrame {
 
         currentWorker = new GUIWorker(true, operation, p1s, p2s, mod);
         currentWorker.execute();
-        //chooseOperationP(operation, p1s, p2s, mod);
     }
 
     /***
@@ -162,7 +161,6 @@ public class GUICore extends JFrame {
 
         currentWorker = new GUIWorker(false, operation, qs, mod);
         currentWorker.execute();
-        //chooseOperationFF(operation, qs, mod);
     }
 
 

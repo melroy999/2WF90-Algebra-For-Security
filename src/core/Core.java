@@ -10,8 +10,6 @@ import java.awt.*;
  * Created by Melroy van Nijnatten - 0849740.
  */
 public class Core {
-    //TODO make finite field input robust...
-
     public static GUICore guiCore;
     public static PrintHandler printHandler;
 

@@ -390,6 +390,7 @@ public class GUIWorker extends SwingWorker<Void, Integer> {
         Polynomial multiplication = FiniteField.productFieldElements(a, b, q);
         Polynomial quotient = FiniteField.quotientFieldElements(a, b, q);
 
+        assert quotient != null;
         Core.printHandler.appendResultFF("Solution: ");
         Core.printHandler.appendResultFF("(" + a.toString() + ")+(" + b.toString() + ")≡" + addition.toString() + " (mod + " + q.toString() + ")");
         Core.printHandler.appendResultFF("(" + a.toString() + ")*(" + b.toString() + ")≡" + multiplication.toString() + " (mod + " + q.toString() + ")");
