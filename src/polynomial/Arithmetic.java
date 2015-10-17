@@ -315,6 +315,11 @@ public class Arithmetic {
      */
     public static boolean isPrime(int n) {
         //find the solution by using 10 trails in the millerRabin.
+        if (n <= 1) {
+
+            System.out.println("Not a valid prime");
+            return false;
+        }
         return millerRabin(n, 10);
     }
 }
