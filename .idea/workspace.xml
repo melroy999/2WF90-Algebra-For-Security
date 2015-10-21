@@ -6,8 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe145c9b-242d-47f8-a4e6-22fd3fe8e6d6" name="Default" comment="nu ben ik 50% medeverantwoordelijk :D">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/finiteField/FiniteField.java" afterPath="$PROJECT_DIR$/src/finiteField/FiniteField.java" />
+    <list default="true" id="fe145c9b-242d-47f8-a4e6-22fd3fe8e6d6" name="Default" comment="'Fixed' primitive elements">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="2WF90 - Programming Assignment.iws" />
@@ -112,8 +111,8 @@
       <file leaf-file-name="FiniteField.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/finiteField/FiniteField.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5151976">
-              <caret line="257" column="34" selection-start-line="257" selection-start-column="34" selection-end-line="257" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.61854106">
+              <caret line="258" column="13" selection-start-line="258" selection-start-column="13" selection-end-line="258" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -824,12 +823,6 @@
       <workItem from="1444931655267" duration="3988000" />
       <workItem from="1445076455983" duration="2831000" />
     </task>
-    <task id="LOCAL-00017" summary="Parser works now. Also added start of GUI.">
-      <created>1443293866211</created>
-      <option name="number" value="00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1443293866211</updated>
-    </task>
     <task id="LOCAL-00018" summary="Something broke. At least the ui shows stuff now...">
       <created>1443296012349</created>
       <option name="number" value="00018" />
@@ -1118,7 +1111,13 @@
       <option name="project" value="LOCAL" />
       <updated>1445422445872</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="'Fixed' primitive elements">
+      <created>1445423224260</created>
+      <option name="number" value="00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1445423224260</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -1199,7 +1198,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Added GUI for finite fields." />
     <MESSAGE value="Some organisational stuff...." />
     <MESSAGE value="Cleaned up some more." />
     <MESSAGE value="Fixed table formatting." />
@@ -1224,7 +1222,8 @@
     <MESSAGE value="Removed most useless prints." />
     <MESSAGE value="2 is a prime again. Yeah" />
     <MESSAGE value="nu ben ik 50% medeverantwoordelijk :D" />
-    <option name="LAST_COMMIT_MESSAGE" value="nu ben ik 50% medeverantwoordelijk :D" />
+    <MESSAGE value="'Fixed' primitive elements" />
+    <option name="LAST_COMMIT_MESSAGE" value="'Fixed' primitive elements" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1715,8 +1714,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/finiteField/FiniteField.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5151976">
-          <caret line="257" column="34" selection-start-line="257" selection-start-column="34" selection-end-line="257" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.61854106">
+          <caret line="258" column="13" selection-start-line="258" selection-start-column="13" selection-end-line="258" selection-end-column="13" />
           <folding />
         </state>
       </provider>
