@@ -173,7 +173,7 @@ public class FiniteField {
      */
     public static Polynomial inverseFieldElements(Polynomial a, Polynomial q) {
         Polynomial[] result = Arithmetic.extendedEuclideanAlgorithm(a, q);
-        if (!result[2].equals(new Polynomial(result[2].getModulus(), "1"))) {
+        if (!result[3].equals(new Polynomial(result[3].getModulus(), "1"))) {
             return null;
         } else {
             return Arithmetic.longDivision(result[0], q)[1];

@@ -290,12 +290,12 @@ public class GUIWorker extends SwingWorker<Void, Integer> {
         Polynomial[] result = Arithmetic.extendedEuclideanAlgorithm(p1, p2);
         Core.printHandler.appendResultP("Solution:");
         assert result != null;
-        assert result.length > 2;
+        assert result.length > 3;
         Core.printHandler.appendResultP("gcd(" + getPolynomialText(p1) + ", " + getPolynomialText(p2) + ") ≡ ((" + getPolynomialText(p1) + ") * (" + getPolynomialText(result[0]) + ") + (" + getPolynomialText(p2) + ") * (" + getPolynomialText(result[1]) + ")) = " + getPolynomialText(result[2]) + " (mod " + mod + ")");
         Core.printHandler.appendResultP("x = " + getPolynomialText(result[0]));
         Core.printHandler.appendResultP("y = " + getPolynomialText(result[1]));
-        Core.printHandler.appendResultP("gcd(" + getPolynomialText(p1) + ", " + getPolynomialText(p2) + ") = " + getPolynomialText(result[2]));
-        Core.printHandler.appendLog("SOLUTION:&#9;gcd(" + getPolynomialText(p1) + ", " + getPolynomialText(p2) + ") ≡ ((" + getPolynomialText(p1) + ") * (" + getPolynomialText(result[0]) + ") + (" + getPolynomialText(p2) + ") * (" + getPolynomialText(result[1]) + ")) = " + getPolynomialText(result[2]) + " (mod " + mod + ")");
+        Core.printHandler.appendResultP("gcd(" + getPolynomialText(p1) + ", " + getPolynomialText(p2) + ") = " + getPolynomialText(result[3]));
+        Core.printHandler.appendLog("SOLUTION:&#9;gcd(" + getPolynomialText(p1) + ", " + getPolynomialText(p2) + ") ≡ ((" + getPolynomialText(p1) + ") * (" + getPolynomialText(result[0]) + ") + (" + getPolynomialText(p2) + ") * (" + getPolynomialText(result[1]) + ")) = " + getPolynomialText(result[3]) + " (mod " + mod + ")");
     }
 
     /**

@@ -164,6 +164,7 @@ public class Arithmetic {
         //calculate the result by finding x * p1 + y * p2.
         Polynomial result = Arithmetic.sum(Arithmetic.product(x, p1), Arithmetic.product(y, p2));
 
+        Polynomial untainted = result.clone();
         //make the leading coefficient 1.
         result = Arithmetic.scalar(result, modularDivision(result.getLeadingCoefficient(), p1.getModulus()));
 
@@ -172,7 +173,7 @@ public class Arithmetic {
         }
 
         //set the terms.
-        return new Polynomial[]{x, y, result};
+        return new Polynomial[]{x, y, untainted, result};
     }
 
     /**
