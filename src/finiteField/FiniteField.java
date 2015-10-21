@@ -248,17 +248,15 @@ public class FiniteField {
     public static boolean isPrimitiveElement(Polynomial a, Polynomial q) {
         ArrayList<Polynomial> classes = getEquivalenceClasses(q);
         int n = classes.size();
-        Polynomial result;
-
-        for (int i = 2; i < n; i++) {
-            if ((n - 1) % i == 0) {
-                result = a.powRec(i, a, q);
-                System.out.println("Calculating: (" + a + ")^" + i + " = " + result + " (mod " + q.toString() + ").");
-                if (result.equals(new Polynomial(a.getModulus(), "1"))) {
-                    return i == n - 1;
-                }
+        Polynomial pow = a.clone();
+        System.out.println("init:" + pow.toString());
+        for (int i = 1; i < n - 1; i++) {
+            pow = pow.product(a);
+            pow = pow.longDivision(q)[1].makeCompletelyPositive();
+            System.out.println(pow.toString());
+            if (pow.toString().equals("1")) {
+                return i == n - 2;
             }
-
         }
         return false;
     }
