@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 /**
- * Created by Melroy van Nijnatten - 0849740.
+ * Created by
+ * Melroy van Nijnatten - 0849740.
+ * Stefan Habets - 0854187
  */
 public class PrintHandler implements Thread.UncaughtExceptionHandler {
     public static StyleSheet resultStyle;

@@ -3,7 +3,9 @@ package polynomial;
 import core.Core;
 
 /**
- * Created by Melroy van Nijnatten - 0849740.
+ * Created by
+ * Melroy van Nijnatten - 0849740.
+ * Stefan Habets - 0854187
  */
 public class Arithmetic {
     /**

@@ -7,7 +7,9 @@ import parser.tree.TreeNode;
 import java.util.*;
 
 /**
- * Created by Melroy van Nijnatten - 0849740.
+ * Created by
+ * Melroy van Nijnatten - 0849740.
+ * Stefan Habets - 0854187
  */
 public class Polynomial {
     private final int modulus;

@@ -9,7 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Melroy van Nijnatten - 0849740.
+ * Created by
+ * Melroy van Nijnatten - 0849740.
+ * Stefan Habets - 0854187
  */
 public class GUICore extends JFrame {
     public JPanel mainPane;

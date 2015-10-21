@@ -8,7 +8,9 @@ import polynomial.Polynomial;
 import javax.swing.*;
 
 /**
- * Created by Melroy van Nijnatten - 0849740.
+ * Created by
+ * Melroy van Nijnatten - 0849740.
+ * Stefan Habets - 0854187
  */
 public class GUIWorker extends SwingWorker<Void, Integer> {
     private boolean isPolyTab;

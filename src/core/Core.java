@@ -7,7 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Melroy van Nijnatten - 0849740.
+ * Created by
+ * Melroy van Nijnatten - 0849740.
+ * Stefan Habets - 0854187
  */
 public class Core {
     public static GUICore guiCore;

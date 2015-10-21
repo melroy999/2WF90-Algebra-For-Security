@@ -8,7 +8,9 @@ import polynomial.Polynomial;
 import java.util.ArrayList;
 
 /**
- * Created by Melroy van Nijnatten - 0849740.
+ * Created by
+ * Melroy van Nijnatten - 0849740.
+ * Stefan Habets - 0854187
  */
 public class FiniteField {
     /**
