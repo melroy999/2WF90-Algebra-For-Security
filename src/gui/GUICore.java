@@ -136,7 +136,7 @@ public class GUICore extends JFrame {
         String mod = validatePrimeP();
         if (mod == null) return;
 
-        String p1s = validatePolynomialPP();
+        String p1s = validatePolynomialPP(operation);
         if (p1s == null) return;
 
         String p2s = validatePolynomialQP(operation);
@@ -177,12 +177,22 @@ public class GUICore extends JFrame {
      *
      * @return null if polynomial is invalid, string representation otherwise.
      */
-    private String validatePolynomialPP() {
+    private String validatePolynomialPP(String operation) {
         String p1s = polynomialPP.getText();
         if (p1s.equals("")) {
             Core.printHandler.appendResultP("Please enter polynomial 1.");
             Core.printHandler.appendLog(polynomialPLabelP.getText() + "\"" + p1s + "\" is invalid.", true);
             return null;
+        } else {
+            if (operation.equals("Extended Euclidean Algorithm")) {
+                int modulus = Integer.parseInt(modulusP.getText());
+                Polynomial p = new Polynomial(modulus, p1s);
+                if (p.equals(new Polynomial(modulus, "0"))) {
+                    Core.printHandler.appendResultP("Cannot divide by 0");
+                    Core.printHandler.appendLog(polynomialQLabelP.getText() + "\"" + p1s + "\" Cannot divide by 0.", true);
+                    return null;
+                }
+            }
         }
         return p1s;
     }
@@ -204,7 +214,15 @@ public class GUICore extends JFrame {
             Core.printHandler.appendResultP("Please enter polynomial 2.");
             return null;
         } else {
-            if (operation.equals("Scalar Multiple")) {
+            if (operation.equals("Long Division") || operation.equals("Extended Euclidean Algorithm")) {
+                int modulus = Integer.parseInt(modulusP.getText());
+                Polynomial p = new Polynomial(modulus, p2s);
+                if (p.equals(new Polynomial(modulus, "0"))) {
+                    Core.printHandler.appendResultP("Cannot divide by 0");
+                    Core.printHandler.appendLog(polynomialQLabelP.getText() + "\"" + p2s + "\" Cannot divide by 0.", true);
+                    return null;
+                }
+            } else if (operation.equals("Scalar Multiple")) {
                 Polynomial p = new Polynomial(Integer.MAX_VALUE, p2s);
                 if (p.keySet().size() != 1 || !p.keySet().contains(0)) {
                     Core.printHandler.appendResultP("Please enter a valid scalar.");

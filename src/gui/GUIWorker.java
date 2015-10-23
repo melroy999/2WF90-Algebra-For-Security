@@ -317,7 +317,7 @@ public class GUIWorker extends SwingWorker<Void, Integer> {
         int modulus = Integer.parseInt(mod);
         Polynomial p1 = new Polynomial(modulus, p1s);
         Polynomial p2 = new Polynomial(modulus, p2s);
-        Polynomial p3 = new Polynomial(Integer.MAX_VALUE, p3s);
+        Polynomial p3 = new Polynomial(modulus, p3s);
         Core.printHandler.appendResultP("Parsed Polynomials:");
         Core.printHandler.appendResultP(p1s + " ≡ " + getPolynomialText(p1) + " (mod " + modulus + ")");
         Core.printHandler.appendResultP(p2s + " ≡ " + getPolynomialText(p2) + " (mod " + modulus + ")");
